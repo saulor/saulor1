@@ -1,0 +1,73 @@
+<nav id="main-menu">
+	<ul class="menu" id="main-menu">
+		<?php if (ehModuloAtivo('banners', $_SESSION[PREFIX . "permissoes"])) { ?>
+		<li>
+			<a href="?modulo=banners"<?php if(isset($_GET['modulo']) && $_GET['modulo'] == 'banners') echo ' class="active"'; ?>>Banners</a>
+		</li>
+		<li>
+			<a href="?modulo=contatos"<?php if(isset($_GET['modulo']) && $_GET['modulo'] == 'contatos') echo ' class="active"'; ?>>Contatos</a>
+		</li>
+		<?php } ?>
+		
+		<?php if (ehModuloAtivo('cursos', $_SESSION[PREFIX . "permissoes"])) { ?>
+		<li class="sub">
+			<a href="?modulo=cursos"<?php if(isset($_GET['modulo']) && in_array($_GET['modulo'], array("cursos","categorias","cidades"))) echo ' class="active"'; ?>>Cursos</a>
+			<ul class="m-sub-menu"<?php if(isset($_GET['modulo']) && in_array($_GET['modulo'], array("cursos", "categorias", "cidades"))) echo ' style="width:300px;visibility:visible;left:-70%;"'; ?>>
+				<li><a href="?modulo=categorias"<?php if(isset($_GET['modulo']) && in_array($_GET['modulo'], array("categorias"))) echo ' class="active"'; ?>>Categorias</a></li>
+				<li><a href="?modulo=cidades"<?php if(isset($_GET['modulo']) && in_array($_GET['modulo'], array("cidades"))) echo ' class="active"'; ?>>Cidades</a></li>
+			</ul>
+		</li>
+		<?php } ?>
+		
+		<?php if (ehModuloAtivo('noticias', $_SESSION[PREFIX . "permissoes"])) { ?>
+		<li>
+			<a href="?modulo=noticias"<?php if(isset($_GET['modulo']) && $_GET['modulo'] == 'noticias') echo ' class="active"'; ?>>Notícias</a>
+		</li>
+		<?php } ?>
+		
+		<?php if (ehModuloAtivo('paginas', $_SESSION[PREFIX . "permissoes"])) { ?>
+		<li>
+			<a href="?modulo=paginas"<?php if(isset($_GET['modulo']) && $_GET['modulo'] == 'paginas') echo ' class="active"'; ?>>Páginas</a>
+		</li>
+		<?php } ?>
+		
+		<?php if ($_SESSION[PREFIX . "loginCodigo"] == 33) { ?>
+		<li>
+			<a href="?modulo=permissoes"<?php if(isset($_GET['modulo']) && $_GET['modulo'] == 'permissoes') echo ' class="active"'; ?>>Permissões</a>
+		</li>
+		<?php } ?>
+		
+		<?php //if (ehModuloAtivo('preinscricoes', $_SESSION[PREFIX . "permissoes"])) { ?>
+		<li>
+			<a href="?modulo=preinscricoes"<?php if(isset($_GET['modulo']) && $_GET['modulo'] == 'preinscricoes') echo ' class="active"'; ?>>Inscrições</a>
+		</li>
+		<?php //} ?>
+		
+		<?php if (ehModuloAtivo('profissionais', $_SESSION[PREFIX . "permissoes"])) { ?>
+		<li id="profissionais" class="sub">
+			<a href="?modulo=administrativos"<?php if(isset($_GET['modulo']) && in_array($_GET['modulo'], array('administrativos', 'docentes', 'representantes', 'parceiros'))) echo ' class="active"'; ?>>Profissionais</a>
+			<ul class="m-sub-menu"<?php if(isset($_GET['modulo']) && in_array($_GET['modulo'], array('administrativos', 'docentes', 'representantes', 'parceiros'))) echo ' style="width:500px;left:-100%;visibility:visible"'; ?>>
+				<li><a href="?modulo=administrativos"<?php if(isset($_GET['modulo']) && $_GET['modulo'] == 'administrativos') echo ' class="active"'; ?>>Administrativos</a></li>
+				<li><a href="?modulo=docentes"<?php if(isset($_GET['modulo']) && $_GET['modulo'] == 'docentes') echo ' class="active"'; ?>>Docentes</a></li>
+				<li><a href="?modulo=parceiros"<?php if(isset($_GET['modulo']) && $_GET['modulo'] == 'parceiros') echo ' class="active"'; ?>>Parceiros</a></li>
+				<li><a href="?modulo=representantes"<?php if(isset($_GET['modulo']) && $_GET['modulo'] == 'representantes') echo ' class="active"'; ?>>Representantes</a></li>
+			</ul>
+		</li>
+		<?php } ?>
+		
+		<?php if (ehModuloAtivo('requerimentos', $_SESSION[PREFIX . "permissoes"])) { ?>
+		<li>
+			<a href="?modulo=requerimentos"<?php if(isset($_GET['modulo']) && $_GET['modulo'] == 'requerimentos') echo ' class="active"'; ?>>Requerimentos</a>
+		</li>
+		<?php } ?>
+		
+		<?php if ($_SESSION[PREFIX . "loginCodigo"] == 33) { ?>
+		<li>
+			<a href="?modulo=usuarios"<?php if(isset($_GET['modulo']) && $_GET['modulo'] == 'usuarios') echo ' class="active"'; ?>>Usuários</a>
+		</li>
+		<?php } ?>
+		
+	</ul> 
+</nav>
+
+<?php if(isset($_GET['modulo']) && in_array($_GET['modulo'], array("administrativos", "representantes", "parceiros", "docentes", "cursos", "categorias", "cidades"))) echo '<style>.breadcrumbs{margin-top:27px !important;}</style>'; ?>

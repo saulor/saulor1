@@ -1,0 +1,63 @@
+<?php foreach($params['objetos'] as $key => $objeto) { ?>
+<tr id="tr<?php echo $objeto->id; ?>">
+  <th scope="row">
+    <small><?php echo $inicio++; ?></small>
+  </th>
+  <td>
+    <input type="checkbox" name="objetos[]" value="<?php echo $objeto->id; ?>">
+  </td>
+  <td>
+    <a href="?modulo=<?php echo $modulo; ?>&acao=cadastrar&id=<?php echo $objeto->id; ?>"><?php echo $objeto->nome; ?></a>
+  </td>
+  <td class="center"><?php echo Docente::getSituacao($objeto->situacao); ?></td>
+  <td class="center"><?php echo Docente::getTitulacao($objeto->titulacao); ?></td>
+  <td class="center"><?php echo !empty($objeto->curriculoComercial) ? 'Sim' : 'Não'; ?></td>
+  <td class="center"><?php echo $objeto->cidade; ?></td>
+  <td class="center"><?php echo $objeto->uf; ?></td>
+  <td class="tooltp left">
+    <span><?php echo Funcoes::compactaTexto($objeto->graduacoes, 10); ?></span>
+    <?php if(!empty($objeto->graduacoes)) { ?>
+    <div class="tip left"><?php echo $objeto->graduacoes; ?></div>
+    <?php } ?>
+  </td>
+  <td class="tooltp left">
+    <span><?php echo Funcoes::compactaTexto($objeto->cursos, 10); ?></span>
+    <?php if(!empty($objeto->cursos)) { ?>
+    <div class="tip left"><?php echo $objeto->cursos; ?></div>
+    <?php } ?>
+  </td>
+  <td class="tooltp left">
+    <span><?php echo Funcoes::compactaTexto($objeto->disciplinas, 10); ?></span>
+    <?php if(!empty($objeto->disciplinas)) { ?>
+    <div class="tip left"><?php echo $objeto->disciplinas; ?></div>
+    <?php } ?>
+  </td>
+  <td>
+    <?php 
+      $telefones = array();
+      if (!empty($objeto->telefoneResidencial)) {
+        $telefones[] = $objeto->telefoneResidencial;
+      }
+      if (!empty($objeto->telefoneCelular)) {
+        $telefones[] = $objeto->telefoneCelular;
+      }
+      echo '<small>' . implode('<br />', $telefones) . '</small>'; 
+    ?>
+  </td>
+  <td><?php echo $objeto->email; ?></td>
+  <td class="center"><?php echo Funcoes::soData($objeto->data); ?></td>
+  <td align="center">
+    <a class="excluir-click" target="_self" 
+      href="?modulo=<?php echo $modulo; ?>&acao=excluir&id=<?php echo $objeto->id; ?>">Excluir</a>
+  </td>
+</tr>
+<tr class="links">
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td colspan="12">
+    <div id="links">
+      <a target="_self" href="?modulo=<?php echo $modulo; ?>&acao=email&id=<?php echo $objeto->id; ?>">E-mail</a>
+    </div>
+  </td>
+</tr>
+<?php } ?>

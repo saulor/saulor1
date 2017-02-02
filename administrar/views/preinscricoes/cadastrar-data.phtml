@@ -1,0 +1,920 @@
+<?php
+	$params = $this->getParams();
+	$curso = $params["curso"];
+	$dados = $params["preinscricao"];
+    $unidades = $curso["unidades"];
+	$usuarios = $params["usuarios"];
+?>
+
+<form method="post" enctype="multipart/form-data">
+
+    <input type="hidden" name="id" value="<?php echo $dados["id"]; ?>" />
+    <input type="hidden" name="curso" value="<?php echo $curso["id"]; ?>" />
+    <input type="hidden" name="timestamp" value="<?php echo $dados["timestamp"]; ?>" />
+    <input type="hidden" name="enviouComprovante" value="<?php echo $dados["enviouComprovante"]; ?>" />
+
+    <?php if ($dados["id"] > 0) { ?>
+        <p class="small destaque">Pré-inscrição realizada em <?php echo date('d/m/Y', $dados["timestamp"]); ?></p>
+        <div class="grid top-items">
+            <div class="col-1-1">
+                <div class="content">
+                    <a href="?modulo=preinscricoes&acao=historico&curso=<?php echo $curso['id']; ?>&id=<?php echo $dados['id']; ?>">
+                        <div class="item">
+                            <span class="ti-archive"></span>
+                            <span class="icon-name">Histórico da inscrição</span>
+                        </div>
+                    </a>
+                    <a href="?modulo=preinscricoes&acao=formulario&curso=<?php echo $curso['id']; ?>&id=<?php echo $dados['id']; ?>">
+                        <div class="item">
+                            <span class="ti-file"></span>
+                            <span class="icon-name">Formulário</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    <?php } ?>
+
+    <fieldset>
+
+        <legend><strong>Situação da inscrição</strong></legend>
+
+        <?php if ($dados['id'] > 0 && $dados['status'] == Preinscricao::PREINSCRICAO_STATUS_INTERESSADO) { ?>
+
+            <div class="grid">
+                <div class="col-2-12">
+                    <div class="content">
+                        <label class="tamanho2" for="Situacão atual">Situacão atual:</label>
+                    </div>
+                </div>
+                <div class="col-10-12">
+                    <div class="content" id="situacao-atual">
+                        <?php
+                            $situacaoAtual = Situacao::getTipo($dados['situacao']['tipo']);
+                            if (!empty($dados['situacao']['motivo'])) {
+                                $situacaoAtual .= ' - ' . $dados['situacao']['motivo'];
+                            }
+                        ?>
+                        <span><?php echo $situacaoAtual; ?></span><br />
+                        <a href="?modulo=situacao&acao=historico&inscricao=<?php echo $dados['id']; ?>&curso=<?php echo $curso['id']; ?>"<?php if (empty($dados['situacao']['tipo'])) { echo ' class="hidden";'; } ?>>
+                            <small>Ver histórico de situações</small>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        <?php } ?>
+        
+        <div class="grid">
+            <div class="col-2-12">
+                <div class="content">
+                    <label class="tamanho2" for="Status">Status:</label>
+                </div>
+            </div>
+            <div class="col-3-12">
+                <div class="content">
+                    <select class="form-control" name="status">
+                        <option value="0">--Selecione--</option>
+                        <?php
+                            foreach (Preinscricao::getStatuses() as $key => $value) {
+                                echo '<option';
+                                if ($dados["status"] == $key) {
+                                    echo ' selected';
+                                }
+                                echo ' value="' . $key . '">' . $value . '</option>';
+
+                            }
+                        ?>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="col-2-12">
+                <div class="content">
+                    <label for="Observações">Observações:</label>
+                </div>
+            </div>
+            <div class="col-10-12">
+                <div class="content">
+                    <textarea class="form-control" placeholder="Observações" name="observacoes" rows="5"><?php echo $dados["observacoes"]; ?></textarea>
+                    <?php if ($dados['id'] > 0 && $dados['status'] == Preinscricao::PREINSCRICAO_STATUS_INTERESSADO) { ?>
+                    <a href="">
+                        <div class="add-situacao item"
+                            data-after="situacaoAtual"
+                            data-id="0"
+                            data-tipo="0"
+                            data-status="<?php echo $dados['status']; ?>"
+                            data-curso="<?php echo $dados['idCurso']; ?>"
+                            data-inscricao="<?php echo $dados["id"]; ?>" 
+                            data-nomeCurso="<?php echo $curso["nome"]; ?>" 
+                            data-nome="<?php echo $dados["nome"]; ?>" 
+                            data-usuario="<?php echo $_SESSION[PREFIX . "loginId"]; ?>">
+                            <span class="ti-pencil-alt"></span>
+                            <span class="icon-name">Situação de inscrição</span>
+                        </div>
+                    </a>
+                    <?php } ?>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend><strong>Identificação</strong></legend>
+
+        <div class="grid">
+	        <div class="col-2-12">
+	        	<div class="content">
+	        		<label for="Nome">Nome:</label>
+	        	</div>
+	        </div>
+	        <div class="col-6-12">
+	        	<div class="content">
+	        		<input placeholder="Nome" class="form-control" name="nome" type="text" value="Inscrição teste" />
+	        	</div>
+	        </div>
+	        <div class="col-2-12">
+	        	<div class="content">
+	        		<label for="Data de Nascimento">Data de Nascimento:</label>
+	        	</div>
+	        </div>
+	        <div class="col-2-12">
+	        	<div class="content">
+	        		<input placeholder="Data de Nascimento" name="dataNascimento" class="form-control data" type="text" value="01/01/2000" />
+	        	</div>
+	        </div>
+		</div>
+
+		<div class="grid">
+		    <div class="col-2-12">
+		    	<div class="content">
+		    		<label for="RG">RG:</label>
+		    	</div>
+		    </div>
+		    <div class="col-2-12">
+		    	<div class="content">
+		    		<input name="rg" placeholder="RG" class="form-control numeros" type="text" value="2671829" />
+		    	</div>
+		    </div>
+		    <div class="col-2-12">
+		    	<div class="content">
+		    		<label for="Órgão Expedidor">Órgão Expedidor:</label>
+		    	</div>
+		    </div>
+		    <div class="col-6-12">
+		    	<div class="content">
+		    		<input class="form-control" placeholder="Órgão Expedidor" name="orgaoExpedidor" class="form-control letras" type="text" value="Secretaria de Segurança Pública" />
+		    	</div>
+		    </div>
+		</div>
+
+		<div class="grid">
+			<div class="col-2-12">
+				<div class="content">
+					<label for="UF expedidor">UF Expedidor:</label>
+				</div>
+			</div>
+			<div class="col-2-12">
+				<div class="content">
+					<select class="form-control" name="ufExpedidor">
+					    <option value="">--Selecione--</option>
+					    <option value="AC" selected>AC</option>
+					    <option value="AL">AL</option>
+					    <option value="AP">AP</option>
+					    <option value="AM">AM</option>
+					    <option value="BA">BA</option>
+					    <option value="CE">CE</option>
+					    <option value="DF">DF</option>
+					    <option value="ES">ES</option>
+					    <option value="GO">GO</option>
+					    <option value="MA">MA</option>
+					    <option value="MT">MT</option>
+					    <option value="MS">MS</option>
+					    <option value="MG">MG</option>
+					    <option value="PA">PA</option>
+					    <option value="PB">PB</option>
+					    <option value="PR">PR</option>
+					    <option value="PE">PE</option>
+					    <option value="PI">PI</option>
+					    <option value="RJ">RJ</option>
+					    <option value="RN">RN</option>
+					    <option value="RS">RS</option>
+					    <option value="RO">RO</option>
+					    <option value="RR">RR</option>
+					    <option value="SC">SC</option>
+					    <option value="SP">SP</option>
+					    <option value="SE">SE</option>
+					    <option value="TO">TO</option>
+					</select>
+				</div>
+			</div>
+			<div class="col-2-12">
+				<div class="content">
+					<label for="Data de Expedição">Data de Expedição:</label>
+				</div>
+			</div>
+			<div class="col-2-12">
+				<div class="content">
+					<input name="dataExpedicao" placeholder="Data de Expedição" class="form-control data" type="text" value="01/01/2000" />
+				</div>
+			</div>
+			<div class="col-2-12">
+				<div class="content">
+					<label for="CPF">CPF:</label>
+				</div>
+			</div>
+			<div class="col-2-12">
+				<div class="content">
+					<input name="cpf" placeholder="CPF" class="form-control cpf" type="text" value="053.751.834-71" />
+				</div>
+			</div>
+		</div>
+
+		<div class="grid">
+		    <div class="col-2-12">
+		    	<div class="content">
+		    		<label for="Sexo">Sexo:</label>
+		    	</div>
+		    </div>
+		    <div class="col-2-12">
+		    	<div class="content">
+		    		<select class="form-control" name="sexo">
+		    			<option value="">--Selecione--</option>
+		    		    <option value="Masculino" selected>Masculino</option>
+		    		    <option value="Feminino">Feminino</option>
+		    		</select>
+		    	</div>
+		    </div>
+		    <div class="col-2-12">
+		    	<div class="content">
+		    		<label for="Estado Civil">Estado Civil:</label>
+		    	</div>
+		    </div>
+		    <div class="col-2-12">
+		    	<div class="content">
+		    		<select class="form-control" name="estadoCivil">
+		    			<option value="">--Selecione--</option>
+		    			<option value="Solteiro(a)">Solteiro(a)</option>
+		    			<option value="Casado(a)" selected>Casado(a)</option>
+		    			<option value="Divorciado(a)">Divorciado(a)</option>
+		    			<option value="Viúvo(a)">Viúvo(a)</option>
+		    		</select>
+		    	</div>
+		    </div>
+		</div>
+
+        <div class="grid">
+        	<div class="col-2-12">
+        		<div class="content">
+        			 <label for="Telefone Residencial">Telefone Residencial:</label>
+        		</div>
+        	</div>
+        	<div class="col-2-12">
+        		<div class="content">
+        			 <input name="telefoneResidencial" placeholder="Telef. Residencial" class="form-control telefone" type="text" value="(83)3244-4692" />
+        		</div>
+        	</div>
+        	<div class="col-2-12">
+        		<div class="content">
+        			 <label for="Operadora Celular">Operadora Celular:</label>
+        		</div>
+        	</div>
+        	<div class="col-2-12">
+        		<div class="content">
+        			 <select class="form-control" name="operadoraCelular">
+        			     <option value="">--Selecione--</option>
+        			 	<option value="Oi">Oi</option>
+        			     <option value="Claro">Claro</option>
+        			     <option value="Tim">Tim</option>
+        			     <option value="Vivo" selected>Vivo</option>
+        			 </select>
+        		</div>
+        	</div>
+        	<div class="col-2-12">
+        		<div class="content">
+        			 <label for="Telefone Celular">Telefone Celular:</label>
+        		</div>
+        	</div>
+        	<div class="col-2-12">
+        		<div class="content">
+        			 <input class="form-control telefone" placeholder="Telef. Celular" id="telefoneCelular" type="text" name="telefoneCelular" value="(83)99107-8047" />
+        		</div>
+        	</div>
+        </div>
+
+        <div class="grid">
+            <div class="col-2-12">
+                <div class="content">
+                     <label for="Telefone">Telefone:</label>
+                </div>
+            </div>
+            <div class="col-2-12">
+                <div class="content">
+                     <input class="form-control telefone" placeholder="Telefone" id="telefone" type="text" name="telefone" value="(83)99107-8047" />
+                     <div class="checkbox">
+                        <label>
+                            <input id="whatsapp" type="checkbox" name="whatsapp" checked/> 
+                                <small>Whatsapp?</small>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2-12">
+                <div class="content">
+                     <label for="Melhor horário">Melhor horário:</label>
+                </div>
+            </div>
+            <div class="col-2-12">
+                <div class="content">
+                    <select id="horario" name="horario" class="form-control" title="Informe o melhor horário para que nós possamos entrar em contato com você">
+                        <option value="">Selecione</option>
+                        <option value="08h às 11h">08h às 11h</option>
+                        <option value="11h às 15h">11h às 15h</option>
+                        <option value="15h às 19h">15h às 19h</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid">
+        	<div class="col-2-12">
+        		<div class="content">
+        			<label for="E-mail">E-mail:</label>
+        		</div>
+        	</div>
+        	<div class="col-4-12">
+        		<div class="content">
+        			<input class="form-control" placeholder="E-mail" name="email" type="text" value="sauloroliveira@gmail.com" />
+        		</div>
+        	</div>
+        	<div class="col-2-12">
+        		<div class="content">
+        			<label for="E-mail Alternativo">E-mail Alternativo:</label>
+        		</div>
+        	</div>
+        	<div class="col-4-12">
+        		<div class="content">
+        			<input class="form-control" placeholder="E-mail Alternativo" name="emailAlternativo" type="text" value="sauloroliveira@gmail.com" />
+        		</div>
+        	</div>
+        </div>
+
+        <div class="grid">
+        	<div class="col-2-12">
+        		<div class="content">
+        			<label for="Nome do pai">Nome do Pai:</label>
+        		</div>
+        	</div>
+        	<div class="col-4-12">
+        		<div class="content">
+        			<input class="form-control" placeholder="Nome do Pai" name="nomePai" size="90" type="text" value="Antônio de Pádua de Oliveira" />
+        		</div>
+        	</div>
+        	<div class="col-2-12">
+        		<div class="content">
+        			<label for="Nome da mãe">Nome da Mãe:</label>
+        		</div>
+        	</div>
+        	<div class="col-4-12">
+        		<div class="content">
+        			<input class="form-control" placeholder="Nome da Mãe" name="nomeMae" size="90" type="text" value="Ana Maria de Jesus Oliveira" />
+        		</div>
+        	</div>
+        </div>
+
+        <div class="grid">
+        	<div class="col-2-12">
+        		<div class="content">
+        			<label for="Naturalidade">Naturalidade:</label>
+        		</div>
+        	</div>
+        	<div class="col-4-12">
+        		<div class="content">
+        			<input class="form-control" placeholder="Naturalidade" name="naturalidade" size="90" type="text" value="João Pessoa" />
+        		</div>
+        	</div>
+        	<div class="col-2-12">
+        		<div class="content">
+        			<label for="Profissão">Profissão:</label>
+        		</div>
+        	</div>
+        	<div class="col-4-12">
+        		<div class="content">
+        			<input class="form-control" placeholder="Profissão" name="profissao" size="90" type="text" value="Analista de Sistemas" />
+        		</div>
+        	</div>
+        </div>
+
+    </fieldset>
+
+    <fieldset>
+        <legend><strong>Endereço</strong></legend>
+
+        <div class="grid">
+        	<div class="col-2-12">
+        		<div class="content">
+        			<label for="Cep">Cep:</label>
+        		</div>
+        	</div>
+        	<div class="col-4-12">
+        		<div class="content">
+        			<input name="cep" placeholder="CEP" class="form-control cep" type="text" value="58030-061" />
+        		</div>
+        	</div>
+        </div>
+
+        <div class="grid">
+            <div class="col-2-12">
+            	<div class="content">
+            		<label for="Endereço">Endereço:</label>
+            	</div>
+            </div>
+            <div class="col-6-12">
+            	<div class="content">
+            		<input class="form-control" placeholder="Endereço" name="endereco" id="endereco" type="text" value="Avenida Goiás" />
+            	</div>
+            </div>
+            <div class="col-2-12">
+            	<div class="content">
+            		<label for="Número">Número:</label>
+            	</div>
+            </div>
+            <div class="col-2-12">
+            	<div class="content">
+            		<input class="form-control" placeholder="Número" name="numero" type="text" value="700" />
+            	</div>
+            </div>
+        </div>
+
+        <div class="grid">
+        	<div class="col-2-12">
+        		<div class="content">
+        			<label for="Complemento">Complemento:</label>
+        		</div>
+        	</div>
+        	<div class="col-4-12">
+        		<div class="content">
+        			<input class="form-control" placeholder="Complemento" name="complemento" type="text" value="Complemento" />
+        		</div>
+        	</div>
+        	<div class="col-2-12">
+        		<div class="content">
+        			<label for="Bairro">Bairro:</label>
+        		</div>
+        	</div>
+        	<div class="col-4-12">
+        		<div class="content">
+        			<input class="form-control" placeholder="Bairro" name="bairro" id="bairro" type="text" value="Estados" />
+        		</div>
+        	</div>
+        </div>
+
+        <div class="grid">
+            <div class="col-2-12">
+            	<div class="content">
+            		<label for="Cidade">Cidade:</label>
+            	</div>
+            </div>
+            <div class="col-6-12">
+            	<div class="content">
+            		<input class="form-control" placeholder="Cidade" name="cidade" id="cidade" type="text" value="João Pessoa" />
+            	</div>
+            </div>
+            <div class="col-2-12">
+            	<div class="content">
+            		<label for="UF">UF:</label>
+            	</div>
+            </div>
+            <div class="col-2-12">
+            	<div class="content">
+            		<select class="form-control" name="uf" id="uf">
+            		    <option value="">--Selecione--</option>
+                        <option value="AC" selected>>AC</option>
+                        <option value="AL">AL</option>
+                        <option value="AP">AP</option>
+                        <option value="AM">AM</option>
+                        <option value="BA">BA</option>
+                        <option value="CE">CE</option>
+                        <option value="DF">DF</option>
+                        <option value="ES">ES</option>
+                        <option value="GO">GO</option>
+                        <option value="MA">MA</option>
+                        <option value="MT">MT</option>
+                        <option value="MS">MS</option>
+                        <option value="MG">MG</option>
+                        <option value="PA">PA</option>
+                        <option value="PB">PB</option>
+                        <option value="PR">PR</option>
+                        <option value="PE">PE</option>
+                        <option value="PI">PI</option>
+                        <option value="RJ">RJ</option>
+                        <option value="RN">RN</option>
+                        <option value="RS">RS</option>
+                        <option value="RO">RO</option>
+                        <option value="RR">RR</option>
+                        <option value="SC">SC</option>
+                        <option value="SP">SP</option>
+                        <option value="SE">SE</option>
+                        <option value="TO">TO</option>
+            		</select>
+            	</div>
+            </div>
+        </div>
+
+   	</fieldset>
+
+   	<fieldset>
+   	    <legend><strong>Formação Acadêmica</strong></legend>
+
+   	    <div class="grid">
+   	    	<div class="col-2-12">
+   	    		<div class="content">
+   	    			<label for="Formação Acadêmica">Formação Acadêmica:</label>
+   	    		</div>
+   	    	</div>
+   	    	<div class="col-10-12">
+   	    		<div class="content">
+   	    			<input class="form-control" placeholder="Formação Acadêmica" name="formacao" type="text" value="Analista de Sistemas" />
+   	    		</div>
+   	    	</div>
+   	    </div>
+
+   	    <div class="grid">
+   	    	<div class="col-2-12">
+   	    		<div class="content">
+   	    			<label for="Faculdade/Universidade">Faculdade/Universidade:</label>
+   	    		</div>
+   	    	</div>
+   	    	<div class="col-6-12">
+   	    		<div class="content">
+   	    			<input class="form-control" placeholder="Faculdade/Universidade" name="instituicao" type="text" value="Instituto Federal de Educação, Ciência e Tecnologia da Paraíba" />
+   	    		</div>
+   	    	</div>
+   	    	<div class="col-2-12">
+   	    		<div class="content">
+   	    			<label for="Ano de Conclusão">Ano de Conclusão:</label>
+   	    		</div>
+   	    	</div>
+   	    	<div class="col-2-12">
+   	    		<div class="content">
+   	    			<input class="form-control" placeholder="Ano de Conclusão" name="anoConclusao" type="text" value="2010" />
+   	    		</div>
+   	    	</div>
+   	    </div>
+
+   	</fieldset>
+
+   	<?php if (count($unidades) > 0) { ?>
+
+   	<fieldset id="unidades" style="font-size:0.9em;">
+   		<legend><strong>Unidades</strong></legend>
+   	    <?php
+   			$unidadesDesativadas = 0;
+   			$aux = 0;
+   			$columns = 4;
+   			$nDivs = ceil(count($unidades) / $columns);
+
+   			for ($i=0; $i<$nDivs; $i++) {
+   				echo '<div class="grid">';
+   				for ($j=0;$j<$columns;$j++) {
+
+   					if (!array_key_exists($aux, $unidades)) {
+   						break;
+   					}
+
+                    if ($i%2) {
+                        $color = $j%2!=0 ? '#ffffff' : '#f0f0f0';
+                    }
+                    else {
+                        $color = $j%2!=0 ? '#f0f0f0' : '#ffffff';
+                    }
+                    
+
+   					echo '<div class="col-1-4" style="padding:5px;';
+                    echo 'background-color:' . $color . ' ;min-height:200px;">';
+   					echo '<div class="content">';
+
+   					$unidade = $unidades[$aux++];
+
+   					// valor do curso sem desconto
+   					$valorCurso = $unidade["valorCurso"];
+
+   					echo '<input';
+   					if ($unidade["status"] == 0) {
+   						$unidadesDesativadas++;
+   						echo ' disabled';
+   					}
+   					echo ' id="unidade' . $unidade["idCidade"] . '" ';
+   					echo 'onclick="desmarcaUnidades(' . $unidade["idCidade"] . ')" type="radio" name="unidade" value="' . $unidade["idCidade"] . '" ';
+   					if (isset($dados["idCidade"]) && $dados["idCidade"] == $unidade["idCidade"]) {
+   						echo 'checked';
+   					}
+   					echo '/>';
+   					if ($unidade["status"] == 0) {
+   						echo ' <span class="destaque">*</span>';
+   					}
+   					echo ' <strong>' . $unidade["nomeCidade"];
+   					echo ' (' . $unidade["siglaEstado"] . ')</strong>';
+   					echo '<br />';
+   					echo '<span style="display:block; margin:0 0 0 15px;"><strong>Módulos:</strong> ';
+   					echo $unidade["quantidadeModulos"];
+   					echo '</span>';
+   					echo '<span style="display:block; margin:0 0 0 15px;"><strong>Inscrição:</strong> R$ ';
+   					echo Funcoes::moneyFormat($unidade["valorInscricao"]);
+   					echo '</span>';
+   					echo '<span style="display:block; margin:0 0 0 15px;"><strong>Curso:</strong> R$ ';
+   					echo Funcoes::moneyFormat($valorCurso);
+   					echo '</span>';
+   					echo '<span style="display:block; margin:0 0 0 15px;"><strong>Formas de Pagamento:</strong></span>';
+
+   					$parcelas = explode(",", $unidade["quantidadeParcelas"]);
+
+   					// primeiro as formas de pagamento usando como base o valor com desconto
+   					// usado para pagamentos efetuados até a data de vencimento
+   					foreach ($parcelas as $parcela) {
+   						$parcela = (int) $parcela;
+   						if ($parcela != 0) {
+   							//$semDesconto = formataDecimalMysql($valorSemDesconto / $parcela);
+   							$semDesconto = $valorCurso / $parcela;
+   							$forma = $parcela . ' parcela(s) de R$ ' . Funcoes::moneyFormat($semDesconto);
+   							echo '<span style="display:block; margin:0 0 0 15px;">';
+   							echo '<input';
+   							if ($unidade["status"] == 0) {
+   								echo ' disabled';
+   							}
+   							echo ' onclick="marcaUnidade(this, ' . $unidade["idCidade"] . ')" type="radio" name="formaPagamento" value="' . $forma . '" ';
+   							if (isset($dados["cidadeCurso"]) && $dados["cidadeCurso"] == $unidade["idCidade"] && $dados["formaPagamento"] == $forma) {
+   								echo 'checked';
+   							}
+   							echo '/>';
+   							echo '&nbsp;' . $forma;
+   							echo '</span>';
+   						}
+   					}
+
+   					echo '</div>';
+   					echo '</div>';
+   				}
+   				echo '</div>';
+   			}
+
+   			if ($unidadesDesativadas > 0) {
+   				echo '<small class="destaque">';
+   				echo '* Unidades desativadas';
+   				echo '</small>';
+   			}
+   		?>
+   	</fieldset>
+
+   	<?php } ?>
+
+	<fieldset>
+		<legend><strong>Informações de pagamento</strong></legend>
+		<div class="grid">
+			<div class="col-2-12">
+				<div class="content">
+					<label for="Banco">Banco:</label>
+				</div>
+			</div>
+			<div class="col-10-12">
+				<div class="content">
+					<label class="radio-inline">
+						<input type="radio" name="banco" value="<?php echo Preinscricao::PREINSCRICAO_BANCO_BANCO_DO_BRASIL; ?>" checked/> Banco do Brasil
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="banco" value="<?php echo Preinscricao::PREINSCRICAO_BANCO_BRADESCO; ?>" /> Bradesco
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="banco" value="<?php echo Preinscricao::PREINSCRICAO_BANCO_CAIXA_ECONOMICA_FEDERAL; ?>" /> Caixa Econômica Federal
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="banco" value="<?php echo Preinscricao::PREINSCRICAO_BANCO_ITAU; ?>" /> Itaú
+					</label>
+				</div>
+			</div>
+		</div>
+
+		<div class="grid">
+			<div class="col-2-12">
+				<div class="content">
+					<label for="Dia de Pagamento">Dia de Pagamento:</label>
+				</div>
+			</div>
+			<div class="col-10-12">
+				<div class="content">
+					<label class="radio-inline">
+						<input type="radio" name="diaPagamento" value="01" checked /> 01
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="diaPagamento" value="05" /> 05
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="diaPagamento" value="10" /> 10
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="diaPagamento" value="15" /> 15
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="diaPagamento" value="20" /> 20
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="diaPagamento" value="25" /> 25
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="diaPagamento" value="30" /> 30
+					</label>
+				</div>
+			</div>
+		</div>
+	</fieldset>
+
+	<fieldset>
+		<legend><strong>Outras informações</strong></legend>
+
+		<div class="grid">
+			<div class="col-3-12">
+				<div class="content">
+					<label for="Turma">Turma:</label>
+				</div>
+			</div>
+			<div class="col-3-12">
+				<div class="content">
+					<input class="form-control" placeholder="Turma" name="turma" type="text" value="Turma 1" />
+				</div>
+			</div>
+            <div class="col-3-12">
+                <div class="content">
+                    <label for="Responsável pela inscrição?">Responsável pela inscrição:</label>
+                </div>
+            </div>
+            <div class="col-3-12">
+                <div class="content">
+                    <select class="form-control" name="quem"<?php if(!in_array($_SESSION[PREFIX . "loginCodigo"], array(32,33))) echo ' readonly';?>>
+                        <option value="0">--Selecione--</option>
+                        <?php
+                            foreach ($usuarios as $usuario) {
+                                echo '<option ';
+                                if ($usuario['id'] == $_SESSION[PREFIX . 'loginId']) {
+                                    echo 'selected ';
+                                }
+                                echo 'value="' . $usuario["id"] . '">' . $usuario["nome"] . '</option>';
+                            }
+                        ?>
+                    </select>
+                </div>
+            </div>
+		</div>
+
+        <div class="grid">
+            <div class="col-3-12">
+                <div class="content">
+                    <label class="tamanho2" for="Unidade Certificadora">Unidade Certificadora:</label>
+                </div>
+            </div>
+            <div class="col-3-12">
+                <div class="content">
+                    <select class="form-control" name="unidadeCertificadora">
+                        <option value="0">--Selecione--</option>
+                        <?php
+                            foreach (Curso::getCertificadoras() as $key => $value) {
+                                echo '<option ';
+                                if ($key == 3) {
+                                    echo 'selected ';
+                                }
+                                echo 'value="' . $key . '">' . $value . '</option>';
+
+                            }
+                        ?>
+                    </select>
+                </div>
+            </div>
+             <div class="col-3-12">
+                <div class="content">
+                    <label for="Como conheceu o IEFAP?">Como conheceu o IEFAP?:</label>
+                </div>
+            </div>
+            <div class="col-3-12">
+                <div class="content">
+                    <select class="form-control" name="comoConheceu" id="comoConheceu">
+                        <option value="">--Selecione--</option>
+                        <option value="Folder/Cartaz">Folder/Cartaz</option>
+                        <option value="Out-Door">Out-Door</option>
+                        <option value="Bus-Door">Bus-Door</option>
+                        <option value="TV">TV</option>
+                        <option value="Rádio">Rádio</option>
+                        <option value="Jornal">Jornal</option>
+                        <option value="Google">Google</option>
+                        <option value="Twitter">Twitter</option>
+                        <option value="Facebook">Facebook</option>
+                        <option value="Blogs">Blogs</option>
+                        <option value="Site">Site</option>
+                        <option value="Representante" selected>Representante</option>
+                        <option value="Amigo/Parente/Aluno">Amigo/Parente/Aluno</option>
+                        <option value="Outros">Outros</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div<?php if($dados["comoConheceu"] != "Amigo/Parente" && $dados["comoConheceu"] != "Amigo/Parente/Aluno") echo ' style="display:none;"'; ?> id="nomeIndicou">
+                <div class="col-3-12">
+                    <div class="content">
+                        <label for="Nome da pessoa que indicou">Nome da pessoa que indicou:</label>
+                    </div>
+                </div>
+                <div class="col-3-12">
+                    <div class="content">
+                        <input type="text" name="nomeIndicou" placeholder="Informe o nome da pessoa que indicou" value="Nome do amigo" class="form-control" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+		<div class="grid">
+			<div class="col-3-12">
+				<div class="content">
+					<label for="Comprovante de depósito">Comprovante de depósito:</label><br />
+					<small class="destaque">Apenas cursos de aperfeiçoamento</small>
+				</div>
+			</div>
+			<div class="col-9-12">
+				<div class="content">
+					<?php
+						if ($dados["enviouComprovante"] == 1) {
+							if (existeArquivo(DIR_UPLOADS . '/comprovantes/' . $dados["id"] . '/' . base64_decode($dados["comprovante"]))) {
+								echo '<input type="hidden" name="comprovante" value="' . $dados["comprovante"];
+								echo  '" />';
+								echo '<input type="hidden" name="mime" value="' . $dados["mime"] . '" />';
+								echo '<input type="hidden" name="extensao" value="' . $dados["extensao"] . '" />';
+								$mimePdf = 'application/pdf';
+								$mimeJpeg = 'image/jpeg';
+								$mimesWord = 'application/msword|application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+								$mimesWordArray = explode('|', $mimesWord);
+								$mime = $dados["mime"];
+								echo '<img src="imagens/';
+								if ($mime == $mimePdf) {
+									echo 'pdf-icon';
+								}
+								else if (in_array($mime, $mimesWordArray)) {
+									echo 'word-icon';
+								}
+								else if ($mime == $mimeJpeg) {
+									echo 'jpg-icon';
+								}
+								echo '.gif" />';
+								echo '&nbsp;<a title="Baixar comprovante" href="?modulo=preinscricoes&acao=download&curso=' . $curso["id"] . '&id=' . $dados["id"] . '">';
+								echo base64_decode($dados["comprovante"]);
+								echo '</a>';
+								echo ' <small>(<a onclick="excluir(\'preinscricoes\', {\'acao\' : \'excluirc\', \'id\' : ' . $dados["id"] . ', \'curso\' : ' . $curso["id"] . '});return false;" href="?modulo=preinscricoes&acao=excluirc&curso=' . $curso["id"] . '&id=' . $dados["id"] . '">Excluir</a>)</small>';
+							}
+							else {
+								echo base64_decode($dados["comprovante"]);
+								echo ' <small class="destaque">Comprovante não encontrado!</small>';
+							}
+						}
+						else {
+							echo '<input style="width:32%;" type="file" name="comprovante" />';
+						}
+					?>
+
+				</div>
+			</div>
+		</div>
+
+	</fieldset>
+
+	<div class="grid">
+		<div class="col-1-1">
+			<div class="content destaque">
+				<small>
+					1) Responsabilizo-me pela veracidade das declarações feitas neste documento. Caso elas não correspondam à verdade tenho conhecimento da consequente anulação da matrícula.<br />
+				    2) O IEFAP reserva-se o direito de não realizar o curso ou prorrogar o período de inscrição, caso o número mínimo de vagas não seja preenchido.<br />
+				    3) A matricula só será efetivada após a confirmação do recebimento da taxa de matrícula pelo IEFAP.
+				</small>
+			</div>
+		</div>
+	</div>
+
+	<input class="btn btn-default" type="submit" value="Salvar" />
+
+</form>
+
+<script>
+
+	$('#comoConheceu').on('change', function() {
+		if ($(this).val() == "Amigo/Parente/Aluno") {
+			$('#nomeIndicou').css('display', 'block');
+			$('#nomeIndicou input:text').toggle('highlight', {color:'#F60'});
+			$('#nomeIndicou input:text').focus();
+		}
+		else {
+			$('#nomeIndicou').css('display', 'none');
+			$('#nomeIndicou input:text').css('display', 'none');
+		}
+	});
+
+    
+</script>

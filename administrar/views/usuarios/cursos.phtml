@@ -1,0 +1,61 @@
+<?php
+	$params = $this->getParams();
+	$usuario = $params["objeto"];
+?>
+
+<style>
+	label.checkbox {
+		margin-left: 22px;
+	}
+</style>
+
+<form method="post">
+
+	<input type="hidden" name="id" value="<?php echo $usuario->id; ?>" />
+
+	<fieldset id="cursos">
+		<legend><strong>Cursos</strong></legend>
+		<?php 
+			$letras = array();
+			$letras[] = lcfirst($params["cursos"][0]->nome)[0];
+			echo '<fieldset style="border:0;">';
+			echo '<legend><strong>' . $params["cursos"][0]->nome[0] . '</strong></legend>';
+			foreach($params["cursos"] as $curso) {
+				
+				$letra = lcfirst($curso->nome)[0];
+				
+				if (!in_array($letra, $letras)) {
+					$letras[] = $letra;
+					echo '</fieldset>';
+					echo '<fieldset style="border:0;">';
+					echo '<legend><strong>' . $curso->nome[0] . '</strong></legend>';
+				}
+				
+				echo '<p style="float:left;';
+				echo ' background-color:#f1f0f0;';
+				echo ' padding:3px; margin-right: 5px;">';
+				echo '<label class="checkbox-inline">';
+				echo '<input type="checkbox" name="cursos[]"';
+				if (in_array($curso->id, $params["cursosUsuario"])) {
+					echo ' checked';
+				}
+				echo ' value="' . $curso->id . '"';
+				echo ' /> ';
+				echo '<small>';
+				echo $curso->nome;
+				echo '</small> ';
+				echo '</label></p>';
+			}
+			
+			echo '</fieldset>';
+			echo '<div class="checkbox"><label>';
+			echo '<input type="checkbox" onclick="marcarDesmarcar(this, \'cursos\')" title="Clique para marcar/desmarcar todos" />';
+			echo '<small><strong>Marcar/Desmarcar todos</strong></small>';
+			echo '</label></div>';
+		?>
+	</fieldset>
+	<br />
+
+	<input class="btn btn-default" type="submit" value="Salvar" /> 
+
+</form>

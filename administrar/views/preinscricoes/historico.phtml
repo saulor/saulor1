@@ -1,0 +1,88 @@
+<?php
+  $params = $this->getParams();
+  $modulo = $_GET["modulo"];
+  $exibir = isset($_GET["exibir"]) ? $_GET["exibir"] : NULL;
+  $order = isset($_GET["order"]) ? $_GET["order"] : NULL;
+  $quantidade = $params["quantidade"];
+  $quantidadePorPagina = $params["quantidadePorPagina"];
+  $pagina = $params["pagina"];
+  $curso = $params["curso"];
+  $preinscricao = $params["preinscricao"];
+
+  if ($quantidade == 0) {
+    $iniCount = $inicio = 0;
+  }
+  else {
+    $iniCount = $inicio = ($quantidadePorPagina * $pagina) - ($quantidadePorPagina - 1);
+  }
+
+  if ($inicio + ($quantidadePorPagina - 1) > $quantidade) {
+    $fim = $quantidade;
+  }
+  else {
+    $fim = $inicio + ($quantidadePorPagina - 1);
+  }
+
+  $table = array(
+  'fields' => array(
+    'descricao' => array(
+      'title' => 'Descrição',
+      'link' => array(
+        'condition' => 'return checaPermissao(\'' . $modulo . '\',\'historico,adicionar\',$_SESSION[PREFIX . "permissoes"]);',
+        'qsParams' => array(
+          'modulo' => $_GET['modulo'],
+          'acao' => 'adicionar',
+          'curso' => 'return $curso["id"];',
+          'preinscricao' => 'return $preinscricao["id"];',
+          'id' => 'return $objeto["id"];',
+          'tab1' => 'return $preinscricao["status"];'
+          )
+        )
+      ),
+    'quem' => array(
+      'align' => 'center'
+      ),
+    'data' => array(
+      'content' => 'return date("d/m/Y", $objeto["timestamp"]);',
+      'align' => 'center'
+      ),
+    'hora' => array(
+      'content' => 'return date("H:i", $objeto["timestamp"]);',
+      'align' => 'center'
+      )
+    ),
+  'acoes' => array(
+    'Excluir' => array(
+      'class' => 'excluir-click',
+      'qsParams' => array(
+        'modulo' => $modulo,
+        'acao' => 'remover',
+        'curso' => 'return $curso["id"];',
+        'preinscricao' => 'return $preinscricao["id"];',
+        'id' => 'return $objeto["id"];',
+        'tab1' => 'return $preinscricao["status"];'
+        )
+      )
+    )
+  );
+
+  echo '<div class="grid top-items">';
+  echo '<div class="col-1-1">';
+  echo '<div class="content">';
+
+  if (checaPermissao('preinscricoes', 'historico,adicionar', $_SESSION[PREFIX . "permissoes"])) {
+    echo sprintf('<a href="?modulo=preinscricoes&acao=adicionar&curso=%d&preinscricao=%d&tab1=%d">', $curso["id"], $preinscricao["id"], $_GET['tab1']);
+    echo '<div class="item">';
+    echo '<span class="ti-save"></span>';
+    echo '<span class="icon-name">';
+    echo 'Novo';
+    echo '</span>';
+    echo '</div>';
+    echo '</a>';
+  }
+
+  echo '</div></div></div>';
+
+  include('views/includes/listagem.phtml'); 
+
+?>

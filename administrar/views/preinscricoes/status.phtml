@@ -1,0 +1,40 @@
+<?php
+	$params = $this->getParams();
+	$modulo = $_GET["modulo"];
+	$exibir = isset($_GET["exibir"]) ? $_GET["exibir"] : NULL;
+	$order = isset($_GET["order"]) ? $_GET["order"] : NULL;
+	$preinscricao = $params["preinscricao"];
+?>
+
+<style>
+	label.radio {
+		margin-left: 25px;
+	}
+</style>
+
+<form method="post">
+
+	<input type="hidden" name="id" value="<?php echo $preinscricao["id"]; ?>" />
+	
+	<fieldset>
+		<legend>
+			<strong>Mudar status do(a) aluno(a) para:</strong>
+		</legend>
+		<?php
+			foreach (Preinscricao::getStatuses() as $key => $value) {
+				echo '<label class="radio">';
+				echo '<input type="radio" name="status" value="' . $key . '"';
+				if ($preinscricao["status"] == $key) {
+					echo ' checked="checked"';
+				}
+				echo '/> ';
+				echo '<span class="status' . $key . '">';
+				echo $value;
+				echo '</span>';	
+				echo '</label>';
+			}
+		?>
+	</fieldset>
+	<br />
+	<input class="btn btn-default" type="submit" value="Mudar" />
+</form>

@@ -1,0 +1,588 @@
+@media screen and (max-width: 1200px) {
+	/*.container-fluid {
+		border: 1px solid red;
+	}
+	.container {
+		border: 1px solid red;
+	}*/
+	.container {
+		padding-left: 40px !important;
+		padding-right: 40px !important;
+	}
+    /*.form-group label,
+    .form-group div[class*=col-md] {
+        border: 1px solid red;
+    }*/
+    .form-group .group-data:not(:last-child) {
+        margin-bottom: 10px;
+        overflow: auto;
+    }
+}
+
+@media screen and (max-width: 992px) {
+	.container-fluid {
+		/*border: 1px solid blue;*/
+	}
+	.container {
+		/*border: 1px solid blue;*/
+		padding-left: 20px !important;
+		padding-right: 20px !important;
+	}
+	.header-logo-wrap {
+		float: none;
+		text-align: center;
+	}
+	.avaliacao-foto:not(.active) {
+		padding-bottom: 11px !important;
+	}
+	nav#menu-wrap {
+		float: none;
+	}
+}
+
+@media screen and (max-width: 768px) {
+	.container-fluid {
+		/*border: 1px solid yellow;*/
+	}
+    ol.breadcrumb {
+        margin: 0;
+        padding: 10px 0 0 0;
+    }
+	.container {
+		/*border: 1px solid yellow;*/
+		padding-left: 20px !important;
+		padding-right: 20px !important;
+	}
+	div#destaques header h2 {
+		border: 1px solid red;
+		margin: 0;
+		padding: 0;
+	}
+	#noticias-wrap .noticia-preview.with-image time {
+	  position: inherit;
+	}
+	#noticias-wrap .noticia-preview.with-image h2,
+	#noticias-wrap .noticia-preview.with-image .news-entry,
+	#noticias-wrap .noticia-preview.with-image p.leia-mais {
+	  margin-left: 60px;
+	  margin-top: 0;
+	}
+    .form-group > label[class*='col-xs'] {
+      margin-bottom: 6px;
+      margin-top: 6px;
+    } 
+    article.preview.noticia {
+      min-height: 220px !important;
+    }
+}
+
+/* MENU */
+
+@media(max-width: 700px) {
+
+    ul#menu {
+        display: none;
+    }
+
+    nav#menu-wrap { 
+        display: block !important;
+    }
+
+    #menu-wrap* { 
+        box-sizing: border-box; 
+    }
+
+    #menu-trigger {
+      display: block !important;
+      height: 40px;
+      line-height: 40px;
+      cursor: pointer;
+      padding: 0px 0px 0px 35px;
+      color: #fff;
+      background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAOwQAADsEBuJFr7QAAABZ0RVh0U29mdHdhcmUAcGFpbnQubmV0IDQuMDvo9WkAAABKSURBVEhL7ZOxDQAwCMN6O4/T0tmjsxHJDB4yROJ0dz3s1BRHEi2OTREBpQFKA5QGKA3m7IP8RKeIgNIApQFKA5QGc/ZBfkJTdF0oUafLBAFNbAAAAABJRU5ErkJggg==) 10px 11px no-repeat;
+      background-size: 17px;
+    }
+
+    ul#menu-mobile li {
+      display: block;
+      width: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      text-transform: uppercase;
+    }
+
+    ul#menu-mobile a {
+        color: #fff !important;
+        padding-top: 2px !important;
+        padding-left: 30px !important; 
+        line-height: 35px !important;
+    }
+
+
+    ul#menu-mobile li:hover,
+    ul#menu-mobile a:hover {
+        border-bottom: none !important; 
+    }
+
+    .dropdown-menu {
+        display: block !important;
+        width: 100% !important; 
+        position: relative !important;
+        box-shadow: none;
+        border-radius: 0;
+    }
+
+    .dropdown-menu li {
+        border: none !important;
+        text-transform: none !important;
+        display: block !important;
+        width: 100% !important;
+    }
+
+    .dropdown-menu li a {
+        padding: 0 !important;
+        margin-left: 15px !important;
+        line-height: 27px !important;
+    }
+
+    #menu-wrap.maringa,
+    #menu-wrap.maringa ul {
+        background-color: #EBBC37;
+    }
+
+    #menu-wrap.maringa li {
+        border-top: 1px solid #FFFF84;
+    }
+
+    #menu-wrap.maringa li:hover,
+    #menu-wrap.maringa a:hover {
+        background-color: #FFEF6A !important; 
+    }
+
+    #menu-wrap.maringa li.dropdown:hover a.dropdown-toggle,
+    #menu-wrap.maringa a:hover {
+        color: #B88904 !important;
+    }
+
+    #menu-wrap.londrina,
+    #menu-wrap.londrina ul {
+        background-color: #BA3B1D;
+    }
+
+    #menu-wrap.londrina li {
+        border-top: 1px solid #FF886A;
+    }
+
+    #menu-wrap.londrina li:hover,
+    #menu-wrap.londrina a:hover {
+        background-color: #ED6E50 !important; 
+    }
+
+    #menu-wrap.teresina,
+    #menu-wrap.teresina ul {
+        background-color: #C4007A;
+    }
+
+    #menu-wrap.teresina li {
+        border-top: 1px solid #FF4DC7;
+    }
+
+    #menu-wrap.teresina li:hover,
+    #menu-wrap.teresina a:hover {
+        background-color: #F733AD !important; 
+    }
+
+    #menu-wrap.belem,
+    #menu-wrap.belem ul {
+        background-color: #5B3256;
+    }
+
+    #menu-wrap.belem li {
+        border-top: 1px solid #A87FA3;
+    }
+
+    #menu-wrap.belem li:hover,
+    #menu-wrap.belem a:hover {
+        background-color: #8E6589 !important; 
+    }
+
+    #menu-wrap.cascavel,
+    #menu-wrap.cascavel ul {
+        background-color: #292D56;
+    }
+
+    #menu-wrap.cascavel li {
+        border-top: 1px solid #767AA3;
+    }
+
+    #menu-wrap.cascavel li:hover,
+    #menu-wrap.cascavel a:hover {
+        background-color: #5C6089 !important; 
+    }
+
+    #menu-wrap.campinas,
+    #menu-wrap.campinas ul {
+        background-color: #606060;
+    }
+
+    #menu-wrap.campinas li {
+        border-top: 1px solid #ADADAD; 
+    }
+
+    #menu-wrap.campinas li:hover,
+    #menu-wrap.campinas a:hover {
+        background-color: #939393 !important; 
+    }
+
+    #menu-wrap.fortaleza,
+    #menu-wrap.fortaleza ul {
+        background-color: #34A2AD;
+    }
+
+    #menu-wrap.fortaleza li {
+        border-top: 1px solid #81EFFA;
+    }
+
+    #menu-wrap.fortaleza li:hover,
+    #menu-wrap.fortaleza a:hover {
+        background-color: #67D5E0 !important; 
+    }
+
+    #menu-wrap.salvador,
+    #menu-wrap.salvador ul {
+        background-color: #92D6E3;
+    }
+
+    #menu-wrap.salvador li {
+        border-top: 1px solid #DFFFFF;
+    }
+
+    #menu-wrap.salvador li:hover,
+    #menu-wrap.salvador a:hover {
+        background-color: #C5FFFF !important; 
+    }
+
+    #menu-wrap.salvador li.dropdown:hover a.dropdown-toggle,
+    #menu-wrap.salvador a:hover {
+        color: #5FA3B0 !important;
+    }
+
+    #menu-wrap.brasilia,
+    #menu-wrap.brasilia ul {
+        background-color: #224D6E;
+    }
+
+    #menu-wrap.brasilia li {
+        border-top: 1px solid #6F9ABB;
+    }
+
+    #menu-wrap.brasilia li:hover,
+    #menu-wrap.brasilia a:hover {
+        background-color: #5580A1 !important; 
+    }
+
+    #menu-wrap.curitiba,
+    #menu-wrap.curitiba ul {
+        background-color: #3A6334;
+    }
+
+    #menu-wrap.curitiba li {
+        border-top: 1px solid #87B081;
+    }
+
+    #menu-wrap.curitiba li:hover,
+    #menu-wrap.curitiba a:hover {
+        background-color: #6D9667 !important; 
+    }
+
+    #menu-wrap.portoalegre,
+    #menu-wrap.portoalegre ul {
+        background-color: #3B1C15;
+    }
+
+    #menu-wrap.portoalegre li {
+        border-top: 1px solid #886962;
+    }
+
+    #menu-wrap.portoalegre li:hover,
+    #menu-wrap.portoalegre a:hover {
+        background-color: #6E4F48 !important; 
+    }
+
+    #menu-wrap.sinop,
+    #menu-wrap.sinop ul {
+        background-color: #771E19;
+    }
+
+    #menu-wrap.sinop li {
+        border-top: 1px solid #C46B66;
+    }
+
+    #menu-wrap.sinop li:hover,
+    #menu-wrap.sinop a:hover {
+        background-color: #AA514C !important; 
+    }
+
+    
+}
+
+
+@media screen and (max-width: 640px){
+	.container-fluid {
+
+	}
+	.container {
+	  padding-left: 50px !important;
+	  padding-right: 50px !important;
+	}
+}
+
+@media screen and (max-width: 480px) {
+	.container-fluid {
+
+	}
+
+	.container {
+	  padding-left: 30px !important;
+	  padding-right: 30px !important;
+	}
+
+	header[role=logo] {
+		height: 120px;
+	}
+	
+}
+
+@media screen and (max-width: 360px){
+
+}
+
+@media screen and (max-width: 320px){
+
+}
+
+/*
+
+@media(max-width: 700px) {
+
+    nav#menu-wrap { 
+        display: block !important;
+    }
+
+    #menu-wrap* { 
+        box-sizing: border-box; 
+    }
+
+    #menu-trigger {
+      display: block !important;
+      height: 40px;
+      line-height: 40px;
+      cursor: pointer;
+      padding: 0px 0px 0px 35px;
+      color: #fff;
+      background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAOwQAADsEBuJFr7QAAABZ0RVh0U29mdHdhcmUAcGFpbnQubmV0IDQuMDvo9WkAAABKSURBVEhL7ZOxDQAwCMN6O4/T0tmjsxHJDB4yROJ0dz3s1BRHEi2OTREBpQFKA5QGKA3m7IP8RKeIgNIApQFKA5QGc/ZBfkJTdF0oUafLBAFNbAAAAABJRU5ErkJggg==) 10px 11px no-repeat;
+      background-size: 17px;
+    }
+
+    ul#menu {
+        display: none;
+    }
+
+    ul#menu li {
+      display: block;
+      width: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      text-transform: uppercase;
+    }
+
+    ul#menu a {
+        color: #fff !important;
+        padding-top: 2px !important;
+        padding-left: 30px !important; 
+        line-height: 35px !important;
+    }
+
+    ul#menu li:hover,
+    ul#menu a:hover {
+        border-bottom: none !important; 
+    }
+
+    .dropdown-menu {
+        display: block !important;
+        width: 100% !important; 
+        position: relative !important;
+        box-shadow: none;
+        border-radius: 0;
+    }
+
+    .dropdown-menu li {
+        border: none !important;
+        text-transform: none !important;
+        display: block !important;
+        width: 100% !important;
+    }
+
+    .dropdown-menu li a {
+        padding: 0 !important;
+        margin-left: 15px !important;
+        line-height: 27px !important;
+    }
+
+    #menu-wrap.maringa,
+    #menu-wrap.maringa ul {
+        background-color: #ea521d;
+    }
+
+    #menu-wrap.maringa li {
+        border-top: 1px solid #ff9f6a;
+    }
+
+    #menu-wrap.maringa li:hover,
+    #menu-wrap.maringa a:hover {
+        background-color: #ff8550 !important; 
+    }
+
+    #menu-wrap.londrina,
+    #menu-wrap.londrina ul {
+        background-color: #007AC1;
+    }
+
+    #menu-wrap.londrina li {
+        border-top: 1px solid #4dc7ff;
+    }
+
+    #menu-wrap.londrina li:hover,
+    #menu-wrap.londrina a:hover {
+        background-color: #33adf4 !important; 
+    }
+
+    #menu-wrap.teresina,
+    #menu-wrap.teresina ul {
+        background-color: #94A3B8;
+    }
+
+    #menu-wrap.teresina li {
+        border-top: 1px solid #e1f0ff;
+    }
+
+    #menu-wrap.teresina li:hover,
+    #menu-wrap.teresina a:hover {
+        background-color: #c7d6eb !important; 
+    }
+
+    #menu-wrap.belem,
+    #menu-wrap.belem ul {
+        background-color: #0F5265;
+    }
+
+    #menu-wrap.belem li {
+        border-top: 1px solid #5c9fb2;
+    }
+
+    #menu-wrap.belem li:hover,
+    #menu-wrap.belem a:hover {
+        background-color: #428598 !important; 
+    }
+
+    #menu-wrap.cascavel,
+    #menu-wrap.cascavel ul {
+        background-color: #917696;
+    }
+
+    #menu-wrap.cascavel li {
+        border-top: 1px solid #dec3e3;
+    }
+
+    #menu-wrap.cascavel li:hover,
+    #menu-wrap.cascavel a:hover {
+        background-color: #c4a9c9 !important; 
+    }
+
+    #menu-wrap.campinas,
+    #menu-wrap.campinas ul {
+        background-color: #74b400;
+    }
+
+    #menu-wrap.campinas li {
+        border-top: 1px solid #c1ff4d; 
+    }
+
+    #menu-wrap.campinas li:hover,
+    #menu-wrap.campinas a:hover {
+        background-color: #a7e733 !important; 
+    }
+
+    #menu-wrap.fortaleza,
+    #menu-wrap.fortaleza ul {
+        background-color: #0DC662;
+    }
+
+    #menu-wrap.fortaleza li {
+        border-top: 1px solid #5affaf;
+    }
+
+    #menu-wrap.fortaleza li:hover,
+    #menu-wrap.fortaleza a:hover {
+        background-color: #40f995 !important; 
+    }
+
+    #menu-wrap.salvador,
+    #menu-wrap.salvador ul {
+        background-color: #463A33;
+    }
+
+    #menu-wrap.salvador li {
+        border-top: 1px solid #938780;
+    }
+
+    #menu-wrap.salvador li:hover,
+    #menu-wrap.salvador a:hover {
+        background-color: #796d66 !important; 
+    }
+
+    #menu-wrap.brasilia,
+    #menu-wrap.brasilia ul {
+        background-color: #A9C3A8;
+    }
+
+    #menu-wrap.brasilia li {
+        border-top: 1px solid #f6fff5;
+    }
+
+    #menu-wrap.brasilia li:hover,
+    #menu-wrap.brasilia a:hover {
+        background-color: #dcf6db !important; 
+    }
+
+    #menu-wrap.curitiba,
+    #menu-wrap.curitiba ul {
+        background-color: #CAAD07;
+    }
+
+    #menu-wrap.curitiba li {
+        border-top: 1px solid #fffa54;
+    }
+
+    #menu-wrap.curitiba li:hover,
+    #menu-wrap.curitiba a:hover {
+        background-color: #fde03a !important; 
+    }
+
+    #menu-wrap.portoalegre,
+    #menu-wrap.portoalegre ul {
+        background-color: #C24A4D;
+    }
+
+    #menu-wrap.portoalegre li {
+        border-top: 1px solid #ff979a;
+    }
+
+    #menu-wrap.portoalegre li:hover,
+    #menu-wrap.portoalegre a:hover {
+        background-color: #f57d80 !important; 
+    }
+
+}
+
+*/

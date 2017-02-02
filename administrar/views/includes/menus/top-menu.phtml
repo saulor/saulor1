@@ -1,0 +1,50 @@
+<ul class="menu top-menu">
+
+	<?php if (ehModuloAtivo('academico', $_SESSION[PREFIX . "permissoes"])) { ?>
+	<li>
+		<a href="?modulo=academico&acao=area">Área do Aluno</a>
+	</li>
+	<?php } ?>
+
+	<li>
+		<a href="?modulo=index&acao=alterar&id=<?php echo $_SESSION[PREFIX . "loginId"]; ?>">Alterar meus dados</a>
+	</li>
+	
+	<?php if (ehModuloAtivo('banco', $_SESSION[PREFIX . "permissoes"])) { ?>
+	<li>
+		<a href="?modulo=banco">Banco de dados</a>
+	</li>	
+	<?php } ?>
+	
+	<?php if (ehModuloAtivo('ligar', $_SESSION[PREFIX . "permissoes"])) { ?>
+	<li>
+		<a href="?modulo=ligar">Ligar</a>
+	</li>
+	<?php } ?>
+	
+	<?php if (ehModuloAtivo('parcerias', $_SESSION[PREFIX . "permissoes"])) { ?>
+	<li>
+		<a href="?modulo=parcerias">Parcerias/Convênios</a>
+	</li>
+	<?php } ?>
+	
+	<li>
+		<a href="?modulo=index&acao=nova">Nova Pré-Inscrição</a>
+	</li>
+	
+	<?php if ($_SESSION[PREFIX . "loginCodigo"] == 33) { ?>
+	<li>
+		<a href="?modulo=logs">Logs</a>
+	</li>
+	<?php } ?>
+	
+	<?php if (ehModuloAtivo('academico', $_SESSION[PREFIX . "permissoes"])) { ?>
+	<li>
+		<a href="?modulo=academico">Frequências e notas</a>
+	</li>
+	<?php } ?>
+	
+	<li>
+		<a href="sair.php">Sair</a>
+	</li>
+</ul>

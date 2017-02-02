@@ -1,0 +1,95 @@
+<?php 
+	$params = $this->getParams(); 
+	$modulo = $_GET['modulo'];
+	$estado = $params['estado'];
+	$order = isset($_GET['order']) ? $_GET['order'] . ';asc' : 'nome;asc';
+?>
+
+<style>
+  ul.pagination {
+    margin: 0 !important;
+    font-size: 0.85em;
+  }
+  ul.pagination li a {
+      border: 1px solid #ebbc37!important;
+      color: #ebbc37;
+  }
+  ul.pagination li.active span,
+  ul.pagination li.active a,
+  ul.pagination li a:hover {
+      color: #fff !important;
+      background-color: #ebbc37 !important;
+      border: 1px solid #ebbc37!important;
+  }
+</style>
+
+<div class="grid top-items">
+  <div class="col-1-1">
+    <div class="content">
+      <a href="?modulo=<?php echo $modulo; ?>&acao=cadastrar&estado=<?php echo $estado->id; ?>">
+        <div class="item">
+          <span class="ti-save"></span>
+          <span class="icon-name">Nova</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="grid">
+  <div class="col-2-12">
+    <div class="content">
+      <small>
+        <strong id="inicio"><?php echo count($params['objetos']) > 0 ? 1 : 0;?></strong> &rsaquo;
+        <strong id="fim"><?php echo count($params['objetos']); ?></strong> de
+        <strong id="quantidade"><?php echo count($params['objetos']); ?></strong> registro(s)
+      </small>
+    </div>
+  </div>
+</div>
+
+<form method="POST" action="?modulo=<?php echo $modulo; ?>&acao=acoes">
+
+  <!-- Listagem -->
+  <div class="grid">
+    <div class="col-1-1">
+        <div class="content">
+          <table class="table">
+            <thead>
+              <tr>
+                <th></th>
+                <th class="checkboxes">
+                    <input type="checkbox" name="objetos[]" value="-1" onclick="selecionarTodos(this)">
+                </th>
+                <th>
+                  <a class="order" href="?modulo=<?php echo $modulo; ?>&order=nome"><strong>Nome</strong></a>
+                </th>
+                <th class="center"><strong>E-mail(s)</strong></th>
+                <th class="center"><strong>Data</strong></th>
+                <th class="center acoes" colspan="1"><strong>Ações</strong></th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr id="ajaxTyping" data-action="ajax3" data-modulo="<?php echo $modulo; ?>" 
+                	data-order="<?php echo $order; ?>">
+                  <td>
+                    <img class="keyup-loader hidden" src="imagens/ajax-loader-white-transparent.gif">
+                  </td>
+                  <td></td>
+                  <td>
+                    <input class="form-control" type="text" name="nome">
+                  </td>
+                  <td></td>
+                  <td>
+                    <input class="form-control data" type="text" name="data">
+                  </td>
+                </tr>
+                <?php include 'rows-cidades.phtml'; ?>
+              </tbody>
+          </table>
+        </div>
+    </div>
+  </div>
+  <!-- Listagem -->
+
+</form>

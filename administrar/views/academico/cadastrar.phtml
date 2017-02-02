@@ -1,0 +1,227 @@
+<?php
+	$params = $this->getParams();
+	$objeto = $params["objeto"];
+	//print_r($objeto);die;
+?>
+
+<form method="post">
+
+	<input type="hidden" name="id" value="<?php echo $objeto->id; ?>" />
+	
+	<div class="grid">
+		<div class="col-2-12">
+		   <div class="content">
+		   		<label for="CPF">CPF:</label>
+		   </div>
+	  	</div>
+		<div class="col-2-12">
+			<div class="content">
+				<input class="form-control cpf" type="text" name="cpf" value="<?php echo $objeto->cpf; ?>" />
+			</div>
+		</div>
+		<div class="col-1-12">
+		   <div class="content">
+		   		<label for="CPF">Nome:</label>
+		   </div>
+	  	</div>
+		<div class="col-7-12">
+			<div class="content">
+				<input class="form-control" type="text" name="nomeAluno" value="<?php echo $objeto->nomeAluno; ?>" />
+			</div>
+		</div>
+	</div>
+	
+	<div class="grid">
+		<div class="col-2-12">
+		   <div class="content">
+		   		<label for="Código Curso">Código Curso:</label>
+		   </div>
+		</div>
+		<div class="col-2-12">
+			<div class="content">
+				<input class="form-control" type="text" name="codigoCurso" value="<?php echo $objeto->codigoCurso; ?>" />
+			</div>
+		</div>
+		<div class="col-1-12">
+		   <div class="content">
+		   		<label for="Unidade">Unidade:</label>
+		   </div>
+		</div>
+		<div class="col-7-12">
+			<div class="content">
+				<input class="form-control" type="text" name="unidade" value="<?php echo $objeto->unidade; ?>" />
+			</div>
+		</div>
+	</div>
+
+	<div class="grid">
+		<div class="col-2-12">
+		   <div class="content">
+		   		<label for="Nome do Curso">Nome do Curso:</label>
+		   </div>
+		</div>
+		<div class="col-10-12">
+			<div class="content">
+				<input class="form-control" type="text" name="nomeCurso" value="<?php echo $objeto->nomeCurso; ?>" />
+			</div>
+		</div>
+	</div>
+	
+	<div class="grid">
+		<div class="col-2-12">
+		   <div class="content">
+		   		<label for="Nome da Disciplina">Nome da Disciplina:</label>
+		   </div>
+			</div>
+		<div class="col-10-12">
+			<div class="content">
+				<input class="form-control" type="text" name="nomeDisciplina" value="<?php echo $objeto->nomeDisciplina; ?>" />
+			</div>
+		</div>
+	</div>
+
+	<div class="grid">
+		<div class="col-2-12">
+		   <div class="content">
+		   		<label for="Professor">Professor:</label>
+		   </div>
+		</div>
+		<div class="col-5-12">
+			<div class="content">
+				<input class="form-control" type="text" name="professor" value="<?php echo $objeto->professor; ?>" />
+			</div>
+		</div>
+		<div class="col-2-12">
+		   <div class="content">
+		   		<label for="Titulação">Titulação:</label>
+		   </div>
+		</div>
+		<div class="col-3-12">
+			<div class="content">
+				<input class="form-control" type="text" name="titulo" value="<?php echo $objeto->titulo; ?>" />
+			</div>
+		</div>
+	</div>
+	
+	<div class="grid">
+		<div class="col-2-12">
+		   <div class="content">
+		   		<label for="Nota">Nota:</label>
+		   </div>
+	  	</div>
+		<div class="col-2-12">
+			<div class="content">
+				<input class="form-control" type="text" name="notaAluno" value="<?php echo $objeto->notaAluno; ?>" />
+			</div>
+		</div>
+		<div class="col-1-12">
+		   <div class="content">
+		   		<label for="Situação">Situação:</label>
+		   </div>
+		</div>
+		<div class="col-2-12">
+			<div class="content">
+				<input class="form-control" type="text" name="situacaoNota" value="<?php echo $objeto->situacaoNota; ?>" />
+			</div>
+		</div>
+		<div class="col-2-12">
+		   <div class="content">
+		   		<label for="Faltas">Faltas:</label>
+		   </div>
+		</div>
+		<div class="col-3-12">
+			<div class="content">
+				<input class="form-control" type="text" name="numeroFaltas" value="<?php echo $objeto->numeroFaltas; ?>" />
+			</div>
+		</div>
+	</div>
+	
+	<div class="grid">
+		<div class="col-2-12">
+		   <div class="content">
+		   		<label for="Faltas">Data Início:</label>
+		   </div>
+		</div>
+		<div class="col-2-12">
+			<div class="content">
+				<input class="form-control datepicker" type="text" name="dataInicio" value="<?php echo $objeto->dataInicio; ?>" />
+			</div>
+		</div>
+		<div class="col-1-12">
+		   <div class="content">
+		   		<label for="Faltas">Data Fim:</label>
+		   </div>
+		</div>
+		<div class="col-2-12">
+			<div class="content">
+				<input class="form-control datepicker" type="text" name="dataFim" value="<?php echo $objeto->dataFim; ?>" />
+			</div>
+		</div>
+		<div class="col-2-12">
+		   <div class="content">
+		   		<label for="Nota Substitutiva">Nota Substitutiva.:</label>
+		   </div>
+		</div>
+		<div class="col-3-12">
+			<div class="content">
+				<input class="form-control" type="text" name="notaSubstituida" value="<?php echo $objeto->notaSubstituida; ?>" />
+			</div>
+		</div>
+	</div>
+
+	<div class="grid">
+		<div class="col-2-12">
+		   <div class="content">
+		   		<label for="Faltas">Data Reposição:</label>
+		   </div>
+		</div>
+		<div class="col-2-12">
+			<div class="content">
+				<input class="form-control datepicker" type="text" name="dataReposicao" value="<?php echo $objeto->dataReposicao; ?>" />
+			</div>
+		</div>
+	</div>
+
+	<div class="grid">
+		<div class="col-2-12">
+		   <div class="content">
+		   		<label for="Faltas">Observação Reposição:</label>
+		   </div>
+		</div>
+		<div class="col-10-12">
+			<div class="content">
+				<textarea class="form-control" name="obsReposicao"><?php echo $objeto->obsReposicao; ?></textarea>
+			</div>
+		</div>
+	</div>
+
+	<?php if ($objeto->id != 0) { ?>
+
+	<div class="grid">
+		<div class="col-2-12">
+		   <div class="content">
+		   		<label for="Faltas">Data do cadastro:</label>
+		   </div>
+		</div>
+		<div class="col-10-12">
+			<div class="content">
+				<?php echo $objeto->data; ?>
+			</div>
+		</div>
+	</div>
+
+	<?php } ?>
+	
+	<div class="grid">
+		<div class="col-2-12">
+		   <div class="content">
+		   		&nbsp;
+		   </div>
+	  	</div>
+		<div class="col-2-12">
+			<div class="content">
+				<input class="btn btn-default" type="submit" value="Cadastrar" />
+			</div>
+		</div>
+	</div>
+</form>

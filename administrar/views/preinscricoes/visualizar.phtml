@@ -1,0 +1,243 @@
+<?php
+  $params = $this->getParams();
+  $curso = $params['curso']; 
+  $order = isset($_GET['order']) ? $_GET['order'] : 'data'; 
+
+  if (checaPermissao($_GET['modulo'], 'planilha', $_SESSION[PREFIX . "permissoes"])) {
+    $planilha = array(
+      'unidadeCertificadora' => 'Certificadora',
+      'nome' => 'Nome',
+      'sexo' => 'Sexo',
+      'estadoCivil' => 'Estado Civil',
+      'rg' => 'RG',
+      'orgaoExpedidor' => 'Órgão Expedidor',
+      'dataExpedicao' => 'Data de Expedição',
+      'profissao' => 'Profissão',
+      'cpf' => 'CPF',
+      'dataNascimento' => 'Data de Nascimento',
+      'endereco' => 'Endereço',
+      'numero' => 'Número',
+      'complemento' => 'Complemento',
+      'bairro' => 'Bairro',
+      'cidade' => 'Cidade',
+      'uf' => 'UF',
+      'cep' => 'CEP',
+      'telefoneResidencial' => 'Telefone Residencial',
+      'operadoraCelular' => 'Operador Celular',
+      'telefoneCelular' => 'TelefoneCelular',
+      'email' => 'E-mail',
+      'emailAlternativo' => 'E-mail Alternativo',
+      'naturalidade' => 'Naturalidade',
+      'nomePai' => 'Nome do Pai',
+      'nomeMae' => 'Nome da Mãe',
+      'formacao' => 'Formação',
+      'instituicao' => 'Instituição',
+      'anoConclusao' => 'Ano de Conclusão',
+      'unidade' => 'Unidade',
+      'turma' => 'Turma',
+      'formaPagamento' => 'Forma de Pagamento',
+      'banco' => 'Banco',
+      'diaPagamento' => 'Dia de Pagamento',
+      'comoConheceu' => 'Como Conheceu o IEFAP',
+      'observacoes' => 'Observações',
+      'status' => 'Status'
+    );
+  }
+
+  $acoes = array();
+
+  if (checaPermissao($_GET['modulo'], 'excluir', $_SESSION[PREFIX . "permissoes"])) {
+    $acoes['excluir'] = 'Excluir todos';
+  }
+
+  if (checaPermissao($_GET['modulo'], 'cadastrar', $_SESSION[PREFIX . "permissoes"])) {
+    foreach (Curso::getCertificadoras() as $key => $value) {
+      $acoes["unidadeCertificadora," . $key] = "Mudar certificadora para " . $value;
+    }
+  }
+
+  if (checaPermissao($_GET['modulo'], 'cadastrar', $_SESSION[PREFIX . "permissoes"])) {
+    foreach (Preinscricao::getStatuses() as $key => $value) {
+      $acoes["status," . $key] = "Mudar status para " . $value;
+    }
+  }
+
+  if (checaPermissao($_GET['modulo'], 'cadastrar', $_SESSION[PREFIX . "permissoes"])) {
+    foreach ($params["usuarios"] as $usuario) {
+      $acoes["responsavel," . $usuario["id"]] = "Mudar responsável para " . $usuario["nome"];
+    }
+  }
+
+  if (checaPermissao($_GET['modulo'], 'cadastrar', $_SESSION[PREFIX . "permissoes"])) {
+    foreach ($params["unidades"] as $unidade) {
+      $acoes["unidade," . $unidade->cidade] = "Mudar unidade para " . $unidade->nomeCidade;
+    }
+  }
+
+  if (checaPermissao($_GET['modulo'], 'moodle', $_SESSION[PREFIX . "permissoes"])) {
+    $acoes["moodle"] = "Inscrever no Moodle";
+  }
+
+  if (checaPermissao($_GET['modulo'], 'academico', $_SESSION[PREFIX . "permissoes"])) {
+    $acoes["academico"] = "Cadastrar no Sistema Acadêmico";
+  }
+
+?>
+
+<style>
+  ul.tabs2 {
+    font-size: 0.85em;
+  }
+  ul#status > li,
+  ul#situacoes > li {
+      float:none;
+      display:inline-block;
+  }
+  ul#status,
+  ul#situacoes {
+      text-align:center;
+  }
+</style>
+
+<?php 
+  include('views/includes/planilha.phtml'); 
+  if (isset($acoes)) {
+    $gets = array();
+    foreach ($_GET as $key => $value) {
+      if ($key != 'acao') {
+        $gets[] = $key . '=' . $value;
+      }
+    }
+    $gets[] = 'acao=opcoes';
+    $action = '?' . implode('&', $gets);
+    echo '<form method="post" action="' . $action . '">';
+    include('views/includes/acoes.phtml'); 
+  }
+?>
+
+<ul id="status" data-curso="<?php echo $curso['id']; ?>" data-order="<?php echo $order; ?>" 
+  class="tabs2 nav nav-pills" role="tablist">
+<?php foreach ($params['tabs'] as $key => $value) { ?>
+    <li data-status="<?php echo $key; ?>" id="tab-status<?php echo $key; ?>" data-tab="tab-<?php echo $key ?>" role="presentation">
+      <a href=""><?php echo compactaTexto($value['valor'],25); ?><span class="badge"><?php echo $value['quantidade']; ?></span></a>
+    </li>
+<?php } ?>
+</ul>
+
+<div class="tab" id="tab-content-status">
+</div>
+
+<?php 
+  if (isset($acoes)) {
+    echo '</form>';
+  }
+?>
+
+<script>
+
+  $(document).ready(function(){
+
+    $('ul#status').on('click', 'li', function(ev) {
+
+      ev.preventDefault();
+
+      var li = $(this);
+      var ul = $(li).parent();
+      var status = $(li).attr('data-status');
+      var curso = $(ul).attr('data-curso');
+      var order = $(ul).attr('data-order');
+
+      // seta aba ativa
+      $(ul).find('li.active').removeClass('active');
+      $(li).addClass('active');
+
+      // esconde todas as div de status
+      $('div.tab-content-status').addClass('hidden');
+
+      // verifica se a div do status que foi clicado já existe
+      var divStatus = $('div#tab-content-status-' + status);
+      var existe = $(divStatus).length > 0;
+      
+      // ações aplicar
+      var form = $(this).parents('form')
+      var action = $(form).attr('action');
+      action = action.replace(/&tab1=\d/, '');
+      action += '&tab1=' + status;
+      $(form).attr('action', action);
+
+      var dados = {};
+
+      if (!existe) {
+
+        // se não existe cria a div
+        var div = $('<div />', {
+          class: 'tab-content-status',
+          id: 'tab-content-status-' + status
+        });
+
+        // uma requisição ajax será efetuada por isso criamos um loader
+        // antes excluímos qualquer um que já esteja lá
+        $('div#tab-content-status').children('img').remove();
+        var img = $('<img />', {
+          src: 'imagens/gears.gif',
+          style: 'display:block;margin:30px auto;'
+        }).appendTo('div#tab-content-status');
+
+        // ajax request 
+        // recebe só o cabeçalho da tabela
+        $.ajax({
+          type: "POST",
+          url: '<?php echo WWW_ROOT; ?>/administrar/?modulo=preinscricoes&acao=view',
+          data: { status: status }
+        }).done(function(response1) {
+          // adiciona a div container
+          $('div#tab-content-status').append(div);
+          // se não for status interessado faz requisição das inscrições
+          if (status != <?php echo Preinscricao::PREINSCRICAO_STATUS_INTERESSADO; ?>) {
+            var dados = {status, curso, order};
+            loadInscricoes(dados).success(function(response){
+              // delete ajax loader
+              $(img).remove();
+              // adiciona html do cabeçalho da tabela na div container
+              $(div).html(response1);
+              // recebe inscrições e faz um parse
+              var html = $.parseHTML(response);
+              // quantidade de inscrições
+              var quantidade = $(html).filter('tr:not(.none):not(.links)').length;
+              $('div#tab-content-status-' + status + ' strong#quantidade').html(quantidade);
+              $('div#tab-content-status-' + status + ' tbody tr:not(:first-child)').children().remove();
+              // adiciona inscrições na tabela
+              $('div#tab-content-status-' + status + ' tbody tr#buscaAjax').after(response);
+              $('div#tab-content-status-' + status).find('a').each(function(ev){
+                $(this).attr('data-status', status);
+                $(this).attr('data-curso', curso);
+                $(this).attr('data-div', 'tab-content-status-' + status);
+              });
+              var trFiltros = $(div).find('tbody tr#buscaAjax');
+              $(trFiltros).attr('data-status', status);
+              $(trFiltros).attr('data-curso', curso);
+              $(trFiltros).attr('data-div', 'tab-content-status-' + status);
+            });
+          }
+          else {
+            $(div).html(response1);
+            $(img).remove();
+          }
+        });
+      }
+      else {
+        $(divStatus).removeClass('hidden');
+      }
+    });
+
+    <?php if (isset($_GET['tab1'])) { ?>
+      $('li#tab-status<?php echo $_GET["tab1"]; ?>').trigger('click');
+    <?php
+    } else {
+    ?>
+      $('ul#status li:first').trigger('click');
+    <?php
+    }
+    ?>
+  });
+</script>

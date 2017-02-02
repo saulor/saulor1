@@ -1,0 +1,30 @@
+<?php
+	$params = $this->getParams();
+	$estatisticas = $params["estatisticas"];
+    
+	foreach ($estatisticas as $nomeModulo => $modulo) {
+		echo '<div class="estatisticas">';
+		echo '<table width="100%">';
+		echo '<thead>';
+		echo '<tr>';
+		echo '<th class="modulo" colspan="2">';
+		echo '<strong>'.$nomeModulo.'</strong>';
+		echo '</th>';
+		echo '</tr>';
+		echo '</thead>';
+		echo '<tbody>';
+		foreach ($modulo as $dado => $valor) {
+			echo '<tr>';
+			echo '<td class="dado">';
+			echo $dado;
+			echo '</td>';
+			echo '<td class="valor">';
+			echo $valor;
+			echo '</td>';
+			echo '</tr>';
+		}
+		echo '</tbody>';
+		echo '</table>';
+		echo '</div>';
+	}
+?>

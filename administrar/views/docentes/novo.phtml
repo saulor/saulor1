@@ -1,0 +1,623 @@
+<?php
+	$params = $this->getParams();
+	$objeto = $params["objeto"];
+?>
+
+<script>
+	$(document).ready(function(){
+    	$('body').on('focus', '.autocomplete', function() {
+    		var availableTags = [<?php echo $params["cursosDisponiveis"]; ?>];
+		    $(this).autocomplete({
+		      source: availableTags
+	    	});
+		});
+  	});
+</script>
+
+<form method="post" enctype="multipart/form-data">
+
+	<fieldset>
+	    <legend><strong>Identificação</strong></legend>
+	    
+	    <input type="hidden" name="Docente[id]" value="<?php echo $objeto->id; ?>" />
+	        
+	    <div class="grid">
+	        <div class="col-2-12">
+	        	<div class="content">
+	        		<label for="Nome">Nome:</label>
+	        	</div>
+	        </div>
+	        <div class="col-6-12">
+	        	<div class="content">
+	        		<input placeholder="Nome" class="form-control" name="Docente[nome]" type="text" value="<?php echo $objeto->nome; ?>" autofocus="autofocus"/>
+	        	</div>
+	        </div>
+	        <div class="col-2-12">
+	        	<div class="content">
+	        		<label for="Data de Nascimento">Data de Nascimento:</label>
+	        	</div>
+	        </div>
+	        <div class="col-2-12">
+	        	<div class="content">
+	        		<input placeholder="Data de Nascimento" name="Docente[dataNascimento]" class="form-control data" type="text" value="<?php echo $objeto->dataNascimento; ?>" />
+	        	</div>
+	        </div>
+		</div>
+		
+		<div class="grid">
+		    <div class="col-2-12">
+		    	<div class="content">
+		    		<label for="RG">RG:</label>
+		    	</div>
+		    </div>
+		    <div class="col-2-12">
+		    	<div class="content">
+		    		<input name="Docente[rg]" placeholder="RG" class="form-control numeros" type="text" value="<?php echo $objeto->rg; ?>" />
+		    	</div>
+		    </div>
+		    <div class="col-2-12">
+		    	<div class="content">
+		    		<label for="Órgão Expedidor">Órgão Expedidor:</label>
+		    	</div>
+		    </div>
+		    <div class="col-6-12">
+		    	<div class="content">
+		    		<input class="form-control" placeholder="Órgão Expedidor" name="Docente[orgaoExpedidor]" class="form-control letras" type="text" value="<?php echo $objeto->orgaoExpedidor; ?>" />
+		    	</div>
+		    </div>
+		</div>
+		
+		<div class="grid">
+			<div class="col-2-12">
+				<div class="content">
+					<label for="UF expedidor">UF Expedidor:</label>
+				</div>
+			</div>
+			<div class="col-2-12">
+				<div class="content">
+					<select class="form-control" name="Docente[ufExpedidor]">
+					    <option value="" <?php if ($objeto->ufExpedidor == "0") echo ' selected';  ?>>--Selecione--</option>
+					    <option value="AC"<?php if ($objeto->ufExpedidor == "AC") echo ' selected'; ?>>AC</option>
+					    <option value="AL"<?php if ($objeto->ufExpedidor == "AL") echo ' selected'; ?>>AL</option>
+					    <option value="AP"<?php if ($objeto->ufExpedidor == "AP") echo ' selected'; ?>>AP</option>
+					    <option value="AM"<?php if ($objeto->ufExpedidor == "AM") echo ' selected'; ?>>AM</option>
+					    <option value="BA"<?php if ($objeto->ufExpedidor == "BA") echo ' selected'; ?>>BA</option>
+					    <option value="CE"<?php if ($objeto->ufExpedidor == "CE") echo ' selected'; ?>>CE</option>
+					    <option value="DF"<?php if ($objeto->ufExpedidor == "DF") echo ' selected'; ?>>DF</option>
+					    <option value="ES"<?php if ($objeto->ufExpedidor == "ES") echo ' selected'; ?>>ES</option>
+					    <option value="GO"<?php if ($objeto->ufExpedidor == "GO") echo ' selected'; ?>>GO</option>
+					    <option value="MA"<?php if ($objeto->ufExpedidor == "MA") echo ' selected'; ?>>MA</option>
+					    <option value="MT"<?php if ($objeto->ufExpedidor == "MT") echo ' selected'; ?>>MT</option>
+					    <option value="MS"<?php if ($objeto->ufExpedidor == "MS") echo ' selected'; ?>>MS</option>
+					    <option value="MG"<?php if ($objeto->ufExpedidor == "MG") echo ' selected'; ?>>MG</option>
+					    <option value="PA"<?php if ($objeto->ufExpedidor == "PA") echo ' selected'; ?>>PA</option>
+					    <option value="PB"<?php if ($objeto->ufExpedidor == "PB") echo ' selected'; ?>>PB</option>
+					    <option value="PR"<?php if ($objeto->ufExpedidor == "PR") echo ' selected'; ?>>PR</option>
+					    <option value="PE"<?php if ($objeto->ufExpedidor == "PE") echo ' selected'; ?>>PE</option>
+					    <option value="PI"<?php if ($objeto->ufExpedidor == "PI") echo ' selected'; ?>>PI</option>
+					    <option value="RJ"<?php if ($objeto->ufExpedidor == "RJ") echo ' selected'; ?>>RJ</option>
+					    <option value="RN"<?php if ($objeto->ufExpedidor == "RN") echo ' selected'; ?>>RN</option>
+					    <option value="RS"<?php if ($objeto->ufExpedidor == "RS") echo ' selected'; ?>>RS</option>
+					    <option value="RO"<?php if ($objeto->ufExpedidor == "RO") echo ' selected'; ?>>RO</option>
+					    <option value="RR"<?php if ($objeto->ufExpedidor == "RR") echo ' selected'; ?>>RR</option>
+					    <option value="SC"<?php if ($objeto->ufExpedidor == "SC") echo ' selected'; ?>>SC</option>
+					    <option value="SP"<?php if ($objeto->ufExpedidor == "SP") echo ' selected'; ?>>SP</option>
+					    <option value="SE"<?php if ($objeto->ufExpedidor == "SE") echo ' selected'; ?>>SE</option>
+					    <option value="TO"<?php if ($objeto->ufExpedidor == "TO") echo ' selected'; ?>>TO</option>
+					</select>
+				</div>
+			</div>
+			<div class="col-2-12">
+				<div class="content">
+					<label for="CPF">CPF:</label>
+				</div>
+			</div>
+			<div class="col-2-12">
+				<div class="content">
+					<input name="Docente[cpf]" placeholder="CPF" class="form-control cpf" type="text" value="<?php echo $objeto->cpf; ?>" />
+				</div>
+			</div>
+			<div class="col-2-12">
+				<div class="content">
+					<label for="CPF">Outros Doc.:<small>(CRM;CRF;CREFITO)</small></label>
+				</div>
+			</div>
+			<div class="col-2-12">
+				<div class="content">
+					<input class="form-control" placeholder="Outros Documentos" name="Docente[outrosDocumentos]" type="text" value="<?php echo $objeto->outrosDocumentos; ?>" />
+				</div>
+			</div>
+		</div>
+	    
+	    <div class="grid">
+	    	<div class="col-2-12">
+	    		<div class="content">
+	    			 <label for="Telefone Residencial">Tel. Residencial:</label>
+	    		</div>
+	    	</div>
+	    	<div class="col-2-12">
+	    		<div class="content">
+	    			 <input name="Docente[telefoneResidencial]" placeholder="Telef. Residencial" class="form-control telefone" type="text" value="<?php echo $objeto->telefoneResidencial; ?>" />
+	    		</div>
+	    	</div>
+	    	<div class="col-2-12">
+	    		<div class="content">
+	    			 <label for="Operadora Celular">Operadora Celular:</label>
+	    		</div>
+	    	</div>
+	    	<div class="col-2-12">
+	    		<div class="content">
+	    			 <select class="form-control" name="Docente[operadoraCelular]">
+	    			     <option value="">--Selecione--</option>
+	    			 	<option value="Oi"<?php if($objeto->operadoraCelular == "Oi") echo ' selected'; ?>>Oi</option>
+	    			     <option value="Claro"<?php if($objeto->operadoraCelular == "Claro") echo ' selected'; ?>>Claro</option>
+	    			     <option value="Tim"<?php if($objeto->operadoraCelular == "Tim") echo ' selected'; ?>>Tim</option>
+	    			     <option value="Vivo"<?php if($objeto->operadoraCelular == "Vivo") echo ' selected'; ?>>Vivo</option>
+	    			 </select>
+	    		</div>
+	    	</div>
+	    	<div class="col-2-12">
+	    		<div class="content">
+	    			 <label for="Telefone Celular">Tel. Celular:</label>
+	    		</div>
+	    	</div>
+	    	<div class="col-2-12">
+	    		<div class="content">
+	    			 <input class="form-control telefone" placeholder="Telef. Celular" id="telefoneCelular" type="text" name="Docente[telefoneCelular]" value="<?php echo $objeto->telefoneCelular; ?>" />
+	    		</div>
+	    	</div>
+	    </div>
+	    
+	    <div class="grid">
+	    	<div class="col-2-12">
+	    		<div class="content">
+	    			<label for="E-mail">E-mail:</label>
+	    		</div>
+	    	</div>
+	    	<div class="col-4-12">
+	    		<div class="content">
+	    			<input class="form-control" placeholder="E-mail" name="Docente[email]" type="text" value="<?php echo $objeto->email; ?>" />
+	    		</div>
+	    	</div>
+	    	<div class="col-2-12">
+	    		<div class="content">
+	    			<label for="E-mail Alternativo">E-mail Alternativo:</label>
+	    		</div>
+	    	</div>
+	    	<div class="col-4-12">
+	    		<div class="content">
+	    			<input class="form-control" placeholder="E-mail Alternativo" name="Docente[emailAlternativo]" type="text" value="<?php echo $objeto->emailAlternativo; ?>" />
+	    		</div>
+	    	</div>
+	    </div>
+	    
+	</fieldset>
+	
+	<fieldset>
+	    <legend><strong>Endereço</strong></legend>
+	    
+	    <div class="grid">
+	    	<div class="col-2-12">
+	    		<div class="content">
+	    			<label for="Cep">Cep:</label>
+	    		</div>
+	    	</div>
+	    	<div class="col-4-12">
+	    		<div class="content">
+	    			<input name="Docente[cep]" placeholder="CEP" class="form-control cep" type="text" value="<?php echo $objeto->cep; ?>" />
+	    			<img class="ajax-loader" src="imagens/ajax-loader.gif" />
+	    		</div>
+	    	</div>
+	    </div>
+	    
+	    <div class="grid">
+	        <div class="col-2-12">
+	        	<div class="content">
+	        		<label for="Endereço">Endereço:</label>
+	        	</div>
+	        </div>
+	        <div class="col-6-12">
+	        	<div class="content">
+	        		<input class="form-control" placeholder="Endereço" name="Docente[endereco]" id="endereco" type="text" value="<?php echo $objeto->endereco; ?>" />
+	        	</div>
+	        </div>
+	        <div class="col-2-12">
+	        	<div class="content">
+	        		<label for="Número">Número:</label>
+	        	</div>
+	        </div>
+	        <div class="col-2-12">
+	        	<div class="content">
+	        		<input class="form-control" placeholder="Número" name="Docente[numero]" type="text" value="<?php echo $objeto->numero; ?>" />
+	        	</div>
+	        </div>
+	    </div>
+	    
+	    <div class="grid">
+	    	<div class="col-2-12">
+	    		<div class="content">
+	    			<label for="Complemento">Complemento:</label>
+	    		</div>
+	    	</div>
+	    	<div class="col-4-12">
+	    		<div class="content">
+	    			<input class="form-control" placeholder="Complemento" name="Docente[complemento]" type="text" value="<?php echo $objeto->complemento; ?>" />
+	    		</div>
+	    	</div>
+	    	<div class="col-2-12">
+	    		<div class="content">
+	    			<label for="Bairro">Bairro:</label>
+	    		</div>
+	    	</div>
+	    	<div class="col-4-12">
+	    		<div class="content">
+	    			<input class="form-control" placeholder="Bairro" name="Docente[bairro]" id="bairro" type="text" value="<?php echo $objeto->bairro; ?>" />
+	    		</div>
+	    	</div>
+	    </div>
+	    
+	    <div class="grid">
+	        <div class="col-2-12">
+	        	<div class="content">
+	        		<label for="Cidade">Cidade:</label>
+	        	</div>
+	        </div>
+	        <div class="col-6-12">
+	        	<div class="content">
+	        		<input class="form-control" placeholder="Cidade" name="Docente[cidade]" id="cidade" type="text" value="<?php echo $objeto->cidade; ?>" />
+	        	</div>
+	        </div>
+	        <div class="col-2-12">
+	        	<div class="content">
+	        		<label for="UF">UF:</label>
+	        	</div>
+	        </div>
+	        <div class="col-2-12">
+	        	<div class="content">
+	        		<select class="form-control" name="Docente[uf]" id="uf">
+	        		    <option value=""<?php if ($objeto->uf == "0") echo ' selected';  ?>>--Selecione--</option>
+	        		    <option value="AC"<?php if ($objeto->uf == "AC") echo ' selected'; ?>>AC</option>
+	        		    <option value="AL"<?php if ($objeto->uf == "AL") echo ' selected'; ?>>AL</option>
+	        		    <option value="AP"<?php if ($objeto->uf == "AP") echo ' selected'; ?>>AP</option>
+	        		    <option value="AM"<?php if ($objeto->uf == "AM") echo ' selected'; ?>>AM</option>
+	        		    <option value="BA"<?php if ($objeto->uf == "BA") echo ' selected'; ?>>BA</option>
+	        		    <option value="CE"<?php if ($objeto->uf == "CE") echo ' selected'; ?>>CE</option>
+	        		    <option value="DF"<?php if ($objeto->uf == "DF") echo ' selected'; ?>>DF</option>
+	        		    <option value="ES"<?php if ($objeto->uf == "ES") echo ' selected'; ?>>ES</option>
+	        		    <option value="GO"<?php if ($objeto->uf == "GO") echo ' selected'; ?>>GO</option>
+	        		    <option value="MA"<?php if ($objeto->uf == "MA") echo ' selected'; ?>>MA</option>
+	        		    <option value="MT"<?php if ($objeto->uf == "MT") echo ' selected'; ?>>MT</option>
+	        		    <option value="MS"<?php if ($objeto->uf == "MS") echo ' selected'; ?>>MS</option>
+	        		    <option value="MG"<?php if ($objeto->uf == "MG") echo ' selected'; ?>>MG</option>
+	        		    <option value="PA"<?php if ($objeto->uf == "PA") echo ' selected'; ?>>PA</option>
+	        		    <option value="PB"<?php if ($objeto->uf == "PB") echo ' selected'; ?>>PB</option>
+	        		    <option value="PR"<?php if ($objeto->uf == "PR") echo ' selected'; ?>>PR</option>
+	        		    <option value="PE"<?php if ($objeto->uf == "PE") echo ' selected'; ?>>PE</option>
+	        		    <option value="PI"<?php if ($objeto->uf == "PI") echo ' selected'; ?>>PI</option>
+	        		    <option value="RJ"<?php if ($objeto->uf == "RJ") echo ' selected'; ?>>RJ</option>
+	        		    <option value="RN"<?php if ($objeto->uf == "RN") echo ' selected'; ?>>RN</option>
+	        		    <option value="RS"<?php if ($objeto->uf == "RS") echo ' selected'; ?>>RS</option>
+	        		    <option value="RO"<?php if ($objeto->uf == "RO") echo ' selected'; ?>>RO</option>
+	        		    <option value="RR"<?php if ($objeto->uf == "RR") echo ' selected'; ?>>RR</option>
+	        		    <option value="SC"<?php if ($objeto->uf == "SC") echo ' selected'; ?>>SC</option>
+	        		    <option value="SP"<?php if ($objeto->uf == "SP") echo ' selected'; ?>>SP</option>
+	        		    <option value="SE"<?php if ($objeto->uf == "SE") echo ' selected'; ?>>SE</option>
+	        		    <option value="TO"<?php if ($objeto->uf == "TO") echo ' selected'; ?>>TO</option>
+	        		</select>
+	        	</div>
+	        </div>
+	    </div>
+	    
+	</fieldset>
+	
+	<fieldset>
+		<legend><strong>Formação Acadêmica</strong></legend>
+		
+		<div class="grid">
+			<div class="col-2-12">
+				<div class="content">
+					<label for="Faculdade/Universidade">Faculdade/Universidade:</label>
+				</div>
+			</div>
+			<div class="col-10-12">
+				<div class="content">
+					<input class="form-control" placeholder="Faculdade/Universidade" name="Docente[instituicao]" type="text" value="<?php echo $objeto->instituicao; ?>" />
+				</div>
+			</div>
+		</div>
+		
+		<div class="grid">
+			<div class="col-2-12">
+				<div class="content">
+					<label for="Graduações">Graduações:</label>
+				</div>
+			</div>
+			<div class="col-10-12">
+				<div class="content">
+					<textarea name="Docente[graduacoes]" class="form-control"><?php echo $objeto->graduacoes; ?></textarea>
+				</div>
+			</div>
+		</div>
+		
+		<div class="grid">
+			<div class="col-2-12">
+				<div class="content">
+					<label for="Graduações Senior">Graduações Senior:</label>
+				</div>
+			</div>
+			<div class="col-10-12">
+				<div class="content">
+					<textarea name="Docente[graduacoesSenior]" class="form-control"><?php echo $objeto->graduacoesSenior; ?></textarea>
+				</div>
+			</div>
+		</div>
+		
+		<div class="grid">
+			<div class="col-2-12">
+				<div class="content">
+					<label for="Titulação">Titulação:</label>
+				</div>
+			</div>
+			<div class="col-10-12">
+				<div class="content">
+					<label class="radio-inline">
+						<input type="radio" name="Docente[titulacao]" value="<?php echo Docente::DOCENTE_TITULACAO_DOUTOR; ?>" <?php if (isset($objeto->titulacao) && $objeto->titulacao == Docente::DOCENTE_TITULACAO_DOUTOR) echo 'checked="checked"'; ?>/> Doutor
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="Docente[titulacao]" value="<?php echo Docente::DOCENTE_TITULACAO_MESTRE; ?>" <?php if (isset($objeto->titulacao) && $objeto->titulacao == Docente::DOCENTE_TITULACAO_MESTRE) echo 'checked="checked"'; ?> /> Mestre
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="Docente[titulacao]" value="<?php echo Docente::DOCENTE_TITULACAO_ESPECIALISTA; ?>" <?php if (isset($objeto->titulacao) && $objeto->titulacao == Docente::DOCENTE_TITULACAO_ESPECIALISTA) echo 'checked="checked"'; ?> /> Especialista
+					</label>
+				</div>
+			</div>
+		</div>
+	</fieldset>
+
+	<fieldset id="cursos">
+	    <legend><strong>Cursos e Disciplinas</strong></legend>
+    	<?php
+			$count = 0;
+    		foreach ($objeto->cursos as $key => $curso) {
+				$html = '
+				<div class="grid">
+    				<div class="col-2-12 curso">
+    					<div class="content">
+    						<label for="Curso %d">Curso %d:</label>
+    					</div>
+    				</div>
+    				<div class="col-10-12">
+    					<div class="content">
+    						<input name="Cursos[%d][id]" type="hidden" value="%d" />
+    						<input placeholder="Informe o curso e digite enter" class="form-control autocomplete" type="text" name="Cursos[%d][curso]" value="%s" />
+    					</div>
+    				</div>
+    			</div>    			
+				<div class="grid">
+					<div class="col-2-12">
+						<div class="content">
+							<label for="Disciplinas">Disciplinas do Curso %d:</label>
+						</div>
+					</div>
+					<div class="col-10-12">
+						<div class="content">
+							<textarea class="form-control" name="Cursos[%d][disciplinas]" type="text" placeholder="Informe as disciplinas do curso %d">%s</textarea>
+						</div>
+					</div>
+				</div>';
+
+				echo sprintf($html, ($count+1), ($count+1), $count, $curso->id, $count, $curso->curso,
+					($count+1), $count, ($count+1), $curso->disciplinas);
+
+    			$count++;
+	    	}
+    	?>
+	    
+	    <div class="grid" id="mais-cursos">
+	    	<div class="col-2-12">
+	    		<div class="content">
+	    			&nbsp;
+	    		</div>
+	    	</div>
+	    	<div class="col-10-12">
+	    		<div class="content">
+	    			<small style="cursor: pointer; color: #f60;" onclick="maisCursos(this)">
+	    				<strong>Adicionar mais cursos e disciplinas</strong>
+	    			</small>
+	    		</div>
+	    	</div>
+	    </div>
+	</fieldset>
+	
+	<fieldset>
+		<legend><strong>Dados Bancários</strong></legend>
+		<div class="grid">
+			<div class="col-2-12">
+				<div class="content">
+					<label for="Banco">Banco:</label>
+				</div>
+			</div>
+			<div class="col-10-12">
+				<div class="content">
+					<input class="form-control" placeholder="Banco" name="Docente[banco]" type="text" value="<?php echo $objeto->banco; ?>" />
+				</div>
+			</div>
+		</div>
+		
+		<div class="grid">
+			<div class="col-2-12">
+				<div class="content">
+					<label for="Dia de Pagamento">Tipo de Conta:</label>
+				</div>
+			</div>
+			<div class="col-10-12">
+				<div class="content">
+					<label class="radio-inline">
+						<input type="radio" name="Docente[tipoConta]" value="<?php echo Administrativo::ADMINISTRATIVO_TIPO_CONTA_CORRENTE; ?>" <?php if ($objeto->tipoConta == Administrativo::ADMINISTRATIVO_TIPO_CONTA_CORRENTE) echo 'checked="checked"'; ?>/> Conta Corrente
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="Docente[tipoConta]" value="<?php echo Administrativo::ADMINISTRATIVO_TIPO_CONTA_POUPANCA; ?>" <?php if ($objeto->tipoConta == Administrativo::ADMINISTRATIVO_TIPO_CONTA_POUPANCA) echo 'checked="checked"'; ?> /> Conta Poupança
+					</label>
+				</div>
+			</div>
+		</div>
+		
+		<div class="grid">
+			<div class="col-2-12">
+				<div class="content">
+					<label for="Agência">Agência:</label>
+				</div>
+			</div>
+			<div class="col-4-12">
+				<div class="content">
+					<input class="form-control" placeholder="Agência" name="Docente[agencia]" type="text" value="<?php echo $objeto->agencia; ?>" />
+				</div>
+			</div>
+			<div class="col-2-12">
+				<div class="content">
+					<label for="Conta">Conta:</label>
+				</div>
+			</div>
+			<div class="col-4-12">
+				<div class="content">
+					<input class="form-control" placeholder="Conta" name="Docente[conta]" type="text" value="<?php echo $objeto->conta; ?>" />
+				</div>
+			</div>
+		</div>
+		
+		<div class="grid">
+			<div class="col-2-12">
+				<div class="content">
+					<label for="Demais Informações">Demais Informações:</label>
+				</div>
+			</div>
+			<div class="col-10-12">
+				<div class="content">
+					<input class="form-control" placeholder="Demais Informações" name="Docente[demaisInformacoes]" type="text" value="<?php echo $objeto->demaisInformacoes; ?>" />
+				</div>
+			</div>
+		</div>
+	</fieldset>
+	
+	<fieldset>
+		<legend><strong>Currículo</strong></legend>
+		
+		
+		<div class="grid">
+			<div class="col-2-12">
+				<div class="content">
+					<label for="Currículo Lattes">Currículo Lattes:</label>
+				</div>
+			</div>
+			<div class="col-8-12">
+				<div class="content">
+					<input type="text" class="form-control" name="Docente[curriculoLattes]" value="<?php echo $objeto->curriculoLattes; ?>" />
+				</div>
+			</div>
+		</div>
+		
+		<div class="grid">
+			<div class="col-2-12">
+				<div class="content">
+					<label for="Currículo Comercial">Currículo Comercial:</label>
+				</div>
+			</div>
+			<div class="col-5-12">
+				<div class="content">
+					<?php
+						if (!empty($objeto->curriculoComercial)) {
+							$input = '<input type="hidden" name="%s" value="%s" />';
+							echo sprintf($input, 'curriculoComercial', $objeto->curriculoComercial);
+							echo sprintf($input, 'mime', $objeto->mime);
+							echo sprintf($input, 'extensao', $objeto->extensao);
+							$mimePdf = 'application/pdf';
+							$mimesWord = 'application/msword|application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+							$mimesWordArray = explode('|', $mimesWord);
+							$mime = $objeto->mime;
+							echo '<img src="imagens/';
+							if ($mime == $mimePdf) {
+								echo 'pdf-icon';
+							}
+							else if (in_array($mime, $mimesWordArray)) {
+								echo 'word-icon';
+							}
+							echo '.gif" />';
+							echo '&nbsp;<a title="Baixar curriculoComercial" href="?modulo=' . $_GET['modulo'];
+							echo '&acao=download&id=' . $objeto->id . '">';
+							echo base64_decode($objeto->curriculoComercial);
+							echo '</a>';
+							echo ' <small>(<a class="excluir-click" href="?modulo=docentes&acao=excluirc&id=' . $objeto->id . '">Excluir</a>)</small>';
+						}
+						else {
+							echo '<input type="file" name="curriculoComercial" />';
+						}
+					?>
+				</div>
+			</div>
+		</div>
+		
+		<?php if (isset($objeto->curriculoComercial) && $objeto->curriculoComercial != "") { ?>
+		<div class="grid">
+			<div class="col-2-12">
+				<div class="content">
+					<label for="Enviar Outro">Enviar Outro:</label>
+				</div>
+			</div>
+			<div class="col-5-12">
+				<div class="content">
+					<input type="file" name="curriculoComercial" />
+				</div>
+			</div>
+		</div>
+		<?php } ?>
+	
+	</fieldset>
+	
+	<fieldset>
+		<legend><strong>Outras informações</strong></legend>
+		
+		<div class="grid">
+			<div class="col-2-12">
+				<div class="content">
+					<label for="Observações">Observações:</label>
+				</div>
+			</div>
+			<div class="col-10-12">
+				<div class="content">
+					<textarea class="form-control" placeholder="Observações" name="Docente[observacoes]" rows="5"><?php echo $objeto->observacoes; ?></textarea>
+				</div>
+			</div>
+		</div>
+		
+		<div class="grid">
+			<div class="col-2-12">
+				<div class="content">
+					<label class="tamanho2" for="Status">Status:</label>
+				</div>
+			</div>
+			<div class="col-3-12">
+				<div class="content">
+					<select class="form-control" name="Docente[situacao]">
+						<option value="0">--Selecione--</option>
+						<?php
+							foreach (Docente::getSituacoes() as $key => $value) {
+								echo '<option';
+								if ($objeto->situacao == $key) {
+									echo ' selected';
+								}
+								echo ' value="' . $key . '">' . $value . '</option>';
+								
+							}
+						?>
+					</select>
+				</div>
+			</div>
+		</div>
+		
+	</fieldset>
+
+	<br />
+
+	<input class="btn btn-default" type="submit" value="Salvar" /> 
+
+</form>

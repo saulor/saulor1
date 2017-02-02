@@ -1,0 +1,37 @@
+<?php
+	$params = $this->getParams();
+	$contato = $params["contato"];
+?>
+
+<style>
+	label.radio {
+		margin-left: 25px;
+	}
+</style>
+
+<form method="post">
+
+	<input type="hidden" name="id" value="<?php echo $contato->id; ?>" />
+
+	<fieldset>
+		<legend>
+			<strong>Mudar status para:</strong>
+		</legend>
+		<?php
+			foreach (Contato::getStatuses() as $key => $value) {
+				echo '<label class="radio">';
+				echo '<input type="radio" name="status" value="' . $key . '"';
+				if ($contato->status == $key) {
+					echo ' checked="checked"';
+				}
+				echo '/> ';
+				echo '<span>';
+				echo $value;
+				echo '</span>';
+				echo '</label>';
+			}
+		?>
+	</fieldset>
+	<br />
+	<input class="btn btn-default" type="submit" value="Mudar" />
+</form>

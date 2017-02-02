@@ -1,0 +1,17 @@
+<style>
+table thead { background-color:  #fff !important;}
+table thead th {text-align: center;}
+table tr td {background-color: #fff;}
+h5 { margin: 30px 0 10px 0;}
+</style>
+
+<?php
+	$params = $this->getParams();
+	echo $email = $params["email"];
+?>
+
+<br />
+<form method="post">
+	<input type="hidden" name="auxiliar" value="1" />
+	<input class="btn btn-default" type="submit" value="Enviar" />
+</form>

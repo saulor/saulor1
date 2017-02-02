@@ -1,0 +1,136 @@
+<?php
+	$params = $this->getParams();
+	$curso = $params["objeto"];
+?>
+
+<form method="post" enctype="multipart/form-data">
+
+	<input type="hidden" name="id" value="<?php echo $curso->id; ?>" />
+
+	<fieldset>
+		<legend><strong>Banner</strong></legend>
+
+		<?php $label = "Banner"; if (!empty($curso->banner)) { $label = "Mudar banner"; ?>
+
+		<div class="grid">
+
+			<?php if(!empty($curso->banner)) { ?>
+			<div class="col-2-12">
+			   <div class="content">
+			   		<label for="Atual">Atual:</label>
+			   </div>
+		  	</div>
+		  	<?php } ?>
+
+			<div class="col-6-12">
+				<div class="content">
+				<?php
+					if (!empty($curso->banner)) {
+						if (existeArquivo(DIR_UPLOADS . '/cursos/' . $curso->id . '/' . $curso->banner)) {
+							echo '<a data-lightbox="curso" title="' . $curso->nome . '" href="'.PATH_UPLOADS.'/cursos/' . $curso->id . '/' . $curso->banner . '">';
+							echo '<img class="img-responsive" width="100%" ';
+							echo 'src="' . PATH_UPLOADS . '/cursos/' . $curso->id . '/' . $curso->banner . '" ';
+							echo 'title="Banner do curso ' . $curso->nome . '"';
+							echo ' alt="Banner do curso '.$curso->nome . '"';
+							echo '/>';
+							echo '</a>';
+							echo '<p class="text-center"><a class="excluir-click" href="?modulo=cursos&acao=excluir2&id=' . $curso->id . '">';
+							echo '<small>Excluir</small>';
+							echo '</a></p>';
+						}
+						else {
+							echo '<img style="width:100px; margin-bottom:10px;" src="../imagens/foto-tmp.jpg" title="O banner do curso não foi encontrado" alt="Banner não encontrado" />';
+						}
+					}
+				?>
+				</div>
+			</div>
+		</div>
+		<?php } ?>
+
+		<div class="grid">
+			<?php if(!empty($curso->banner)) { ?>
+			<div class="col-2-12">
+			   <div class="content">
+			   		<label for="<?php echo $label; ?>"><?php echo $label; ?>:</label>
+			   </div>
+		  	</div>
+		  	<?php } ?>
+			<div class="col-4-12">
+				<div class="content">
+					<input name="banner" type="file" />
+				</div>
+			</div>
+		</div>
+
+	</fieldset>
+
+	<fieldset>
+		<legend><strong>Thumbnail</strong></legend>
+
+		<?php $label = "Thumbnail"; if (!empty($curso->thumbnail)) { $label = "Mudar thumbnail"; ?>
+
+		<div class="grid">
+
+			<?php if(!empty($curso->thumbnail)) { ?>
+			<div class="col-2-12">
+			   <div class="content">
+			   		<label for="Atual">Atual:</label>
+			   </div>
+		  	</div>
+		  	<?php } ?>
+
+			<div class="col-3-12">
+				<div class="content">
+				<?php
+					if (!empty($curso->thumbnail)) {
+						if (existeArquivo(DIR_UPLOADS . '/cursos/' . $curso->id . '/' . $curso->thumbnail)) {
+							echo '<a data-lightbox="curso" title="' . $curso->nome . '" href="'.PATH_UPLOADS.'/cursos/' . $curso->id . '/' . $curso->thumbnail . '">';
+							echo '<img class="img-responsive" width="100%" ';
+							echo 'src="' . PATH_UPLOADS . '/cursos/' . $curso->id . '/' . $curso->thumbnail . '" ';
+							echo 'title="Thumbnail do curso ' . $curso->nome . '"';
+							echo ' alt="Thumbnail do curso ' . $curso->nome . '"';
+							echo '/>';
+							echo '</a>';
+							echo '<p class="text-center"><a class="excluir-click" href="?modulo=cursos&acao=excluir3&id=' . $curso->id . '">';
+							echo '<small>Excluir</small>';
+							echo '</a></p>';
+						}
+						else {
+							echo '<img style="width:100px; margin-bottom:10px;" src="../imagens/foto-tmp.jpg" title="O thumbnail do curso não foi encontrado" alt="Thumbnail não encontrado" />';
+						}
+					}
+				?>
+				</div>
+			</div>
+		</div>
+		<?php } ?>
+
+		<div class="grid">
+			<?php if(!empty($curso->thumbnail)) { ?>
+			<div class="col-2-12">
+			   <div class="content">
+			   		<label for="<?php echo $label; ?>"><?php echo $label; ?>:</label>
+			   </div>
+		  	</div>
+		  	<?php } ?>
+			<div class="col-4-12">
+				<div class="content">
+					<input name="thumbnail" type="file" />
+				</div>
+			</div>
+		</div>
+
+	</fieldset>
+
+	<br />
+	
+	<div class="grid">
+		<div class="col-2-12">
+			<div class="content">
+				<input class="btn btn-default" type="submit" value="Salvar">
+			</div>
+		</div>
+	</div>
+
+</form>

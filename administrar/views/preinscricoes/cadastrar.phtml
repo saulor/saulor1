@@ -1,0 +1,919 @@
+<?php
+	$params = $this->getParams();
+	$curso = $params["curso"];
+	$dados = $params["preinscricao"];
+    $unidades = $curso["unidades"];
+	$usuarios = $params["usuarios"];
+?>
+
+<form method="post" enctype="multipart/form-data">
+
+    <input type="hidden" name="id" value="<?php echo $dados["id"]; ?>" />
+    <input type="hidden" name="curso" value="<?php echo $curso["id"]; ?>" />
+    <input type="hidden" name="timestamp" value="<?php echo $dados["timestamp"]; ?>" />
+    <input type="hidden" name="enviouComprovante" value="<?php echo $dados["enviouComprovante"]; ?>" />
+
+    <?php if ($dados["id"] > 0) { ?>
+        <p class="small destaque">Pré-inscrição realizada em <?php echo date('d/m/Y', $dados["timestamp"]); ?></p>
+        <div class="grid top-items">
+            <div class="col-1-1">
+                <div class="content">
+                    <a href="?modulo=preinscricoes&acao=historico&curso=<?php echo $curso['id']; ?>&id=<?php echo $dados['id']; ?>&tab1=<?php echo $dados['status'];?>">
+                        <div class="item">
+                            <span class="ti-archive"></span>
+                            <span class="icon-name">Histórico da inscrição</span>
+                        </div>
+                    </a>
+                    <a href="?modulo=preinscricoes&acao=formulario&curso=<?php echo $curso['id']; ?>&id=<?php echo $dados['id']; ?>">
+                        <div class="item">
+                            <span class="ti-file"></span>
+                            <span class="icon-name">Formulário</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    <?php } ?>
+
+    <fieldset>
+
+        <legend><strong>Situação da inscrição</strong></legend>
+
+        <?php if ($dados['id'] > 0 && $dados['status'] == Preinscricao::PREINSCRICAO_STATUS_INTERESSADO) { ?>
+
+            <div class="grid">
+                <div class="col-2-12">
+                    <div class="content">
+                        <label class="tamanho2" for="Situacão atual">Situacão atual:</label>
+                    </div>
+                </div>
+                <div class="col-10-12">
+                    <div class="content" id="situacao-atual">
+                        <?php
+                            $situacaoAtual = Situacao::getTipo($dados['situacao']['tipo']);
+                            if (!empty($dados['situacao']['motivo'])) {
+                                $situacaoAtual .= ' - ' . $dados['situacao']['motivo'];
+                            }
+                        ?>
+                        <span><?php echo $situacaoAtual; ?></span><br />
+                        <a href="?modulo=situacao&acao=historico&inscricao=<?php echo $dados['id']; ?>&curso=<?php echo $curso['id']; ?>"<?php if (empty($dados['situacao']['tipo'])) { echo ' class="hidden";'; } ?>>
+                            <small>Ver histórico de situações</small>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        <?php } ?>
+        
+        <div class="grid">
+            <div class="col-2-12">
+                <div class="content">
+                    <label class="tamanho2" for="Status">Status:</label>
+                </div>
+            </div>
+            <div class="col-3-12">
+                <div class="content">
+                    <select class="form-control" name="status">
+                        <option value="0">--Selecione--</option>
+                        <?php
+                            foreach (Preinscricao::getStatuses() as $key => $value) {
+                                echo '<option';
+                                if ($dados["status"] == $key) {
+                                    echo ' selected="selected"';
+                                }
+                                echo ' value="' . $key . '">' . $value . '</option>';
+
+                            }
+                        ?>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="col-2-12">
+                <div class="content">
+                    <label for="Observações">Observações:</label>
+                </div>
+            </div>
+            <div class="col-10-12">
+                <div class="content">
+                    <textarea class="form-control" placeholder="Observações" name="observacoes" rows="5"><?php echo $dados["observacoes"]; ?></textarea>
+                    <?php if ($dados['id'] > 0 && $dados['status'] == Preinscricao::PREINSCRICAO_STATUS_INTERESSADO) { ?>
+                    <a href="">
+                        <div class="add-situacao item"
+                            data-after="situacaoAtual"
+                            data-id="0"
+                            data-tipo="0"
+                            data-status="<?php echo $dados['status']; ?>"
+                            data-curso="<?php echo $dados['idCurso']; ?>"
+                            data-inscricao="<?php echo $dados["id"]; ?>" 
+                            data-nomeCurso="<?php echo $curso["nome"]; ?>" 
+                            data-nome="<?php echo $dados["nome"]; ?>" 
+                            data-usuario="<?php echo $_SESSION[PREFIX . "loginId"]; ?>">
+                            <span class="ti-pencil-alt"></span>
+                            <span class="icon-name">Situação de inscrição</span>
+                        </div>
+                    </a>
+                    <?php } ?>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend><strong>Identificação</strong></legend>
+
+        <div class="grid">
+	        <div class="col-2-12">
+	        	<div class="content">
+	        		<label for="Nome">Nome:</label>
+	        	</div>
+	        </div>
+	        <div class="col-6-12">
+	        	<div class="content">
+	        		<input placeholder="Nome" class="form-control" name="nome" type="text" value="<?php echo $dados["nome"]; ?>" />
+	        	</div>
+	        </div>
+	        <div class="col-2-12">
+	        	<div class="content">
+	        		<label for="Data de Nascimento">Data de Nascimento:</label>
+	        	</div>
+	        </div>
+	        <div class="col-2-12">
+	        	<div class="content">
+	        		<input placeholder="Data de Nascimento" name="dataNascimento" class="form-control data" type="text" value="<?php echo $dados["dataNascimentoF"]; ?>" />
+	        	</div>
+	        </div>
+		</div>
+
+		<div class="grid">
+		    <div class="col-2-12">
+		    	<div class="content">
+		    		<label for="RG">RG:</label>
+		    	</div>
+		    </div>
+		    <div class="col-2-12">
+		    	<div class="content">
+		    		<input name="rg" placeholder="RG" class="form-control numeros" type="text" value="<?php echo $dados["rg"]; ?>" />
+		    	</div>
+		    </div>
+		    <div class="col-2-12">
+		    	<div class="content">
+		    		<label for="Órgão Expedidor">Órgão Expedidor:</label>
+		    	</div>
+		    </div>
+		    <div class="col-6-12">
+		    	<div class="content">
+		    		<input class="form-control" placeholder="Órgão Expedidor" name="orgaoExpedidor" class="form-control letras" type="text" value="<?php echo $dados["orgaoExpedidor"]; ?>" />
+		    	</div>
+		    </div>
+		</div>
+
+		<div class="grid">
+			<div class="col-2-12">
+				<div class="content">
+					<label for="UF expedidor">UF Expedidor:</label>
+				</div>
+			</div>
+			<div class="col-2-12">
+				<div class="content">
+					<select class="form-control" name="ufExpedidor">
+					    <option value="" <?php if ($dados["ufExpedidor"] == "0") echo 'selected="selected"';  ?>>--Selecione--</option>
+					    <option value="AC" <?php if ($dados["ufExpedidor"] == "AC") echo 'selected="selected"'; ?>>AC</option>
+					    <option value="AL" <?php if ($dados["ufExpedidor"] == "AL") echo 'selected="selected"'; ?>>AL</option>
+					    <option value="AP" <?php if ($dados["ufExpedidor"] == "AP") echo 'selected="selected"'; ?>>AP</option>
+					    <option value="AM" <?php if ($dados["ufExpedidor"] == "AM") echo 'selected="selected"'; ?>>AM</option>
+					    <option value="BA" <?php if ($dados["ufExpedidor"] == "BA") echo 'selected="selected"'; ?>>BA</option>
+					    <option value="CE" <?php if ($dados["ufExpedidor"] == "CE") echo 'selected="selected"'; ?>>CE</option>
+					    <option value="DF" <?php if ($dados["ufExpedidor"] == "DF") echo 'selected="selected"'; ?>>DF</option>
+					    <option value="ES" <?php if ($dados["ufExpedidor"] == "ES") echo 'selected="selected"'; ?>>ES</option>
+					    <option value="GO" <?php if ($dados["ufExpedidor"] == "GO") echo 'selected="selected"'; ?>>GO</option>
+					    <option value="MA" <?php if ($dados["ufExpedidor"] == "MA") echo 'selected="selected"'; ?>>MA</option>
+					    <option value="MT" <?php if ($dados["ufExpedidor"] == "MT") echo 'selected="selected"'; ?>>MT</option>
+					    <option value="MS" <?php if ($dados["ufExpedidor"] == "MS") echo 'selected="selected"'; ?>>MS</option>
+					    <option value="MG" <?php if ($dados["ufExpedidor"] == "MG") echo 'selected="selected"'; ?>>MG</option>
+					    <option value="PA" <?php if ($dados["ufExpedidor"] == "PA") echo 'selected="selected"'; ?>>PA</option>
+					    <option value="PB" <?php if ($dados["ufExpedidor"] == "PB") echo 'selected="selected"'; ?>>PB</option>
+					    <option value="PR" <?php if ($dados["ufExpedidor"] == "PR") echo 'selected="selected"'; ?>>PR</option>
+					    <option value="PE" <?php if ($dados["ufExpedidor"] == "PE") echo 'selected="selected"'; ?>>PE</option>
+					    <option value="PI" <?php if ($dados["ufExpedidor"] == "PI") echo 'selected="selected"'; ?>>PI</option>
+					    <option value="RJ" <?php if ($dados["ufExpedidor"] == "RJ") echo 'selected="selected"'; ?>>RJ</option>
+					    <option value="RN" <?php if ($dados["ufExpedidor"] == "RN") echo 'selected="selected"'; ?>>RN</option>
+					    <option value="RS" <?php if ($dados["ufExpedidor"] == "RS") echo 'selected="selected"'; ?>>RS</option>
+					    <option value="RO" <?php if ($dados["ufExpedidor"] == "RO") echo 'selected="selected"'; ?>>RO</option>
+					    <option value="RR" <?php if ($dados["ufExpedidor"] == "RR") echo 'selected="selected"'; ?>>RR</option>
+					    <option value="SC" <?php if ($dados["ufExpedidor"] == "SC") echo 'selected="selected"'; ?>>SC</option>
+					    <option value="SP" <?php if ($dados["ufExpedidor"] == "SP") echo 'selected="selected"'; ?>>SP</option>
+					    <option value="SE" <?php if ($dados["ufExpedidor"] == "SE") echo 'selected="selected"'; ?>>SE</option>
+					    <option value="TO" <?php if ($dados["ufExpedidor"] == "TO") echo 'selected="selected"'; ?>>TO</option>
+					</select>
+				</div>
+			</div>
+			<div class="col-2-12">
+				<div class="content">
+					<label for="Data de Expedição">Data de Expedição:</label>
+				</div>
+			</div>
+			<div class="col-2-12">
+				<div class="content">
+					<input name="dataExpedicao" placeholder="Data de Expedição" class="form-control data" type="text" value="<?php echo $dados["dataExpedicaoF"]; ?>" />
+				</div>
+			</div>
+			<div class="col-2-12">
+				<div class="content">
+					<label for="CPF">CPF:</label>
+				</div>
+			</div>
+			<div class="col-2-12">
+				<div class="content">
+					<input name="cpf" placeholder="CPF" class="form-control cpf" type="text" value="<?php echo $dados["cpf"]; ?>" />
+				</div>
+			</div>
+		</div>
+
+		<div class="grid">
+		    <div class="col-2-12">
+		    	<div class="content">
+		    		<label for="Sexo">Sexo:</label>
+		    	</div>
+		    </div>
+		    <div class="col-2-12">
+		    	<div class="content">
+		    		<select class="form-control" name="sexo">
+		    			<option value="">--Selecione--</option>
+		    		    <option value="Masculino"<?php if($dados["sexo"] == "Masculino") echo ' selected="selected"'; ?>>Masculino</option>
+		    		    <option value="Feminino"<?php if($dados["sexo"] == "Feminino") echo ' selected="selected"'; ?>>Feminino</option>
+		    		</select>
+		    	</div>
+		    </div>
+		    <div class="col-2-12">
+		    	<div class="content">
+		    		<label for="Estado Civil">Estado Civil:</label>
+		    	</div>
+		    </div>
+		    <div class="col-2-12">
+		    	<div class="content">
+		    		<select class="form-control" name="estadoCivil">
+		    			<option value="">--Selecione--</option>
+		    			<option value="Solteiro(a)"<?php if($dados["estadoCivil"] == "Solteiro(a)") echo ' selected="selected"'; ?>>Solteiro(a)</option>
+		    			<option value="Casado(a)"<?php if($dados["estadoCivil"] == "Casado(a)") echo ' selected="selected"'; ?>>Casado(a)</option>
+		    			<option value="Divorciado(a)"<?php if($dados["estadoCivil"] == "Divorciado(a)") echo ' selected="selected"'; ?>>Divorciado(a)</option>
+		    			<option value="Viúvo(a)"<?php if($dados["estadoCivil"] == "Viúvo(a)") echo ' selected="selected"'; ?>>Viúvo(a)</option>
+		    		</select>
+		    	</div>
+		    </div>
+		</div>
+
+        <div class="grid">
+        	<div class="col-2-12">
+        		<div class="content">
+        			 <label for="Telefone Residencial">Telefone Residencial:</label>
+        		</div>
+        	</div>
+        	<div class="col-2-12">
+        		<div class="content">
+        			 <input name="telefoneResidencial" placeholder="Telef. Residencial" class="form-control telefone" type="text" value="<?php echo $dados["telefoneResidencial"]; ?>" />
+        		</div>
+        	</div>
+        	<div class="col-2-12">
+        		<div class="content">
+        			 <label for="Operadora Celular">Operadora Celular:</label>
+        		</div>
+        	</div>
+        	<div class="col-2-12">
+        		<div class="content">
+        			 <select class="form-control" name="operadoraCelular">
+        			     <option value="">--Selecione--</option>
+        			 	<option value="Oi"<?php if($dados["operadoraCelular"] == "Oi") echo ' selected="selected"'; ?>>Oi</option>
+        			     <option value="Claro"<?php if($dados["operadoraCelular"] == "Claro") echo ' selected="selected"'; ?>>Claro</option>
+        			     <option value="Tim"<?php if($dados["operadoraCelular"] == "Tim") echo ' selected="selected"'; ?>>Tim</option>
+        			     <option value="Vivo"<?php if($dados["operadoraCelular"] == "Vivo") echo ' selected="selected"'; ?>>Vivo</option>
+        			 </select>
+        		</div>
+        	</div>
+        	<div class="col-2-12">
+        		<div class="content">
+        			 <label for="Telefone Celular">Telefone Celular:</label>
+        		</div>
+        	</div>
+        	<div class="col-2-12">
+        		<div class="content">
+        			 <input class="form-control telefone" placeholder="Telef. Celular" id="telefoneCelular" type="text" name="telefoneCelular" value="<?php echo $dados["telefoneCelular"]; ?>" />
+        		</div>
+        	</div>
+        </div>
+
+        <div class="grid">
+            <div class="col-2-12">
+                <div class="content">
+                     <label for="Telefone">Telefone:</label>
+                </div>
+            </div>
+            <div class="col-2-12">
+                <div class="content">
+                     <input class="form-control telefone" placeholder="Telefone" id="telefone" type="text" name="telefone" value="<?php echo $dados["telefone"]; ?>" />
+                     <div class="checkbox">
+                        <label>
+                            <input id="whatsapp" type="checkbox" name="whatsapp"<?php if ($dados['whatsapp'] == 1) { echo ' checked'; echo ' title="Este telefone é ativo para Whatsapp"'; } ?> /> <small>Whatsapp?</small>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2-12">
+                <div class="content">
+                     <label for="Melhor horário">Melhor horário:</label>
+                </div>
+            </div>
+            <div class="col-2-12">
+                <div class="content">
+                    <select id="horario" name="horario" class="form-control" title="Informe o melhor horário para que nós possamos entrar em contato com você">
+                        <option value="">Selecione</option>
+                        <option value="08h às 11h">08h às 11h</option>
+                        <option value="11h às 15h">11h às 15h</option>
+                        <option value="15h às 19h">15h às 19h</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid">
+        	<div class="col-2-12">
+        		<div class="content">
+        			<label for="E-mail">E-mail:</label>
+        		</div>
+        	</div>
+        	<div class="col-4-12">
+        		<div class="content">
+        			<input class="form-control" placeholder="E-mail" name="email" type="text" value="<?php echo $dados["email"]; ?>" />
+        		</div>
+        	</div>
+        	<div class="col-2-12">
+        		<div class="content">
+        			<label for="E-mail Alternativo">E-mail Alternativo:</label>
+        		</div>
+        	</div>
+        	<div class="col-4-12">
+        		<div class="content">
+        			<input class="form-control" placeholder="E-mail Alternativo" name="emailAlternativo" type="text" value="<?php echo $dados["emailAlternativo"]; ?>" />
+        		</div>
+        	</div>
+        </div>
+
+        <div class="grid">
+        	<div class="col-2-12">
+        		<div class="content">
+        			<label for="Nome do pai">Nome do Pai:</label>
+        		</div>
+        	</div>
+        	<div class="col-4-12">
+        		<div class="content">
+        			<input class="form-control" placeholder="Nome do Pai" name="nomePai" size="90" type="text" value="<?php echo $dados["nomePai"]; ?>" />
+        		</div>
+        	</div>
+        	<div class="col-2-12">
+        		<div class="content">
+        			<label for="Nome da mãe">Nome da Mãe:</label>
+        		</div>
+        	</div>
+        	<div class="col-4-12">
+        		<div class="content">
+        			<input class="form-control" placeholder="Nome da Mãe" name="nomeMae" size="90" type="text" value="<?php echo $dados["nomeMae"]; ?>" />
+        		</div>
+        	</div>
+        </div>
+
+        <div class="grid">
+        	<div class="col-2-12">
+        		<div class="content">
+        			<label for="Naturalidade">Naturalidade:</label>
+        		</div>
+        	</div>
+        	<div class="col-4-12">
+        		<div class="content">
+        			<input class="form-control" placeholder="Naturalidade" name="naturalidade" size="90" type="text" value="<?php echo $dados["naturalidade"]; ?>" />
+        		</div>
+        	</div>
+        	<div class="col-2-12">
+        		<div class="content">
+        			<label for="Profissão">Profissão:</label>
+        		</div>
+        	</div>
+        	<div class="col-4-12">
+        		<div class="content">
+        			<input class="form-control" placeholder="Profissão" name="profissao" size="90" type="text" value="<?php echo $dados["profissao"]; ?>" />
+        		</div>
+        	</div>
+        </div>
+
+    </fieldset>
+
+    <fieldset>
+        <legend><strong>Endereço</strong></legend>
+
+        <div class="grid">
+        	<div class="col-2-12">
+        		<div class="content">
+        			<label for="Cep">Cep:</label>
+        		</div>
+        	</div>
+        	<div class="col-4-12">
+        		<div class="content">
+        			<input name="cep" placeholder="CEP" class="form-control cep" type="text" value="<?php echo $dados["cep"]; ?>"  />
+        		</div>
+        	</div>
+        </div>
+
+        <div class="grid">
+            <div class="col-2-12">
+            	<div class="content">
+            		<label for="Endereço">Endereço:</label>
+            	</div>
+            </div>
+            <div class="col-6-12">
+            	<div class="content">
+            		<input class="form-control" placeholder="Endereço" name="endereco" id="endereco" type="text" value="<?php echo $dados["endereco"]; ?>" />
+            	</div>
+            </div>
+            <div class="col-2-12">
+            	<div class="content">
+            		<label for="Número">Número:</label>
+            	</div>
+            </div>
+            <div class="col-2-12">
+            	<div class="content">
+            		<input class="form-control" placeholder="Número" name="numero" type="text" value="<?php echo $dados["numero"]; ?>" />
+            	</div>
+            </div>
+        </div>
+
+        <div class="grid">
+        	<div class="col-2-12">
+        		<div class="content">
+        			<label for="Complemento">Complemento:</label>
+        		</div>
+        	</div>
+        	<div class="col-4-12">
+        		<div class="content">
+        			<input class="form-control" placeholder="Complemento" name="complemento" type="text" value="<?php echo $dados["complemento"]; ?>" />
+        		</div>
+        	</div>
+        	<div class="col-2-12">
+        		<div class="content">
+        			<label for="Bairro">Bairro:</label>
+        		</div>
+        	</div>
+        	<div class="col-4-12">
+        		<div class="content">
+        			<input class="form-control" placeholder="Bairro" name="bairro" id="bairro" type="text" value="<?php echo $dados["bairro"]; ?>" />
+        		</div>
+        	</div>
+        </div>
+
+        <div class="grid">
+            <div class="col-2-12">
+            	<div class="content">
+            		<label for="Cidade">Cidade:</label>
+            	</div>
+            </div>
+            <div class="col-6-12">
+            	<div class="content">
+            		<input class="form-control" placeholder="Cidade" name="cidade" id="cidade" type="text" value="<?php echo $dados["cidade"]; ?>" />
+            	</div>
+            </div>
+            <div class="col-2-12">
+            	<div class="content">
+            		<label for="UF">UF:</label>
+            	</div>
+            </div>
+            <div class="col-2-12">
+            	<div class="content">
+            		<select class="form-control" name="uf" id="uf">
+            		    <option value="" <?php if ($dados["uf"] == "0") echo ' selected="selected"';  ?>>--Selecione--</option>
+            		    <option value="AC"<?php if ($dados["uf"] == "AC") echo ' selected="selected"'; ?>>AC</option>
+            		    <option value="AL"<?php if ($dados["uf"] == "AL") echo ' selected="selected"'; ?>>AL</option>
+            		    <option value="AP"<?php if ($dados["uf"] == "AP") echo ' selected="selected"'; ?>>AP</option>
+            		    <option value="AM"<?php if ($dados["uf"] == "AM") echo ' selected="selected"'; ?>>AM</option>
+            		    <option value="BA"<?php if ($dados["uf"] == "BA") echo ' selected="selected"'; ?>>BA</option>
+            		    <option value="CE"<?php if ($dados["uf"] == "CE") echo ' selected="selected"'; ?>>CE</option>
+            		    <option value="DF"<?php if ($dados["uf"] == "DF") echo ' selected="selected"'; ?>>DF</option>
+            		    <option value="ES"<?php if ($dados["uf"] == "ES") echo ' selected="selected"'; ?>>ES</option>
+            		    <option value="GO"<?php if ($dados["uf"] == "GO") echo ' selected="selected"'; ?>>GO</option>
+            		    <option value="MA"<?php if ($dados["uf"] == "MA") echo ' selected="selected"'; ?>>MA</option>
+            		    <option value="MT"<?php if ($dados["uf"] == "MT") echo ' selected="selected"'; ?>>MT</option>
+            		    <option value="MS"<?php if ($dados["uf"] == "MS") echo ' selected="selected"'; ?>>MS</option>
+            		    <option value="MG"<?php if ($dados["uf"] == "MG") echo ' selected="selected"'; ?>>MG</option>
+            		    <option value="PA"<?php if ($dados["uf"] == "PA") echo ' selected="selected"'; ?>>PA</option>
+            		    <option value="PB"<?php if ($dados["uf"] == "PB") echo ' selected="selected"'; ?>>PB</option>
+            		    <option value="PR"<?php if ($dados["uf"] == "PR") echo ' selected="selected"'; ?>>PR</option>
+            		    <option value="PE"<?php if ($dados["uf"] == "PE") echo ' selected="selected"'; ?>>PE</option>
+            		    <option value="PI"<?php if ($dados["uf"] == "PI") echo ' selected="selected"'; ?>>PI</option>
+            		    <option value="RJ"<?php if ($dados["uf"] == "RJ") echo ' selected="selected"'; ?>>RJ</option>
+            		    <option value="RN"<?php if ($dados["uf"] == "RN") echo ' selected="selected"'; ?>>RN</option>
+            		    <option value="RS"<?php if ($dados["uf"] == "RS") echo ' selected="selected"'; ?>>RS</option>
+            		    <option value="RO"<?php if ($dados["uf"] == "RO") echo ' selected="selected"'; ?>>RO</option>
+            		    <option value="RR"<?php if ($dados["uf"] == "RR") echo ' selected="selected"'; ?>>RR</option>
+            		    <option value="SC"<?php if ($dados["uf"] == "SC") echo ' selected="selected"'; ?>>SC</option>
+            		    <option value="SP"<?php if ($dados["uf"] == "SP") echo ' selected="selected"'; ?>>SP</option>
+            		    <option value="SE"<?php if ($dados["uf"] == "SE") echo ' selected="selected"'; ?>>SE</option>
+            		    <option value="TO"<?php if ($dados["uf"] == "TO") echo ' selected="selected"'; ?>>TO</option>
+            		</select>
+            	</div>
+            </div>
+        </div>
+
+   	</fieldset>
+
+   	<fieldset>
+   	    <legend><strong>Formação Acadêmica</strong></legend>
+
+   	    <div class="grid">
+   	    	<div class="col-2-12">
+   	    		<div class="content">
+   	    			<label for="Formação Acadêmica">Formação Acadêmica:</label>
+   	    		</div>
+   	    	</div>
+   	    	<div class="col-10-12">
+   	    		<div class="content">
+   	    			<input class="form-control" placeholder="Formação Acadêmica" name="formacao" type="text" value="<?php echo $dados["formacao"]; ?>" />
+   	    		</div>
+   	    	</div>
+   	    </div>
+
+   	    <div class="grid">
+   	    	<div class="col-2-12">
+   	    		<div class="content">
+   	    			<label for="Faculdade/Universidade">Faculdade/Universidade:</label>
+   	    		</div>
+   	    	</div>
+   	    	<div class="col-6-12">
+   	    		<div class="content">
+   	    			<input class="form-control" placeholder="Faculdade/Universidade" name="instituicao" type="text" value="<?php echo $dados["instituicao"]; ?>" />
+   	    		</div>
+   	    	</div>
+   	    	<div class="col-2-12">
+   	    		<div class="content">
+   	    			<label for="Ano de Conclusão">Ano de Conclusão:</label>
+   	    		</div>
+   	    	</div>
+   	    	<div class="col-2-12">
+   	    		<div class="content">
+   	    			<input class="form-control" placeholder="Ano de Conclusão" name="anoConclusao" type="text" value="<?php echo $dados["anoConclusao"]; ?>" />
+   	    		</div>
+   	    	</div>
+   	    </div>
+
+   	</fieldset>
+
+   	<?php if (count($unidades) > 0) { ?>
+
+   	<fieldset id="unidades" style="font-size:0.9em;">
+   		<legend><strong>Unidades</strong></legend>
+   	    <?php
+   			$unidadesDesativadas = 0;
+   			$aux = 0;
+   			$columns = 4;
+   			$nDivs = ceil(count($unidades) / $columns);
+
+   			for ($i=0; $i<$nDivs; $i++) {
+   				echo '<div class="grid">';
+   				for ($j=0;$j<$columns;$j++) {
+
+   					if (!array_key_exists($aux, $unidades)) {
+   						break;
+   					}
+
+                    if ($i%2) {
+                        $color = $j%2!=0 ? '#ffffff' : '#f0f0f0';
+                    }
+                    else {
+                        $color = $j%2!=0 ? '#f0f0f0' : '#ffffff';
+                    }
+                    
+
+   					echo '<div class="col-1-4" style="padding:5px;';
+                    echo 'background-color:' . $color . ' ;min-height:200px;">';
+   					echo '<div class="content">';
+
+   					$unidade = $unidades[$aux++];
+
+   					// valor do curso sem desconto
+   					$valorCurso = $unidade["valorCurso"];
+
+   					echo '<input';
+   					if ($unidade["status"] == 0) {
+   						$unidadesDesativadas++;
+   						echo ' disabled';
+   					}
+   					echo ' id="unidade' . $unidade["idCidade"] . '" ';
+   					echo 'onclick="desmarcaUnidades(' . $unidade["idCidade"] . ')" type="radio" name="unidade" value="' . $unidade["idCidade"] . '" ';
+   					if (isset($dados["idCidade"]) && $dados["idCidade"] == $unidade["idCidade"]) {
+   						echo 'checked';
+   					}
+   					echo '/>';
+   					if ($unidade["status"] == 0) {
+   						echo ' <span class="destaque">*</span>';
+   					}
+   					echo ' <strong>' . $unidade["nomeCidade"];
+   					echo ' (' . $unidade["siglaEstado"] . ')</strong>';
+   					echo '<br />';
+   					echo '<span style="display:block; margin:0 0 0 15px;"><strong>Módulos:</strong> ';
+   					echo $unidade["quantidadeModulos"];
+   					echo '</span>';
+   					echo '<span style="display:block; margin:0 0 0 15px;"><strong>Inscrição:</strong> R$ ';
+   					echo Funcoes::moneyFormat($unidade["valorInscricao"]);
+   					echo '</span>';
+   					echo '<span style="display:block; margin:0 0 0 15px;"><strong>Curso:</strong> R$ ';
+   					echo Funcoes::moneyFormat($valorCurso);
+   					echo '</span>';
+   					echo '<span style="display:block; margin:0 0 0 15px;"><strong>Formas de Pagamento:</strong></span>';
+
+   					$parcelas = explode(",", $unidade["quantidadeParcelas"]);
+
+   					// primeiro as formas de pagamento usando como base o valor com desconto
+   					// usado para pagamentos efetuados até a data de vencimento
+   					foreach ($parcelas as $parcela) {
+   						$parcela = (int) $parcela;
+   						if ($parcela != 0) {
+   							//$semDesconto = formataDecimalMysql($valorSemDesconto / $parcela);
+   							$semDesconto = $valorCurso / $parcela;
+   							$forma = $parcela . ' parcela(s) de R$ ' . Funcoes::moneyFormat($semDesconto);
+   							echo '<span style="display:block; margin:0 0 0 15px;">';
+   							echo '<input';
+   							if ($unidade["status"] == 0) {
+   								echo ' disabled';
+   							}
+   							echo ' onclick="marcaUnidade(this, ' . $unidade["idCidade"] . ')" type="radio" name="formaPagamento" value="' . $forma . '" ';
+   							if (isset($dados["idCidade"]) && $dados["idCidade"] == $unidade["idCidade"] && $dados["formaPagamento"] == $forma) {
+   								echo 'checked';
+   							}
+   							echo '/>';
+   							echo '&nbsp;' . $forma;
+   							echo '</span>';
+   						}
+   					}
+
+   					echo '</div>';
+   					echo '</div>';
+   				}
+   				echo '</div>';
+   			}
+
+   			if ($unidadesDesativadas > 0) {
+   				echo '<small class="destaque">';
+   				echo '* Unidades desativadas';
+   				echo '</small>';
+   			}
+   		?>
+   	</fieldset>
+
+   	<?php } ?>
+
+	<fieldset>
+		<legend><strong>Informações de pagamento</strong></legend>
+		<div class="grid">
+			<div class="col-2-12">
+				<div class="content">
+					<label for="Banco">Banco:</label>
+				</div>
+			</div>
+			<div class="col-10-12">
+				<div class="content">
+					<label class="radio-inline">
+						<input type="radio" name="banco" value="<?php echo Preinscricao::PREINSCRICAO_BANCO_BANCO_DO_BRASIL; ?>"<?php if(isset($dados["banco"]) && $dados["banco"] == Preinscricao::PREINSCRICAO_BANCO_BANCO_DO_BRASIL) echo ' checked'; ?> /> Banco do Brasil
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="banco" value="<?php echo Preinscricao::PREINSCRICAO_BANCO_BRADESCO; ?>"<?php if(isset($dados["banco"]) && $dados["banco"] == Preinscricao::PREINSCRICAO_BANCO_BRADESCO) echo ' checked'; ?> /> Bradesco
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="banco" value="<?php echo Preinscricao::PREINSCRICAO_BANCO_CAIXA_ECONOMICA_FEDERAL; ?>"<?php if(isset($dados["banco"]) && $dados["banco"] == Preinscricao::PREINSCRICAO_BANCO_CAIXA_ECONOMICA_FEDERAL) echo ' checked'; ?> /> Caixa Econômica Federal
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="banco" value="<?php echo Preinscricao::PREINSCRICAO_BANCO_ITAU; ?>"<?php if(isset($dados["banco"]) && $dados["banco"] == Preinscricao::PREINSCRICAO_BANCO_ITAU) echo ' checked'; ?> /> Itaú
+					</label>
+				</div>
+			</div>
+		</div>
+
+		<div class="grid">
+			<div class="col-2-12">
+				<div class="content">
+					<label for="Dia de Pagamento">Dia de Pagamento:</label>
+				</div>
+			</div>
+			<div class="col-10-12">
+				<div class="content">
+					<label class="radio-inline">
+						<input type="radio" name="diaPagamento" value="01"<?php if(isset($dados["diaPagamento"]) && $dados["diaPagamento"] == 1) echo ' checked'; ?> /> 01
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="diaPagamento" value="05"<?php if(isset($dados["diaPagamento"]) && $dados["diaPagamento"] == 5) echo ' checked'; ?> /> 05
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="diaPagamento" value="10"<?php if(isset($dados["diaPagamento"]) && $dados["diaPagamento"] == 10) echo ' checked'; ?> /> 10
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="diaPagamento" value="15"<?php if(isset($dados["diaPagamento"]) && $dados["diaPagamento"] == 15) echo ' checked'; ?> /> 15
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="diaPagamento" value="20"<?php if(isset($dados["diaPagamento"]) && $dados["diaPagamento"] == 20) echo ' checked'; ?> /> 20
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="diaPagamento" value="25"<?php if(isset($dados["diaPagamento"]) && $dados["diaPagamento"] == 25) echo ' checked'; ?> /> 25
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="diaPagamento" value="30"<?php if(isset($dados["diaPagamento"]) && $dados["diaPagamento"] == 30) echo ' checked'; ?> /> 30
+					</label>
+				</div>
+			</div>
+		</div>
+	</fieldset>
+
+	<fieldset>
+		<legend><strong>Outras informações</strong></legend>
+
+		<div class="grid">
+			<div class="col-3-12">
+				<div class="content">
+					<label for="Turma">Turma:</label>
+				</div>
+			</div>
+			<div class="col-3-12">
+				<div class="content">
+					<input class="form-control" placeholder="Turma" name="turma" type="text" value="<?php echo $dados["turma"]; ?>" />
+				</div>
+			</div>
+            <div class="col-3-12">
+                <div class="content">
+                    <label for="Responsável pela inscrição?">Responsável pela inscrição:</label>
+                </div>
+            </div>
+            <div class="col-3-12">
+                <div class="content">
+                    <select class="form-control" name="responsavel"<?php if(!in_array($_SESSION[PREFIX . "loginCodigo"], array(32,33))) echo ' readonly="readonly"';?>>
+                        <option value="0">--Selecione--</option>
+                        <?php
+                            foreach ($usuarios as $usuario) {
+                                echo '<option';
+                                if ($dados["responsavel"] == $usuario["id"]) {
+                                    echo ' selected="selected"';
+                                }
+                                echo ' value="' . $usuario["id"] . '">' . $usuario["nome"] . '</option>';
+                            }
+                        ?>
+                    </select>
+                </div>
+            </div>
+		</div>
+
+        <div class="grid">
+            <div class="col-3-12">
+                <div class="content">
+                    <label class="tamanho2" for="Unidade Certificadora">Unidade Certificadora:</label>
+                </div>
+            </div>
+            <div class="col-3-12">
+                <div class="content">
+                    <select class="form-control" name="unidadeCertificadora">
+                        <option value="0">--Selecione--</option>
+                        <?php
+                            foreach (Curso::getCertificadoras() as $key => $value) {
+                                echo '<option';
+                                if ($dados["unidadeCertificadora"] == $key)
+                                    echo ' selected="selected"';
+                                echo ' value="' . $key . '">' . $value . '</option>';
+
+                            }
+                        ?>
+                    </select>
+                </div>
+            </div>
+             <div class="col-3-12">
+                <div class="content">
+                    <label for="Como conheceu o IEFAP?">Como conheceu o IEFAP?:</label>
+                </div>
+            </div>
+            <div class="col-3-12">
+                <div class="content">
+                    <select class="form-control" name="comoConheceu" id="comoConheceu">
+                        <option value="">--Selecione--</option>
+                        <option value="Folder/Cartaz"<?php if($dados["comoConheceu"] == "Folder/Cartaz") echo ' selected="selected"'; ?>>Folder/Cartaz</option>
+                        <option value="Out-Door"<?php if($dados["comoConheceu"] == "Out-Door") echo ' selected="selected"'; ?>>Out-Door</option>
+                        <option value="Bus-Door"<?php if($dados["comoConheceu"] == "Bus-Door") echo ' selected="selected"'; ?>>Bus-Door</option>
+                        <option value="TV"<?php if($dados["comoConheceu"] == "TV") echo ' selected="selected"'; ?>>TV</option>
+                        <option value="Rádio"<?php if($dados["comoConheceu"] == "Rádio") echo ' selected="selected"'; ?>>Rádio</option>
+                        <option value="Jornal"<?php if($dados["comoConheceu"] == "Jornal") echo ' selected="selected"'; ?>>Jornal</option>
+                        <option value="Google"<?php if($dados["comoConheceu"] == "Google") echo ' selected="selected"'; ?>>Google</option>
+                        <option value="Twitter"<?php if($dados["comoConheceu"] == "Twitter") echo ' selected="selected"'; ?>>Twitter</option>
+                        <option value="Facebook"<?php if($dados["comoConheceu"] == "Facebook") echo ' selected="selected"'; ?>>Facebook</option>
+                        <option value="Blogs"<?php if($dados["comoConheceu"] == "Blogs") echo ' selected="selected"'; ?>>Blogs</option>
+                        <option value="Site"<?php if($dados["comoConheceu"] == "Site") echo ' selected="selected"'; ?>>Site</option>
+                        <option value="Representante"<?php if($dados["comoConheceu"] == "Representante") echo ' selected="selected"'; ?>>Representante</option>
+                        <option value="Amigo/Parente/Aluno"<?php if($dados["comoConheceu"] == "Amigo/Parente" || $dados["comoConheceu"] == "Amigo/Parente/Aluno") echo ' selected="selected"'; ?>>Amigo/Parente/Aluno</option>
+                        <option value="Outros"<?php if($dados["comoConheceu"] == "Outros") echo ' selected="selected"'; ?>>Outros</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div<?php if($dados["comoConheceu"] != "Amigo/Parente" && $dados["comoConheceu"] != "Amigo/Parente/Aluno") echo ' style="display:none;"'; ?> id="nomeIndicou">
+                <div class="col-3-12">
+                    <div class="content">
+                        <label for="Nome da pessoa que indicou">Nome da pessoa que indicou:</label>
+                    </div>
+                </div>
+                <div class="col-3-12">
+                    <div class="content">
+                        <input type="text" name="nomeIndicou" placeholder="Informe o nome da pessoa que indicou"
+                            value="<?php echo $dados["nomeIndicou"]; ?>" class="form-control" <?php if($dados["comoConheceu"] != "Amigo/Parente" && $dados["comoConheceu"] != "Amigo/Parente/Aluno") echo ' style="display:none;"'; ?> />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+		<div class="grid">
+			<div class="col-3-12">
+				<div class="content">
+					<label for="Comprovante de depósito">Comprovante de depósito:</label><br />
+					<small class="destaque">Apenas cursos de aperfeiçoamento</small>
+				</div>
+			</div>
+			<div class="col-9-12">
+				<div class="content">
+					<?php
+						if ($dados["enviouComprovante"] == 1) {
+							if (existeArquivo(DIR_UPLOADS . '/comprovantes/' . $dados["id"] . '/' . base64_decode($dados["comprovante"]))) {
+								echo '<input type="hidden" name="comprovante" value="' . $dados["comprovante"];
+								echo  '" />';
+								echo '<input type="hidden" name="mime" value="' . $dados["mime"] . '" />';
+								echo '<input type="hidden" name="extensao" value="' . $dados["extensao"] . '" />';
+								$mimePdf = 'application/pdf';
+								$mimeJpeg = 'image/jpeg';
+								$mimesWord = 'application/msword|application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+								$mimesWordArray = explode('|', $mimesWord);
+								$mime = $dados["mime"];
+								echo '<img src="imagens/';
+								if ($mime == $mimePdf) {
+									echo 'pdf-icon';
+								}
+								else if (in_array($mime, $mimesWordArray)) {
+									echo 'word-icon';
+								}
+								else if ($mime == $mimeJpeg) {
+									echo 'jpg-icon';
+								}
+								echo '.gif" />';
+								echo '&nbsp;<a title="Baixar comprovante" href="?modulo=preinscricoes&acao=download&curso=' . $curso["id"] . '&id=' . $dados["id"] . '">';
+								echo base64_decode($dados["comprovante"]);
+								echo '</a>';
+								echo ' <small>(<a onclick="excluir(\'preinscricoes\', {\'acao\' : \'excluirc\', \'id\' : ' . $dados["id"] . ', \'curso\' : ' . $curso["id"] . '});return false;" href="?modulo=preinscricoes&acao=excluirc&curso=' . $curso["id"] . '&id=' . $dados["id"] . '">Excluir</a>)</small>';
+							}
+							else {
+								echo base64_decode($dados["comprovante"]);
+								echo ' <small class="destaque">Comprovante não encontrado!</small>';
+							}
+						}
+						else {
+							echo '<input type="file" name="comprovante" />';
+						}
+					?>
+
+				</div>
+			</div>
+		</div>
+
+	</fieldset>
+
+	<div class="grid">
+		<div class="col-1-1">
+			<div class="content destaque">
+				<small>
+					1) Responsabilizo-me pela veracidade das declarações feitas neste documento. Caso elas não correspondam à verdade tenho conhecimento da consequente anulação da matrícula.<br />
+				    2) O IEFAP reserva-se o direito de não realizar o curso ou prorrogar o período de inscrição, caso o número mínimo de vagas não seja preenchido.<br />
+				    3) A matricula só será efetivada após a confirmação do recebimento da taxa de matrícula pelo IEFAP.
+				</small>
+			</div>
+		</div>
+	</div>
+
+	<input class="btn btn-default" type="submit" value="Salvar" />
+
+</form>
+
+<script>
+
+	$('#comoConheceu').on('change', function() {
+		if ($(this).val() == "Amigo/Parente/Aluno") {
+			$('#nomeIndicou').css('display', 'block');
+			$('#nomeIndicou input:text').toggle('highlight', {color:'#F60'});
+			$('#nomeIndicou input:text').focus();
+		}
+		else {
+			$('#nomeIndicou').css('display', 'none');
+			$('#nomeIndicou input:text').css('display', 'none');
+		}
+	});
+
+    
+</script>

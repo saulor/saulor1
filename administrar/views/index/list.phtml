@@ -1,0 +1,58 @@
+<?php
+
+	$table = array(
+		'fields' => array(
+			'curso' => array(
+				'link' => array(
+					'condition' => 'return checaPermissao(\'' . $modulo . '\',\'cadastrar\',$_SESSION[PREFIX . "permissoes"]);',
+					'qsParams' => array(
+						'modulo' => $modulo,
+						'acao' 	 => 'visualizar',
+						'curso'  => 'return $objeto["idCurso"];'
+					)
+				),
+			),
+			'nome' => array(
+				'link' => array(
+					'condition' => 'return checaPermissao(\'' . $modulo . '\',\'cadastrar\',$_SESSION[PREFIX . "permissoes"]);',
+					'qsParams' => array(
+						'modulo' => $modulo,
+						'acao' 	 => 'cadastrar',
+						'curso'  => 'return $objeto["idCurso"];',
+						'id' 	 => 'return $objeto["id"];',
+						'tab' 	 => 'return $objeto["status"];'
+					)
+				),
+			),
+			'assunto' => array(
+				'content' => 'return compactaTexto($objeto["assunto"], 20);',
+				'tooltip' => array(
+	              'type' => 'right',
+	              'condition' => 'return !empty($objeto["assunto"]);',
+	              'text' => 'return $objeto["assunto"];'
+	           	)
+			),
+			'descricao' => array(
+				'content' => 'return compactaTexto($objeto["descricao"], 20);',
+				'tooltip' => array(
+	              'type' => 'left',
+	              'condition' => 'return !empty($objeto["descricao"]);',
+	              'text' => 'return $objeto["descricao"];'
+	           	)
+			),
+			'observacoes' => array(
+				'content' => 'return compactaTexto($objeto["observacoes"], 20);',
+				'tooltip' => array(
+	              'type' => 'left',
+	              'condition' => 'return !empty($objeto["observacoes"]);',
+	              'text' => 'return $objeto["observacoes"];'
+	           	)
+			),
+			'data' => array(
+				'content' => 'return desconverteData($objeto["data"]);',
+			),
+			'horario' => array(),
+		)
+	);
+
+?>

@@ -1,0 +1,84 @@
+<?php
+	$params = $this->getParams();
+	$cidade = $params["cidade"];
+	$estado = $params["estado"];
+?>
+
+<script>
+
+	var engine = new Bloodhound({
+		queryTokenizer : Bloodhound.tokenizers.whitespace,
+		datumTokenizer : Bloodhound.tokenizers.whitespace
+	});
+	engine.initialize();
+	
+	$(function() {
+		$('.typeahead').tokenfield({
+		  	typeahead: [null, { source: engine.ttAdapter() }]
+		});
+	});
+	
+</script>
+
+<form method="POST">
+
+	<input type="hidden" name="id" value="<?php echo $cidade->id; ?>" />
+	<input type="hidden" name="estado" value="<?php echo $estado->id; ?>" />
+	
+	<div class="grid">
+		<div class="col-1-12">
+			<div class="content">
+				<label for="Nome">Nome:</label>
+			</div>
+		</div>
+		<div class="col-11-12">
+			<div class="content">
+				<input class="form-control autocomplete" name="nome" type="text" value="<?php echo $cidade->nome; ?>" autofocus="autofocus" placeholder="Nome da cidade" />
+			</div>
+		</div>
+	</div>
+	
+	<div class="grid">
+		<div class="col-1-12">
+			<div class="content">
+				<label for="E-mails">E-mail(s):</label>
+			</div>
+		</div>
+		<div class="col-11-12">
+			<div class="content">
+				<input class="form-control typeahead" name="emails" type="text" value="<?php echo $cidade->emails; ?>" placeholder="Informe o e-mail e digite Enter" /><small class="destaque">E-mail(s) para onde serão enviadas as notificações de novas pré-inscrições realizadas para esta unidade</small></label>
+			</div>
+		</div>
+	</div>
+
+	<div class="grid">
+		<div class="col-1-12">
+			<div class="content">&nbsp;</div>
+		</div>
+		<div class="col-11-12">
+			<div class="content">
+				<input class="btn btn-default" type="submit" value="Salvar" />
+			</div>
+		</div>
+	</div>
+	
+	
+
+</form>
+
+<script>
+
+	$.getJSON("views/cidades/estados_cidades.json", function (data) {
+		$.each(data, function (key, val) {
+			if (val.sigla == "<?php echo $estado->sigla; ?>") {
+				var arr = $.map(val.cidades, function(el) { 
+					return el; 
+				})
+			    $(".autocomplete").autocomplete({
+			      source: arr
+		    	});
+			}
+		});
+	});
+	
+</script>

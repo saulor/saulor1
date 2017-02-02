@@ -1,0 +1,21 @@
+<?php foreach($params['objetos'] as $key => $objeto) { ?>
+<tr id="tr<?php echo $objeto->id; ?>">
+  <th scope="row">
+    <small><?php echo $inicio++; ?></small>
+  </th>
+  <td>
+    <input type="checkbox" name="objetos[]" value="<?php echo $objeto->id; ?>">
+  </td>
+  <td>
+    <a<?php if ($objeto->status == 0) echo ' class="desativada"'; ?> href="?modulo=<?php echo $modulo; ?>&acao=cadastrar&id=<?php echo $objeto->id; ?>"><?php echo $objeto->descricao; ?></a>
+  </td>
+  <td class="center"><?php echo $objeto->link; ?></td>
+  <td class="center"><?php echo existeArquivo(DIR_UPLOADS . DS . 'banners' . DS . $objeto->banner) ? '<img width="280px" title="' . $objeto->descricao . '" src="' . PATH_UPLOADS . '/banners/' . $objeto->banner . '" />' : '<img width="280px" title="Banner não encontrado" src="imagens/banner-nao-encontrado.jpg" />'; ?>
+  </td>
+  <td class="center"><?php echo Funcoes::soData($objeto->data); ?></td>
+  <td align="center">
+    <a class="excluir-click" target="_self" 
+      href="?modulo=<?php echo $modulo; ?>&acao=excluir&id=<?php echo $objeto->id; ?>">Excluir</a>
+  </td>
+</tr>
+<?php } ?>

@@ -1,0 +1,20 @@
+<?php foreach($params['objetos'] as $key => $objeto) { ?>
+<tr id="tr<?php echo $objeto->id; ?>">
+  <th scope="row">
+    <small><?php echo ++$key; ?></small>
+  </th>
+  <td>
+    <a href="?modulo=<?php echo $modulo; ?>&acao=visualizar&estado=<?php echo $objeto->id; ?>"><?php echo $objeto->nome; ?></a><br />
+    <small><?php echo $objeto->quantidadeCidades; ?> cidade(s) cadastrada(s)</small>
+  </td>
+  <td class="center"><?php echo $objeto->nomeRegiao; ?></td>
+</tr>
+<tr class="links">
+  <td>&nbsp;</td>
+  <td colspan="2">
+    <div id="links">
+      <a href="?modulo=<?php echo $modulo; ?>&acao=cadastrar&estado=<?php echo $objeto->id; ?>">Cadastrar cidades</a>
+    </div>
+  </td>
+</tr>
+<?php } ?>

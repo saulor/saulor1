@@ -1,0 +1,122 @@
+<?php 
+
+  $params = $this->getParams(); 
+  $modulo = $_GET['modulo'];
+  $quantidadePorPagina = $params['quantidadePorPagina'];
+  $exibir = isset($_GET['exibir']) ? $_GET['exibir'] : $quantidadePorPagina;
+  $order = isset($_GET['order']) ? $_GET['order'] . ';asc' : 'data;desc';
+  $paginacao = $params['paginacao'];
+  $quantidade = $params['quantidade'];
+  $pagina = $params['pagina'];
+
+  if ($quantidade == 0) {
+    $iniCount = $inicio = 0;
+  }
+  else {
+    $iniCount = $inicio = ($quantidadePorPagina * $pagina) - ($quantidadePorPagina - 1);
+  }
+  
+  if ($inicio + ($quantidadePorPagina - 1) > $quantidade) {
+    $fim = $quantidade;
+  }
+  else {
+    $fim = $inicio + ($quantidadePorPagina - 1);
+  }
+
+?>
+
+<style>
+  ul.pagination {
+    margin: 0 !important;
+    font-size: 0.85em;
+  }
+  ul.pagination li a {
+      border: 1px solid #ebbc37!important;
+      color: #ebbc37;
+  }
+  ul.pagination li.active span,
+  ul.pagination li.active a,
+  ul.pagination li a:hover {
+      color: #fff !important;
+      background-color: #ebbc37 !important;
+      border: 1px solid #ebbc37!important;
+  }
+</style>
+
+<div class="grid top-items">
+  <div class="col-1-1">
+    <div class="content">
+      <a href="?modulo=<?php echo $modulo; ?>&acao=cadastrar">
+        <div class="item">
+          <span class="ti-save"></span>
+          <span class="icon-name">Nova</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="grid">
+  <div class="col-2-12">
+    <div class="content">
+      <small>
+        <strong id="inicio">
+          <?php if (isset($inicio)) echo $inicio; ?>
+        </strong> &rsaquo;
+        <strong id="fim">
+          <?php if (isset($fim)) echo $fim; ?>
+        </strong> de
+        <strong id="quantidade">
+          <?php if (isset($quantidade)) echo $quantidade; ?>
+        </strong> registro(s)
+      </small>
+    </div>
+  </div>
+</div>
+
+<?php 
+  include 'views/includes/exibir.phtml'; 
+?>
+
+<div class="paginacao">
+  <?php echo $params['paginacao']; ?>
+</div>
+
+<div class="grid">
+  <div class="col-1-1">
+      <div class="content">
+        <table class="table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>
+                <a class="order" href="?modulo=<?php echo $modulo; ?>&order=titulo"><strong>Título</strong></a>
+              </th>
+              <th class="center"><strong>Data</strong></th>
+            </tr>
+          </thead>
+          <tbody>
+              <tr id="ajaxTyping" data-modulo="<?php echo $modulo; ?>" 
+                data-order="<?php echo $order; ?>" 
+                data-pagina="<?php echo $pagina; ?>" 
+                data-exibir="<?php echo $quantidadePorPagina; ?>">
+                <td>
+                  <img class="keyup-loader hidden" src="imagens/ajax-loader-white-transparent.gif">
+                </td>
+                <td>
+                  <input class="form-control" type="text" name="titulo">
+                </td>
+                <td>
+                  <input class="form-control data" type="text" name="data">
+                </td>
+              </tr>
+              <?php include 'rows.phtml'; ?>
+            </tbody>
+        </table>
+      </div>
+  </div>
+</div>
+
+<div class="paginacao">
+  <?php echo $params['paginacao']; ?>
+</div>

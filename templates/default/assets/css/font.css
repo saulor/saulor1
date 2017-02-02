@@ -1,0 +1,127 @@
+@font-face {
+  font-family: "Bold";
+  src: url("fontes/PFSquareSansPro-Bold.otf");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "BoldItalic";
+  src: url("fontes/PFSquareSansPro-BoldItalic.otf");
+  src: local("☺"),
+    url("fontes/PFSquareSansPro-BoldItalic.woff") format("woff"),
+    url("fontes/PFSquareSansPro-BoldItalic.otf") format("opentype"),
+    url("fontes/PFSquareSansPro-BoldItalic.svg#filename") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Italic";
+  src: url("fontes/PFSquareSansPro-Italic.otf");
+  src: local("☺"),
+    url("fontes/PFSquareSansPro-Italic.woff") format("woff"),
+    url("fontes/PFSquareSansPro-Italic.otf") format("opentype"),
+    url("fontes/PFSquareSansPro-Italic.svg#filename") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Light";
+  src: url("fontes/PFSquareSansPro-Light.otf");
+  src: local("☺"),
+    url("fontes/PFSquareSansPro-Light.woff") format("woff"),
+    url("fontes/PFSquareSansPro-Light.otf") format("opentype"),
+    url("fontes/PFSquareSansPro-Light.svg#filename") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "LightItalic";
+  src: url("fontes/PFSquareSansPro-LightItalic.otf");
+  src: local("☺"),
+    url("fontes/PFSquareSansPro-LightItalic.woff") format("woff"),
+    url("fontes/PFSquareSansPro-LightItalic.otf") format("opentype"),
+    url("fontes/PFSquareSansPro-LightItalic.svg#filename") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "MedItalic";
+  src: url("fontes/PFSquareSansPro-MedItalic.otf");
+  src: local("☺"),
+    url("fontes/PFSquareSansPro-MedItalic.woff") format("woff"),
+    url("fontes/PFSquareSansPro-MedItalic.otf") format("opentype"),
+    url("fontes/PFSquareSansPro-MedItalic.svg#filename") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Medium";
+  src: url("fontes/PFSquareSansPro-Medium.otf");
+  src: local("☺"),
+    url("fontes/PFSquareSansPro-Medium.woff") format("woff"),
+    url("fontes/PFSquareSansPro-Medium.otf") format("opentype"),
+    url("fontes/PFSquareSansPro-Medium.svg#filename") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Regular";
+  src: url("fontes/PFSquareSansPro-Regular.otf");
+  src: local("☺"),
+    url("fontes/PFSquareSansPro-Regular.woff") format("woff"),
+    url("fontes/PFSquareSansPro-Regular.otf") format("opentype"),
+    url("fontes/PFSquareSansPro-Regular.svg#filename") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Thin";
+  src: url("fontes/PFSquareSansPro-Thin.otf");
+  src: local("☺"),
+    url("fontes/PFSquareSansPro-Thin.woff") format("woff"),
+    url("fontes/PFSquareSansPro-Thin.otf") format("opentype"),
+    url("fontes/PFSquareSansPro-Thin.svg#filename") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "ThinItalic";
+  src: url("fontes/PFSquareSansPro-ThinItalic.otf");
+  src: local("☺"),
+    url("fontes/PFSquareSansPro-ThinItalic.woff") format("woff"),
+    url("fontes/PFSquareSansPro-ThinItalic.otf") format("opentype"),
+    url("fontes/PFSquareSansPro-ThinItalic.svg#filename") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "XBlack";
+  src: url("fontes/PFSquareSansPro-XBlack.otf");
+  src: local("☺"),
+    url("fontes/PFSquareSansPro-XBlack.woff") format("woff"),
+    url("fontes/PFSquareSansPro-XBlack.otf") format("opentype"),
+    url("fontes/PFSquareSansPro-XBlack.svg#filename") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "XBlackItal";
+  src: url("fontes/PFSquareSansPro-XBlackItal.otf");
+  src: local("☺"),
+    url("fontes/PFSquareSansPro-XBlackItal.woff") format("woff"),
+    url("fontes/PFSquareSansPro-XBlackItal.otf") format("opentype"),
+    url("fontes/PFSquareSansPro-XBlackItal.svg#filename") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}

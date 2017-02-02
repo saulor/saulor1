@@ -1,0 +1,110 @@
+<?php foreach ($params['objetos'] as $obj) { ?>
+<tr id="tr<?php echo $obj['id']; ?>">
+	<th scope="row"><small><?php echo $iniCount++; ?></small></th>
+	<td class="">
+		<a target="_blank" href="?modulo=preinscricoes&acao=visualizar&curso=<?php echo $obj['idCurso']; ?>">
+			<?php echo $obj['nomeCurso']; ?>
+		</a>
+	</td>
+	<td>
+		<a target="_blank" href="?modulo=preinscricoes&acao=cadastrar&curso=<?php echo $obj['idCurso']; ?>&id=<?php echo $obj['id']; ?>&tab1=<?php echo $obj['status']; ?>">
+			<?php echo $obj['nome']; ?>
+		</a>
+		<?php if (Funcoes::diferencaDatas(date('Y-m-d'), $obj['data']) == 0) { ?>
+		<br />
+		<span class="label label-warning hint--info hint--bottom-right" 
+			data-hint="Inscrição realizada hoje">Nova</span>
+		<?php } ?>
+		<?php if ($obj['visualizada'] == 0) { ?>
+		<br />
+		<span class="label label-warning hint--info hint--bottom-right" 
+			data-hint="Inscrição ainda não foi visualizada">Não visualizada</span>
+		<?php } if ($obj['status'] == Preinscricao::PREINSCRICAO_STATUS_INTERESSADO) { ?>
+		<?php if (Funcoes::diferencaDatas(date('Y-m-d'), $obj['dataRetorno']) == 0) { ?>
+		<br />
+		<span class="label label-nota hint--info hint--bottom-right" 
+			data-hint="Melhor horário <?php echo $obj['horarioRetorno']; ?>">Retornar hoje</span>
+		<?php } else if (!empty($obj['dataRetorno'])) { ?>
+		<br />
+		<span class="label label-nota hint--info hint--bottom-right" 
+			data-hint="Melhor horário <?php echo $obj['horarioRetorno']; ?>">Retornar <?php echo $obj['dataRetornoFormatada']; ?></span>
+		<?php }} ?>
+	</td>
+	<td class="center">
+		<?php echo Preinscricao::getStatus($obj['status']); ?>
+	</td>
+	<td class="situacao-resumo center tooltp right">
+		<?php if ($obj['status'] == Preinscricao::PREINSCRICAO_STATUS_INTERESSADO) { ?>
+		<span><?php echo Situacao::getTipo($obj['tipoSituacao']); ?></span>
+		<?php if ($obj['idSituacao'] == 0) { ?>
+		<br />
+		<a href="">
+            <div class="add-situacao small item"
+            	data-after="atualizaSituacao"
+            	data-tr="tr<?php echo $obj['id']; ?>"
+            	data-id="0" 
+            	data-tipo="0" 
+            	data-inscricao="<?php echo $obj['id']; ?>" 
+            	data-status="<?php echo $obj['status']; ?>"
+            	data-curso="<?php echo $obj['idCurso']; ?>"
+            	data-nomecurso="<?php echo $obj['curso']; ?>" data-nome="<?php echo $obj['nome']; ?>" data-usuario="<?php echo $_SESSION[PREFIX . "loginId"]; ?>">
+                <span class="ti-pencil-alt"></span>
+                <span class="icon-name">Situação de inscrição</span>
+            </div>
+        </a>
+		<?php } else { ?>
+		<div class="tip right">
+			<?php 
+				echo Situacao::getResumo(array(
+						'id' => $obj['idSituacao'],
+						'inscricao' => $obj['id'],
+						'motivo' => $obj['motivo'],
+						'tipo' => $obj['tipoSituacao'],
+						'cidade' => $obj['cidadeSituacao'],
+						'estado' => $obj['estadoSituacao'],
+						'observacoes' => $obj['obsSituacao'],
+						'data' => $obj['dataRetorno'],
+						'horario' => $obj['horarioRetorno'],
+						'nomeUsuario' => $obj['nomeUsuarioSituacao'],
+						'timestampDataC' => $obj['timestampDataCSituacao'],
+						'status' => $obj['status'],
+						'idCurso' => $obj['idCurso'],
+						'nome' => $obj['nome'],
+						'idUsuario' => $obj['idUsuarioSituacao'],
+						'nomeCurso' => $obj['curso']
+					), 'atualizaSituacao'
+				);
+			?>
+		</div>
+		<?php }} ?>
+	</td>
+	<td><?php echo $obj['responsavelNome']; ?></td>
+	<td>
+		<?php 
+			$telefones = array();
+			if (!empty($obj['telefoneResidencial'])) {
+				$telefones[]= $obj['telefoneResidencial'];
+			}
+			if (!empty($obj['telefoneCelular'])) {
+				$telefones[]= $obj['telefoneCelular'];
+			}
+			if (!empty($obj['telefone'])) {
+				$telefones[]= $obj['telefone'];
+			}
+			echo '<small>' . implode('<br />', $telefones) . '</small>'; 
+		?>
+	</td>
+	<td><?php echo $obj['horario']; ?></td>
+	<td class="center"><?php echo $obj['nomeUnidade']; ?></td>
+	<td class="center"><?php echo $obj['siglaEstado']; ?></td>
+	<td class="tooltp left">
+		<span><?php echo Funcoes::compactaTexto($obj['observacoes'], 15); ?></span>
+		<?php if (!empty($obj['observacoes'])) { ?>
+		<div class="tip right">
+			<?php echo $obj['observacoes']; ?>
+		</div>
+		<?php } ?>
+	</td>
+	<td class="center"><?php echo $obj['dataF']; ?></td>
+</tr>
+<?php } ?>

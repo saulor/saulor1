@@ -1,0 +1,252 @@
+<div class="grid">
+	<div class="col-2-12">
+		<div class="content">
+			<small>
+				<strong id="inicio">
+					<?php if (isset($inicio)) echo $inicio; ?>
+				</strong> &rsaquo;
+				<strong id="fim">
+					<?php if (isset($fim)) echo $fim; ?>
+				</strong> de
+				<strong id="quantidade">
+					<?php if (isset($quantidade)) echo $quantidade; ?>
+				</strong> registro(s)
+			</small>
+		</div>
+	</div>
+</div>
+
+<?php if (isset($quantidade) && $quantidade > QUANTIDADE_POR_PAGINA) { ?>
+<form method="GET">
+	<div class="grid">
+		<div class="col-1-12">
+			<div class="content">
+				<label for="Exibir">Exibir:</label>
+			</div>
+		</div>
+		<div class="col-1-12">
+			<div class="content">
+				<?php
+					foreach ($_GET as $key => $value) {
+						if (!in_array($key, array("exibir", "p"))) {
+					    	echo '<input type="hidden" name="' . $key . '" value="' . $value . '"/>';
+					    }
+					}
+				?>
+				<input id="exibir" class="form-control" size="10" type="text" name="exibir" value="<?php if (isset($_GET["exibir"])) echo $_GET["exibir"]; ?>" />
+			</div>
+		</div>
+		<div class="col-2-12">
+			<div class="content">
+				<input class="btn btn-default" type="submit" value="Ok" />
+			</div>
+		</div>
+	</div>
+</form>
+<?php } ?>
+
+<?php if (isset($table['planilha']) && count($table["planilha"]) > 0) { ?>
+<form id="planilha" method="POST" action="?modulo=<?php echo $modulo; ?>&acao=planilha">
+	<div class="grid">
+		<div class="col-1-12">
+			<div class="content">
+				<label for="Planilha">Planilha:</label>
+			</div>
+		</div>
+		<div class="col-10-12">
+			<div class="content">
+				<?php
+					foreach ($_GET as $key => $value) {
+						if (!in_array($key, array("modulo", "acao"))) {
+					    	echo '<input type="hidden" name="' . $key . '" value="' . $value . '"/>';
+					    }
+					}
+				?>
+				<fieldset id="planilha">
+					<label class="checkbox-inline">
+						<input name="colunas[]" type="checkbox" id="tudo" onclick="marcarDesmarcar(this, 'planilha')" value="-1" /> <small>Tudo</small>
+					</label>
+					<?php
+						foreach ($table['planilha'] as $key => $value) {
+							echo '<label class="checkbox-inline">';
+							echo '<input name="colunas[]" type="checkbox" value="' . $key . '" /> <small>' . $value;
+							echo '</small></label>';
+						}
+					?>
+				</fieldset>
+			</div>
+		</div>
+		<div class="col-1-12">
+			<div class="content">
+				<input class="btn btn-default" type="submit" value="Ok" />
+			</div>
+		</div>
+	</div>
+</form>
+<?php } ?>
+
+<form id="form-list" method="POST" action="?modulo=<?php echo $modulo; ?>&acao=opcoes<?php if(isset($_GET['p'])) echo '&p=' . $_GET['p']; if(isset($_GET['order'])) echo '&order=' . $_GET['order']; if(isset($_GET['exibir'])) echo '&exibir=' . $_GET['exibir']; if(isset($table['fields'])) echo '&nome=' . key($table['fields']); ?>">
+
+	<?php if (isset($table["acoesMassa"]) && count($table["acoesMassa"]) > 0) { ?>
+	<div class="grid">
+		<div class="col-1-12">
+			<div class="content">
+				<label for="Ações">Ações:</label>
+			</div>
+		</div>
+		<div class="col-5-12">
+			<div class="content">
+				<select class="form-control" name="acoes">
+				    <option value="">--Selecione a ação--</option>
+				    <?php
+				    	foreach ($table["acoesMassa"] as $key => $value) {
+				    		echo '<option value="' . $key . '">' . $value . '</option>';
+				    	}
+				    ?>
+				</select>
+			</div>
+		</div>
+		<div class="col-2-12">
+			<div class="content">
+				<input class="btn btn-default" type="submit" value="Aplicar" />
+			</div>
+		</div>
+    </div>
+    <?php } ?>
+
+    <?php
+        $qString = array();
+        foreach (explode("&", $_SERVER['QUERY_STRING']) as $queryString) {
+        	$chave = explode("=", $queryString);
+        	if ($chave[0] != 'p') {
+        		$qString[] = $queryString;
+        	}
+        }
+        if ($quantidade > $quantidadePorPagina) {
+        	echo paginacao($quantidade, $quantidadePorPagina, $pagina, implode("&", $qString));
+        }
+    ?>
+
+    <div<?php if (isset($table["id"])) echo ' id="' . $table["id"] . '"'; if (isset($table["class"])) echo ' class="' . $table["class"] . '"'; ?> style="width: 100%;">
+	    <table class="table">
+		    <thead>
+		        <tr>
+					<th>&nbsp;</th>
+					<?php if (isset($table["acoesMassa"])) { ?>
+		            <th class="checkboxes">
+		                <input type="checkbox" name="objetos[]" value="-1" onClick="selecionarTodos(this)"/>
+		            </th>
+		            <?php
+		            }
+	            	foreach ($table['fields'] as $nomeCampo => $f) {
+	            		echo '<th';
+	            		if (isset($f['align'])) {
+	            			echo ' class="' . $f['align'] . '"';
+	            		}
+	            		echo '>';
+	            		if (isset($f['order'])) {
+	            			echo '<a href="?';
+	            			$gets = array();
+	            			foreach ($_GET as $key => $value) {
+	            				if (!in_array($key, array('order'))) {
+	            					$gets[] = $key . '=' . $value;
+	            				}
+	            			}
+	            			echo implode('&', $gets);
+	            			echo '&order=' . $nomeCampo . '">';
+	            		}
+
+	            		echo '<strong>';
+	            		echo isset($f["title"]) ? $f["title"] : ucfirst($nomeCampo);
+	            		echo '</strong>';
+
+	            		if (isset($f['order'])) {
+	            			echo '</a>';
+	            		}
+	            		echo '</th>';
+	            	}
+
+	            	if (isset($table["acoes"])) {
+		            ?>
+		            <th class="acoes" colspan="<?php echo count($table['acoes']); ?>"><strong>Ações</strong></th>
+		            <?php } ?>
+		        </tr>
+		    </thead>
+		    <tbody>
+			    <tr id="buscaAjax" class="aaa">
+
+			    	<?php
+			    		foreach ($_GET as $key => $value) {
+			    			if (!in_array($key, array('acao'))) {
+			    				echo '<input type="hidden" name="' . $key . '" value="' . $value . '" />';
+			    			}
+			    		}
+			    	?>
+
+			    	<td>
+			    		<img class="ajax-loader" src="imagens/ajax-loader-white-transparent.gif">
+			    	</td>
+
+			    	<?php if (isset($table["acoesMassa"])) { ?>
+			    	<td>&nbsp;</td>
+			    	<?php } ?>
+
+			    	<?php
+			    		foreach ($table["fields"] as $key => $f) {
+			    			echo '<td>';
+			    			if (isset($f["ajax"])) {
+			    				echo '<input class="form-control';
+			    				if(isset($f["class"])) {
+			    					echo ' ' . $f['class'];
+			    				}
+			    				echo '" type="text" placeholder="Pesquisar por ';
+			    				echo isset($f["title"]) ? $f["title"] : '';
+			    				echo '" name="' . $key . '" ';
+									echo 'onkeyup="pesquisaAjax(1, \'views/' . $modulo . '/' . $f["ajax"] . '\')"';
+									echo ' />';
+			    			}
+			    			echo '</td>';
+			    		}
+			    		if (isset($table["acoes"])) {
+			    			echo '<td>&nbsp;</td>';
+			    		}
+			    	?>
+			    </tr>
+			    <?php
+			    	include('rows-listagem.phtml');
+			    	echo $rows;
+			    ?>
+		    </tbody>
+	    </table>
+    </div>
+</form>
+
+<br />
+
+<?php if (isset($table["imprimir"]) && count($table["imprimir"]) > 0) { ?>
+
+<div id="impressao" class="grid">
+	<p>Imprimir em:</p>
+	<?php
+		foreach ($table["imprimir"] as $tipo => $opcao) {
+			echo '<div>';
+			echo '<img src="imagens/' . $tipo . '-icon.gif" />';
+			echo '<a href="?modulo=' . $modulo . '&acao=' . $opcao["acao"] . '"';
+			echo ' title="Imprimir listagem em ' . mb_strtoupper($tipo, 'utf-8') . '">' . mb_strtoupper($tipo, 'utf-8') . '</a>';
+			echo '</div>';
+
+		}
+	?>
+</div>
+
+<br />
+
+<?php } ?>
+
+<br /><br />
+
+<?php
+    if (isset($quantidade) && $quantidade > $quantidadePorPagina) {
+    	echo paginacao($quantidade, $quantidadePorPagina, $pagina, implode("&", $qString));
+    }
+?>

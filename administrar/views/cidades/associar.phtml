@@ -1,0 +1,258 @@
+<?php
+	$params = $this->getParams();
+	$modulo = $_GET['modulo'];
+	$estado = $params['estado'];
+	$cidade = $params['cidade'];
+	$objeto = $params['objeto'];
+?>
+
+<div class="grid">
+	<div class="col-1-1">
+		<div class="content">
+
+			<form method="POST">
+
+				<input type="hidden" name="id" value="<?php echo $objeto->id; ?>" />
+				<input type="hidden" name="cidade" value="<?php echo $cidade->id; ?>" />
+				
+				<div class="grid">
+					<div class="col-2-12">
+						<div class="content">
+							<label for="Ativa">Ativo:</label>
+						</div>
+					</div>
+					<div class="col-4-12">
+						<div class="content">
+							<input type="hidden" name="status" value="0" />
+							<input type="checkbox" name="status" 
+								value="1"<?php if ($objeto->status == 1) echo ' checked'; ?> />
+						</div>
+					</div>
+				</div>
+
+				<div class="grid">
+					<div class="col-2-12">
+						<div class="content">
+							<label for="Curso">Curso:</label>
+						</div>
+					</div>
+					<div class="col-10-12">
+						<div class="content">
+							<select name="curso" class="form-control">
+								<option value="">--Selecione--</option>
+								<?php 
+									foreach ($params['cursos'] as $curso) {
+										$op = '<option';
+										if ($objeto->curso == $curso->id) {
+											$op .= ' selected';
+										}
+										$op .= ' value="%d">%s</option>';
+										echo sprintf($op, $curso->id, $curso->nome);
+									}
+								?>
+							</select>
+						</div>
+					</div>
+				</div>
+
+				<div class="grid">
+					<div class="col-2-12">
+						<div class="content">
+							<label for="Quantidade de módulos">Quantidade de módulos:</label>
+						</div>
+					</div>
+					<div class="col-1-12">
+						<div class="content">
+							<input name="quantidadeModulos" class="form-control" type="text" 
+								value="<?php echo $objeto->quantidadeModulos; ?>" 
+								placeholder="Quantidade de módulos" />
+						</div>
+					</div>
+					<div class="col-2-12">
+						<div class="content">
+							<label for="Previsão de início">Previsão de início:</label>
+						</div>
+					</div>
+					<div class="col-2-12">
+						<div class="content">
+							<input name="previsaoInicio" class="form-control datepicker" 
+								type="text" value="<?php echo $objeto->previsaoInicio; ?>" 
+								placeholder="Previsão de Início" />
+						</div>
+					</div>
+					<div class="col-2-12">
+						<div class="content">
+							<label for=" do curso">Duração do curso:</label>
+						</div>
+					</div>
+					<div class="col-3-12">
+						<div class="content">
+							<input name="duracao" class="form-control" type="text" 
+								value="<?php echo $objeto->duracao; ?>" 
+								placeholder="Duracão do curso" />
+						</div>
+					</div>
+				</div>
+
+				<div class="grid">
+					
+					<div class="col-2-12">
+						<div class="content">
+							<label for="Valor Desconto (R$)">Desconto R$:</label>
+						</div>
+					</div>
+					<div class="col-1-12">
+						<div class="content">
+							<input name="valorDesconto" placeholder="Valor do desconto" 
+								class="form-control money" type="text" 
+								value="<?php echo $objeto->valorDesconto; ?>" />
+						</div>
+					</div>
+					<div class="col-2-12">
+						<div class="content">
+							<label for="Valor Inscrição (R$)">Inscrição R$:</label>
+						</div>
+					</div>
+					<div class="col-2-12">
+						<div class="content">
+							<input name="valorInscricao" placeholder="Valor da inscrição" 
+								class="form-control money" type="text" 
+								value="<?php echo $objeto->valorInscricao; ?>" />
+						</div>
+					</div>
+					<div class="col-2-12">
+						<div class="content">
+							<label for="Valor Curso (R$)">Curso R$:</label>
+						</div>
+					</div>
+					<div class="col-3-12">
+						<div class="content">
+							<input name="valorCurso" id="valorCurso" placeholder="Valor do curso" 
+								class="form-control money" type="text" 
+								value="<?php echo $objeto->valorCurso; ?>" />
+						</div>
+					</div>
+				</div>
+
+				<div class="grid">
+					<div class="col-2-12">
+						<div class="content">
+							<label for="Quantidade de Parcelas:">Parcelas:</label>
+						</div>
+					</div>
+					<div class="col-5-12">
+						<div class="content">
+							<input name="quantidadeParcelas" id="quantidadeParcelas" 
+								class="form-control parcelas" type="text" 
+								value="<?php echo $objeto->quantidadeParcelas; ?>" 
+								placeholder="Quantidade de parcelas" />
+							<small class="destaque">Separadas por vírgula</small></label>
+						</div>
+					</div>
+					<div class="col-2-12">
+						<div class="content">
+							<label for="Carga horária">Carga horária:</label>
+						</div>
+					</div>
+					<div class="col-3-12">
+						<div class="content">
+							<input name="cargaHoraria" class="form-control numeros" 
+								type="text" value="<?php echo $objeto->cargaHoraria; ?>" 
+								placeholder="Carga horária do curso" />
+							<small class="destaque">horas</small></label>
+						</div>
+					</div>
+				</div>
+
+				<div class="grid">
+					<div class="col-2-12">
+						<div class="content">&nbsp;</div>
+					</div>
+					<div class="col-10-12" id="parcela-valor">
+					</div>
+				</div>
+
+				<input class="btn btn-default" type="submit" value="Associar" />
+			</form>
+		</div>
+	</div>
+</div>
+
+<div class="grid">
+	<div class="col-1-1">
+		<div class="content">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>&nbsp;</th>
+						<th><strong>Nome curso</strong></th>
+						<th class="center"><strong>Valor do curso</strong></th>
+						<th class="center"><strong>Valor do desconto</strong></th>
+						<th class="center"><strong>Quantidade de parcelas</strong></th>
+						<th class="center"><strong>Quantidade de módulos</strong></th>
+						<th class="center"><strong>Duração do curso</strong></th>
+						<th class="center"><strong>Carga horária</strong></th>
+						<th class="center"><strong>Ações</strong></th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach($params['cursosAssociados'] as $key => $objeto) { ?>
+						<tr id="tr<?php echo $objeto->id; ?>">
+						  <th scope="row">
+						    <small><?php echo ++$key; ?></small>
+						  </th>
+						  <td>
+						    <a<?php if ($objeto->status == 0) echo ' class="desativada"'; ?> href="?modulo=<?php echo $modulo; ?>&acao=associar&cidade=<?php echo $cidade->id; ?>&estado=<?php echo $estado->id; ?>&id=<?php echo $objeto->id; ?>"><?php echo $objeto->nomeCurso; ?></a><br /><small><?php echo Curso::getTipo($objeto->tipoCurso); ?></small>
+						  </td>
+						  <td class="center"><?php echo $objeto->valorCurso; ?></td>
+						  <td class="center"><?php echo $objeto->valorDesconto; ?></td>
+						  <td class="center"><?php echo $objeto->quantidadeParcelas; ?></td>
+						  <td class="center"><?php echo $objeto->quantidadeModulos; ?></td>
+						  <td class="center"><?php echo $objeto->duracao; ?></td>
+						  <td class="center"><?php echo $objeto->cargaHoraria; ?> horas</td>
+						  <td class="center">
+						    <a class="excluir-click" target="_self" 
+						      href="?modulo=<?php echo $modulo; ?>&acao=desfazer&id=<?php echo $objeto->id; ?>">Desfazer</a>
+						  </td>
+						</tr>
+						<?php } ?>
+				</tbody>
+          </table>
+		</div>
+	</div>
+</div>
+
+<script>
+	/**
+	 * Number.prototype.format(n, x, s, c)
+	 * 
+	 * @param integer n: length of decimal
+	 * @param integer x: length of whole part
+	 * @param mixed   s: sections delimiter
+	 * @param mixed   c: decimal delimiter
+	*/
+	Number.prototype.format = function(n, x, s, c) {
+	    var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\D' : '$') + ')',
+	        num = this.toFixed(Math.max(0, ~~n));
+
+	    return (c ? num.replace('.', c) : num).replace(new RegExp(re, 'g'), '$&' + (s || ','));
+	};
+
+	$('#quantidadeParcelas').on('keyup', function(){
+		var pattern = /^([0-9]+)+(,[0-9]+)*$/g;
+		if (pattern.test($(this).val())) {
+			var valorCurso = $('#valorCurso').val().replace(".", "");
+			valorCurso = parseFloat(valorCurso.replace(",", "."));
+			var parcelas = $(this).val();
+			var arrayParcelas = parcelas.split(',');
+			var valores = [];
+			for (parcela in arrayParcelas) {
+				var vP = valorCurso / arrayParcelas[parcela];
+				var valor = arrayParcelas[parcela] + ' x ' + 'R$ ' + vP.format(2, 3, '.', ','); 
+				valores.push(valor);
+			}
+			$('#parcela-valor').html(valores.join(' | '));
+		}
+	});
+	$('#quantidadeParcelas').trigger('keyup');
+</script>

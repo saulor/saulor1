@@ -1,0 +1,242 @@
+<?php
+	$params = $this->getParams();
+	$curso = $params["objeto"];
+?>
+
+<form method="post" enctype="multipart/form-data">
+
+	<input type="hidden" name="id" value="<?php echo $curso->id; ?>" />
+	<input type="hidden" name="tipo" value="<?php echo Curso::CURSO_TIPO_APERFEICOAMENTO; ?>" />
+
+	<div class="grid">
+		<div class="col-2-12">
+		   <div class="content">
+		   		<label for="Ativo">Ativo:</label>
+		   </div>
+	  	</div>
+		<div class="col-2-12">
+			<div class="content">
+				<input type="hidden" name="status" value="0" />
+				<input type="checkbox" name="status" value="1"<?php if ($curso->status == 1) echo ' checked'; ?> />
+			</div>
+		</div>
+	</div>
+
+	<div class="grid">
+		<div class="col-2-12">
+		   <div class="content">
+		   		<label for="Unidade Certificadora">Unidade Certificadora:</label>
+		   </div>
+	  	</div>
+		<div class="col-2-12">
+			<div class="content">
+				<select class="form-control" name="unidadeCertificadora">
+					<option value="">--Selecione--</option>
+					<?php
+						foreach (Curso::getCertificadoras() as $key => $value) {
+							echo '<option';
+							if ($curso->unidadeCertificadora == $key) {
+								echo ' selected';
+							}
+							echo ' value="' . $key . '">' . $value . '</option>';
+
+						}
+					?>
+				</select>
+			</div>
+		</div>
+	</div>
+
+	<div class="grid">
+		<div class="col-2-12">
+		   <div class="content">
+		   		<label for="Área">Área:</label>
+		   </div>
+	  	</div>
+		<div class="col-2-12">
+			<div class="content">
+				<select class="form-control" name="area">
+					<option value="">--Selecione--</option>
+					<?php
+						foreach (Curso::getAreas() as $key => $value) {
+							echo '<option';
+							if ($curso->area == $key) {
+								echo ' selected';
+							}
+							echo ' value="' . $key . '">' . $value . '</option>';
+
+						}
+					?>
+				</select>
+			</div>
+		</div>
+	</div>
+
+	<div class="grid">
+		<div class="col-2-12">
+		   <div class="content">
+		   		<label for="Categoria">Categoria:</label>
+		   </div>
+	  	</div>
+		<div class="col-3-12">
+			<div class="content">
+				<select class="form-control" name="categoria">
+					<option value="">--Selecione--</option>
+					<?php
+						foreach ($params['categorias'] as $categoria) {
+							echo '<option';
+							if ($curso->categoria == $categoria->id) {
+								echo ' selected';
+							}
+							echo ' value="' . $categoria->id . '">' . $categoria->nome . '</option>';
+							
+						}
+					?>
+				</select>
+			</div>
+		</div>
+	</div>
+
+	<div class="grid">
+		<div class="col-2-12">
+		   <div class="content">
+		   		<label for="Nome">Nome:</label>
+		   </div>
+	  	</div>
+		<div class="col-7-12">
+			<div class="content">
+				<input class="form-control" name="nome" type="text" value="<?php echo $curso->nome; ?>" size="60" autofocus="autofocus" placeholder="Nome do Curso"/>
+			</div>
+		</div>
+	</div>
+
+	<div class="grid">
+		<div class="col-2-12">
+		   <div class="content">
+		   		<label for="Link">Link:</label>
+		   </div>
+	  	</div>
+		<div class="col-7-12">
+			<div class="content">
+				<input class="form-control" name="link" type="text" value="<?php echo $curso->link; ?>" readonly="readonly" placeholder="Link de Acesso" />
+			</div>
+		</div>
+	</div>
+
+	<div class="grid">
+		<div class="col-2-12">
+		   <div class="content">
+		   		<label for="Descrição">Descrição:</label>
+		   </div>
+	  	</div>
+		<div class="col-10-12">
+			<div class="content">
+				<textarea class="ckeditor" name="descricao"><?php echo $curso->descricao; ?></textarea>
+			</div>
+		</div>
+	</div>
+
+	<div class="grid">
+		<div class="col-2-12">
+		   <div class="content">
+		   		<label for="Público Alvo">Público Alvo:</label>
+		   </div>
+	  	</div>
+		<div class="col-10-12">
+			<div class="content">
+				<textarea class="ckeditor" name="publicoAlvo"><?php echo $curso->publicoAlvo; ?></textarea>
+			</div>
+		</div>
+	</div>
+
+	<div class="grid">
+		<div class="col-2-12">
+		   <div class="content">
+		   		<label for="Público Alvo Resumido">Público Alvo Resumido:</label>
+		   </div>
+	  	</div>
+		<div class="col-10-12">
+			<div class="content">
+				<textarea class="editor" data-toolbar="basic" id="publicoAlvoResumido" name="publicoAlvo"><?php echo $curso->publicoAlvoResumo; ?></textarea>
+			</div>
+		</div>
+	</div>
+
+	<div class="grid">
+		<div class="col-2-12">
+		   <div class="content">
+		   		<label for="Objetivos">Objetivos:</label>
+		   </div>
+	  	</div>
+		<div class="col-10-12">
+			<div class="content">
+				<textarea class="ckeditor" name="objetivosGerais"><?php echo $curso->objetivosGerais; ?></textarea>
+			</div>
+		</div>
+	</div>
+
+	<div class="grid">
+		<div class="col-2-12">
+		   <div class="content">
+		   		<label for="Objetivos Específicos">Objetivos Específicos:</label>
+		   </div>
+	  	</div>
+		<div class="col-10-12">
+			<div class="content">
+				<textarea class="editor" data-toolbar="basic" id="objetivosEspecificos" name="objetivosEspecificos"><?php echo $curso->objetivosEspecificos; ?></textarea>
+			</div>
+		</div>
+	</div>
+
+	<div class="grid">
+		<div class="col-2-12">
+		   <div class="content">
+		   		<label for="Facilitadores/Professores">Facilitadores/Professores:</label>
+		   </div>
+	  	</div>
+		<div class="col-10-12">
+			<div class="content">
+				<textarea class="editor" data-toolbar="basic" id="facilitadoresProfessores" name="facilitadoresProfessores"><?php echo $curso->facilitadoresProfessores; ?></textarea>
+			</div>
+		</div>
+	</div>
+
+	<div class="grid">
+		<div class="col-2-12">
+		   <div class="content">
+		   		<label for="Conteúdo Programático">Conteúdo Programático:</label>
+		   </div>
+	  	</div>
+		<div class="col-10-12">
+			<div class="content">
+				<textarea class="ckeditor" name="disciplinas"><?php echo $curso->disciplinas; ?></textarea>
+			</div>
+		</div>
+	</div>
+
+	<div class="grid">
+		<div class="col-2-12">
+		   <div class="content">
+		   		<label for="Local">Local e horários:</label>
+		   </div>
+	  	</div>
+		<div class="col-10-12">
+			<div class="content">
+				<textarea class="ckeditor" name="localHorarios"><?php echo $curso->localHorarios; ?></textarea>
+			</div>
+		</div>
+	</div>
+
+	<div class="grid">
+		<div class="col-2-12">
+		   <div class="content">
+		   		&nbsp;		   </div>
+	  	</div>
+		<div class="col-10-12">
+			<div class="content">
+				<input class="btn btn-default" type="submit" value="Salvar">
+			</div>
+		</div>
+	</div>
+
+</form>

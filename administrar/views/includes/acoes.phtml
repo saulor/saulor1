@@ -1,0 +1,28 @@
+<?php if (isset($acoes)) { ?>
+
+<div class="grid">
+  <div class="col-1-12">
+    <div class="content">
+      <label for="Ações">Ações:</label>
+    </div>
+  </div>
+  <div class="col-5-12">
+    <div class="content">
+      <select class="form-control" name="acoes">
+          <option value="">--Selecione a ação--</option>
+          <?php
+            foreach ($acoes as $key => $value) {
+              echo '<option value="' . $key . '">' . $value . '</option>';
+            }
+          ?>
+      </select>
+    </div>
+  </div>
+  <div class="col-2-12">
+    <div class="content">
+      <input class="btn btn-default" type="submit" value="Aplicar" />
+    </div>
+  </div>
+</div>
+
+<?php } ?>

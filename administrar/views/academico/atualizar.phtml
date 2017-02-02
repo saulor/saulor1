@@ -1,0 +1,60 @@
+<?php
+	$params = $this->getParams();
+	$objeto = $params["objeto"];
+?>
+
+<form method="post">
+
+	<input type="hidden" name="id" value="<?php echo $objeto->id; ?>" />
+	
+	<div class="grid">
+		<div class="col-1-12">
+		   <div class="content">
+		   		<label for="CPF">CPF:</label>
+		   </div>
+	  	</div>
+		<div class="col-3-12">
+			<div class="content">
+				<input class="form-control cpf" type="text" name="cpf" value="<?php echo $objeto->cpf; ?>" />
+			</div>
+		</div>
+	</div>
+	<div class="grid">
+		<div class="col-1-12">
+		   <div class="content">
+		   		<label for="CPF">E-mail:</label>
+		   </div>
+	  	</div>
+		<div class="col-6-12">
+			<div class="content">
+				<input class="form-control" type="text" name="email" value="<?php echo $objeto->email; ?>" />
+			</div>
+		</div>
+	</div>
+	
+	<div class="grid">
+		<div class="col-1-12">
+		   <div class="content">
+		   		<label for="Senha">Senha:</label>
+		   </div>
+		</div>
+		<div class="col-3-12">
+			<div class="content">
+				<input class="form-control" type="password" name="senha" />
+			</div>
+		</div>
+	</div>
+	
+	<div class="grid">
+		<div class="col-1-12">
+		   <div class="content">
+		   		&nbsp;
+		   </div>
+	  	</div>
+		<div class="col-2-12">
+			<div class="content">
+				<input class="btn btn-default" type="submit" value="Cadastrar" />
+			</div>
+		</div>
+	</div>
+</form>

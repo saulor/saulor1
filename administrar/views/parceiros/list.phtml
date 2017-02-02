@@ -1,0 +1,68 @@
+<?php
+
+$table = array(
+	'fields' => array(
+		'nome' => array(
+			'content' => 'return empty($objeto["nome"]) ? $objeto["nomeFantasia"] : $objeto["nome"];',
+			'link' => array(
+				'condition' => 'return checaPermissao(\'profissionais\',\'cadastrar\',$_SESSION[PREFIX . "permissoes"]);',
+				'qsParams' => array(
+					'modulo' => $modulo,
+					'acao' => 'cadastrar',
+					'id' => 'return $objeto["id"];',
+				)
+			),
+			'infos' => 'return $objeto["infos"];',
+			'title' => 'Nome/Nome Fantasia',
+			'ajax' => 'ajax.php',
+			'links' => array(
+				'Formulário' => array(
+					'condition' => 'return checaPermissao(\'profissionais\',\'imprimir\',$_SESSION[PREFIX . "permissoes"]);',
+					'qsParams' => array(
+						'modulo' => $modulo,
+						'acao' => 'imprimir',
+						'q' => 'formulario',
+						'id' => 'return $objeto["id"];',
+						'tipo' => 'return $objeto["tipo"];'
+					)
+				),
+				'E-mail' => array(
+					'condition' => 'return checaPermissao(\'profissionais\',\'email\',$_SESSION[PREFIX . "permissoes"]);',
+					'qsParams' => array(
+						'modulo' => $modulo,
+						'acao' => 'email',
+						'id' => 'return $objeto["id"];',
+					)
+				)
+			)
+		),
+		'telefones' => array(
+			'content' => 'return $objeto["telefoneResidencial"] . "<br />" . $objeto["telefoneCelular"];',
+			'align' => 'center',
+		),
+		'email' => array(
+			'content' => 'return $objeto["email"];',
+			'ajax' => 'ajax.php',
+		),
+		'data' => array(
+			'content' => 'return date("d/m/Y", $objeto["timestamp"]);',
+			'ajax' => 'ajax.php',
+			'class' => 'data',
+			'align' => 'center',
+			'order' => true
+		)
+	),
+	'acoes' => array(
+		'Excluir' => array(
+			'class' => 'excluir-click',
+			'qsParams' => array(
+				'modulo' => $modulo,
+				'acao' => 'excluir',
+				'id' => 'return $objeto["id"];',
+			)
+		)
+	),
+	'acoesMassa' => $acoesMassa
+);
+
+?>

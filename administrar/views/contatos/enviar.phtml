@@ -1,0 +1,22 @@
+<?php
+	$params = $this->getParams();
+	
+	if (!empty($params['cc'])) {
+		$cc = explode(",",  $params['cc']);
+		echo '<p class="destaque small" style="margin-top:11px;">O e-mail será enviado com cópia(s) para: ' . implode(", ", $cc) . '</p>';
+	} 
+	
+	echo $email = $params["email"];
+?>
+
+<style>
+#html {font-family: Georgia,serif; font-size: 0.9em; width: 675px;}
+#html tr:nth-child(4) td {background-color: #fff;}
+#html td img {display: block;}
+</style>
+
+<form method="post">
+	<br />
+	<input class="btn btn-default" type="submit" value="Editar" name="botao" />
+	<input class="btn btn-default" type="submit" value="Enviar" name="botao" />
+</form>

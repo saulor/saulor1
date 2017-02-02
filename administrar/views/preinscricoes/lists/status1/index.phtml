@@ -1,0 +1,75 @@
+<ul id="situacoes" class="tabs2 nav nav-pills" role="tablist"></ul>
+
+<div id="loader" class="hidden">
+	<img src="imagens/gears.gif" style="display:block;margin:30px auto;" />
+</div>
+
+<style>
+	#tab-content-status-1 .grid {
+		border-top:1px solid #DCA; 
+		margin-top: 3px;
+		position: relative !important;
+		z-index: 0 !important;
+	}
+</style>
+
+<script>
+	$(document).ready(function(){
+		
+		var status = $('ul#status li.active').attr('data-status');
+		var curso = $('ul#status').attr('data-curso');
+		var order = $('ul#status').attr('data-order');
+		var divStatus = $('div#tab-content-status-' + status);
+
+		tabsSituacoes(curso, function(){
+			// load Todos
+			$('ul#situacoes li:first').trigger('click');
+		});
+
+		$('ul#situacoes').on('click', 'li', function(ev){
+
+			ev.preventDefault();
+
+			// esconde tudo
+			$(divStatus).children().not('ul, img').addClass('hidden');
+			var li = $(this);
+			var ul = $(li).parent();
+			var situacao = $(this).attr('data-situacao');
+
+        	// ações aplicar
+			var form = $(this).parents('form')
+			var action = $(form).attr('action');
+			action = action.replace(/&tab2=\d/, '');
+			action += '&tab2=' + situacao;
+			$(form).attr('action', action);
+
+			$('div#loader').removeClass('hidden');
+
+			dados = {situacao, status, curso, order};
+
+			var trFiltros = $(divStatus).find('tbody tr#buscaAjax');
+	        $(trFiltros).attr('data-status', status);
+	        $(trFiltros).attr('data-curso', curso);
+	        $(trFiltros).attr('data-situacao', situacao);
+	        $(trFiltros).attr('data-div', 'tab-content-status-' + status);
+
+			loadInscricoes(dados).success(function(response){
+				$(ul).find('li.active').removeClass('active');
+        		$(li).addClass('active');
+				var html = $.parseHTML(response);
+				var quantidade = $(html).filter('tr:not(.none):not(.links)').length;
+      			$(divStatus).find('strong#quantidade').html(quantidade);
+      			$(divStatus).find('tbody tr:not(:first-child)').children().remove();
+      			$(divStatus).find('tbody tr#buscaAjax').after(response);
+				$(divStatus).find('a').each(function(ev){
+					$(this).attr('data-status', dados.status);
+                	$(this).attr('data-curso', dados.curso);
+                	$(this).attr('data-situacao', dados.situacao);
+                	$(this).attr('data-div', 'tab-content-status-' + status);
+				});
+				$(divStatus).children().not('ul, img').removeClass('hidden');
+	            $('div#loader').addClass('hidden');
+			});
+		});
+	});
+</script>

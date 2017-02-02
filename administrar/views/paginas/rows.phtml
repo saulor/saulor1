@@ -1,0 +1,11 @@
+<?php foreach($params['objetos'] as $key => $objeto) { ?>
+<tr id="tr<?php echo $objeto->id; ?>">
+  <th scope="row">
+    <small><?php echo $inicio++; ?></small>
+  </th>
+  <td>
+    <a href="?modulo=<?php echo $modulo; ?>&acao=cadastrar&id=<?php echo $objeto->id; ?>"><?php echo $objeto->titulo; ?></a>
+  </td>
+  <td class="center"><?php echo Funcoes::soData($objeto->data); ?></td>
+</tr>
+<?php } ?>

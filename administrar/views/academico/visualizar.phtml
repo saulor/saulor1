@@ -1,0 +1,226 @@
+<?php 
+
+  $params = $this->getParams(); 
+  $modulo = $_GET['modulo'];
+  $quantidadePorPagina = $params['quantidadePorPagina'];
+  $exibir = isset($_GET['exibir']) ? $_GET['exibir'] : $quantidadePorPagina;
+  $order = isset($_GET['order']) ? $_GET['order'] . ';asc' : 'data;desc';
+  $paginacao = $params['paginacao'];
+  $quantidade = $params['quantidade'];
+  $pagina = $params['pagina'];
+
+  if ($quantidade == 0) {
+    $iniCount = $inicio = 0;
+  }
+  else {
+    $iniCount = $inicio = ($quantidadePorPagina * $pagina) - ($quantidadePorPagina - 1);
+  }
+  
+  if ($inicio + ($quantidadePorPagina - 1) > $quantidade) {
+    $fim = $quantidade;
+  }
+  else {
+    $fim = $inicio + ($quantidadePorPagina - 1);
+  }
+
+?>
+
+<style>
+	.table {
+		font-size: 0.88em;
+	}
+	ul.pagination {
+		margin: 0 !important;
+		font-size: 0.85em;
+	}
+	ul.pagination li a {
+		border: 1px solid #ebbc37!important;
+		color: #ebbc37;
+	}
+	ul.pagination li.active span,
+	ul.pagination li.active a,
+	ul.pagination li a:hover {
+		color: #fff !important;
+		background-color: #ebbc37 !important;
+		border: 1px solid #ebbc37!important;
+	}
+</style>
+
+<div class="grid top-items">
+  <div class="col-1-1">
+    <div class="content">
+      <a href="?modulo=<?php echo $modulo; ?>&acao=cadastrar1">
+        <div class="item">
+          <span class="ti-save"></span>
+          <span class="icon-name">Cadastrar</span>
+        </div>
+      </a>
+      <a href="?modulo=<?php echo $modulo; ?>&acao=carregar">
+        <div class="item">
+          <span class="ti-file"></span>
+          <span class="icon-name">Carregar arquivo</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="grid">
+  <div class="col-2-12">
+    <div class="content">
+      <small>
+        <strong id="inicio">
+          <?php if (isset($inicio)) echo $inicio; ?>
+        </strong> &rsaquo;
+        <strong id="fim">
+          <?php if (isset($fim)) echo $fim; ?>
+        </strong> de
+        <strong id="quantidade">
+          <?php if (isset($quantidade)) echo $quantidade; ?>
+        </strong> registro(s)
+      </small>
+    </div>
+  </div>
+</div>
+
+<?php 
+  include 'views/includes/exibir.phtml'; 
+?>
+
+<form method="POST" action="?modulo=<?php echo $modulo; ?>&acao=acoes1">
+
+  <!-- Ações -->
+  <div class="grid">
+    <div class="col-1-12">
+      <div class="content">
+        <label for="Ações">Ações:</label>
+      </div>
+    </div>
+    <div class="col-5-12">
+      <div class="content">
+        <select class="form-control" name="acoes">
+            <option value="">--Selecione a ação--</option>
+            <option value="excluir">Excluir todos</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-2-12">
+      <div class="content">
+        <input class="btn btn-default" type="submit" value="Aplicar" />
+      </div>
+    </div>
+  </div>
+  <!-- Ações -->
+
+  <!-- Paginação -->
+  <div class="paginacao">
+    <?php echo $params['paginacao']; ?>
+  </div>
+  <!-- Paginação -->
+
+  <!-- Listagem -->
+  <div class="grid">
+    <div class="col-1-1">
+        <div class="content">
+        	<div class="scroll-pane">
+	          <table class="table">
+	            <thead>
+	              <tr>
+	                <th></th>
+	                <th class="checkboxes">
+	                    <input type="checkbox" name="objetos[]" value="-1" onclick="selecionarTodos(this)">
+	                </th>
+	                <th>
+	                  <a class="order" href="?modulo=<?php echo $modulo; ?>&order=titulo"><strong>Nome</strong></a>
+	                </th>
+	                <th class="center"><strong>CPF</strong></th>
+	                <th class="center"><strong>Unidade</strong></th>
+	                <th class="center"><strong>Cód. Curso</strong></th>
+	                <th class="center"><strong>Curso</strong></th>
+	                <th class="center"><strong>Disciplina</strong></th>
+	                <th class="center"><strong>Professor</strong></th>
+	                <th class="center"><strong>Título</strong></th>
+	                <th class="center"><strong>Carga Horária</strong></th>
+	                <th class="center"><strong>Data Início</strong></th>
+	                <th class="center"><strong>Data Fim</strong></th>
+	                <th class="center"><strong>Nota</strong></th>
+	                <th class="center"><strong>Situação</strong></th>
+	                <th class="center"><strong>Faltas</strong></th>
+	                <th class="center"><strong>Fim curso</strong></th>
+	                <th class="center"><strong>Nota Substitutiva</strong></th>
+	                <th class="center"><strong>Data Reposição</strong></th>
+	                <th class="center"><strong>Obs. Reposição</strong></th>
+	                <th class="center"><strong>Data</strong></th>
+	                <th class="acoes" colspan="1"><strong>Ações</strong></th>
+	              </tr>
+	            </thead>
+	            <tbody>
+	                <tr id="ajaxTyping" data-action="ajax1" data-modulo="<?php echo $modulo; ?>" 
+	                	data-order="<?php echo $order; ?>" data-pagina="<?php echo $pagina; ?>" 
+	                	data-exibir="<?php echo $quantidadePorPagina; ?>">
+	                  <td>
+	                    <img class="keyup-loader hidden" src="imagens/ajax-loader-white-transparent.gif">
+	                  </td>
+	                  <td></td>
+	                  <td>
+	                    <input class="form-control" type="text" name="nomeAluno">
+	                  </td>
+	                  <td>
+	                  	<input class="form-control" type="text" name="cpf">
+	                  </td>
+	                  <td>
+	                    <input class="form-control" type="text" name="unidade">
+	                  </td>
+	                  <td>
+	                    <input class="form-control" type="text" name="codigoCurso">
+	                  </td>
+	                  <td>
+	                    <input class="form-control" type="text" name="nomeCurso">
+	                  </td>
+	                  <td>
+	                    <input class="form-control" type="text" name="nomeDisciplina">
+	                  </td>
+	                  <td>
+	                    <input class="form-control" type="text" name="professor">
+	                  </td>
+	                  <td>
+	                    <input class="form-control" type="text" name="titulo">
+	                  </td>
+	                  <td></td>
+	                  <td>
+	                    <input class="form-control data" type="text" name="dataInicio">
+	                  </td>
+	                  <td>
+	                    <input class="form-control data" type="text" name="dataFim">
+	                  </td>
+	                  <td></td>
+	                  <td>
+	                  	<input class="form-control" type="text" name="situacaoNota">
+	                  </td>
+	                  <td></td>
+	                  <td></td>
+	                  <td></td>
+	                  <td>
+	                    <input class="form-control data" type="text" name="data">
+	                  </td>
+	                  <td></td>
+	                  <td>
+	                    <input class="form-control data" type="text" name="data">
+	                  </td>
+	                </tr>
+	                <?php include 'rows.phtml'; ?>
+	              </tbody>
+	          </table>
+	        </div>
+        </div>
+    </div>
+  </div>
+  <!-- Listagem -->
+
+  <!-- Paginação -->
+  <div class="paginacao">
+    <?php echo $params['paginacao']; ?>
+  </div>
+  <!-- Paginação -->
+
+</form>

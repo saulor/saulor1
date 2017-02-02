@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paginas>
+
+	<pagina nome="index">
+		<meta>
+			<title>IEFAP &#8250; Instituto de Ensino, Formação e Aperfeiçoamento LTDA.</title>
+			<robots>index, follow</robots>
+			<description>O IEFAP - Instituto de Ensino, Formação e Aperfeiçoamento LTDA., é uma instituição que oferece cursos de Pós-Graduação (Lato-Sensu), nas diferentes áreas do conhecimento.</description>
+			<keywords>iefap, cursos, pós graduacão, pós-graduação, especialização, aperfeiçoamento profissional, educação</keywords>
+		</meta>
+	</pagina>
+
+	<pagina nome="nao-encontrado">
+		<meta>
+			<title>IEFAP &#8250; Instituto de Ensino, Formação e Aperfeiçoamento LTDA.</title>
+			<robots>index, follow</robots>
+			<description>O IEFAP - Instituto de Ensino, Formação e Aperfeiçoamento LTDA., é uma instituição que oferece cursos de Pós-Graduação (Lato-Sensu), nas diferentes áreas do conhecimento.</description>
+			<keywords>iefap, cursos, pós graduacão, pós-graduação, especialização, aperfeiçoamento profissional, educação</keywords>
+		</meta>
+	</pagina>
+
+	<pagina nome="404">
+		<meta>
+			<title>IEFAP &#8250; Página não encontrada</title>
+			<robots>noindex, nofollow</robots>
+		</meta>
+	</pagina>
+
+	<pagina nome="institucional">
+		<meta>
+			<title>IEFAP &#8250; Institucional</title>
+			<robots>index, follow</robots>
+			<description>O IEFAP – Instituto de Ensino, Formação e Aperfeiçoamento LTDA. é uma instituição cujo objetivo é a oferta e operacionalização administrativa de cursos de Pós-Graduação e Aperfeiçoamento Profissional nas diferentes áreas do conhecimento.</description>
+			<keywords>iefap, informações, sobre o iefap, missão, visão, valores</keywords>
+		</meta>
+	</pagina>
+
+	<pagina nome="ies">
+		<meta>
+			<title>IEFAP &#8250; Institucional &#8250; IES</title>
+			<robots>index, follow</robots>
+			<description>Os cursos do IEFAP possuem gestão pedagógica das Faculdades Maurício de Nassau, Uningá, Faculdades Integradas de Patos, Faculdades Metropolitanas Unidas, Universidade Potiguar e Universidade Anhembi Morumbi.</description>
+			<keywords>iefap, faculdade maurício de nassau, uninassau, faculdades integradas de patos, fip, centro universitário ingá, uningá, universidade anhembi morumbi, universidade potiguar, unp, faculdades metropolitanas unidas, fmu, faculdades, parcerias, gestão pedagógica</keywords>
+		</meta>
+	</pagina>
+
+	<pagina nome="unidades">
+		<meta>
+			<title>IEFAP &#8250; Institucional &#8250; Unidades</title>
+			<robots>index, follow</robots>
+			<description>O IEFAP faz gestão administrativa e operacional de cursos de Pós-Graduação e Aperfeiçoamento Profissional em vários estados do Brasil. Conheça algumas de nossas unidades.</description>
+			<keywords>iefap, unidades, belém, cascavel, londrina, maringá, teresina, fortaleza</keywords>
+		</meta>
+	</pagina>
+
+	<pagina nome="parceiros">
+		<meta>
+			<title>IEFAP &#8250; Institucional &#8250; Parceiros</title>
+			<robots>index, follow</robots>
+			<description>Conheça as instituições parceiras do IEFAP.</description>
+			<keywords>iefap, parceiros, aspimed, unimed cascavel, associação piauiense de medicina, amazomcoop, hospital e maternidade dr. lima, centro de estudos e qualidade de vida, solução ead, indep, instituto pró saúde integral, conselho regional de farmácia do estado do pa, centro social santo agostinho, hospital de clínicas gaspar viana, hospital iamada, hevoise papini</keywords>
+		</meta>
+	</pagina>
+
+	<pagina nome="videos">
+		<meta>
+			<title>IEFAP &#8250; Vídeos</title>
+			<robots>index, follow</robots>
+			<description>Inscreva-se no canal do IEFAP no Youtube e acompanhe todos os nossos vídeos.</description>
+			<keywords>iefap, cursos, pós-graduação, especialização, aperfeiçoamento profissional, educação, vídeos</keywords>
+		</meta>
+	</pagina>
+
+	<pagina nome="posgraduacao">
+		<meta>
+			<title>IEFAP &#8250; Pós-Graduação{$a->categorias}</title>
+			<robots>index, follow</robots>
+			<description>O IEFAP realiza a gestão administrativa e operacional de cursos de Pós-Graduação nas diferentes áreas do conhecimento. Conheça os cursos de pós-graduação{$a->categoria} ofertados pelo IEFAP.</description>
+			<keywords>iefap, pós-graduação, especialização, cursos{$a->lowerCategorias}</keywords>
+		</meta>
+	</pagina>
+
+	<pagina nome="aperfeicoamento-profissional">
+		<meta>
+			<title>IEFAP &#8250; Aperfeicoamento Profissional{$a->categorias}</title>
+			<robots>index, follow</robots>
+			<description>O IEFAP realiza a gestão administrativa e operacional de cursos de aperfeiçoamento profissional nas diferentes áreas do conhecimento. Conheça os cursos de aperfeiçoamento profissional{$a->categoria} ofertados pelo IEFAP.</description>
+			<keywords>iefap, aperfeiçoamento profissional, cursos{$a->lowerCategorias}</keywords>
+		</meta>
+	</pagina>
+
+	<pagina nome="faq">
+		<meta>
+			<title>IEFAP &#8250; Perguntas Frequentes</title>
+			<robots>index, follow</robots>
+			<description>Perguntas frequentes sobre o IEFAP, cursos ofertados, corpo docente e mercado de trabalho.</description>
+			<keywords>iefap, cursos, mercado de trabalho, perguntas frequentes, corpo docente</keywords>
+		</meta>
+	</pagina>
+
+	<pagina nome="noticias">
+		<meta>
+			<title>IEFAP &#8250; Notícias</title>
+			<robots>index, follow</robots>
+			<description>Notícias relacionadas a educação, pós-graduação, aperfeiçoamento profissional, mercado de trabalho, área de saúde e novidades sobre o IEFAP.</description>
+			<keywords>iefap, notícias, novidades, educação, pós-graduação, especialização, aperfeiçoamento profissional</keywords>
+		</meta>
+	</pagina>
+
+	<pagina nome="noticia">
+		<meta>
+			<title>IEFAP &#8250; Notícias &#8250; {$a->titulo}</title>
+			<robots>index, follow</robots>
+			<description>{$a->titulo}</description>
+			<keywords>iefap, notícias, {$a->tags}</keywords>
+		</meta>
+		<properties>
+			<og>
+				<type>article</type>
+				<site_name>IEFAP - Instituto de Ensino, Formação e Aperfeiçoamento LTDA.</site_name>
+				<title>{$a->titulo}</title>
+				<url>{$a->url}</url>
+				<image>{$a->avatar}</image>
+				<image:width>1024</image:width>
+				<image:height>1024</image:height>
+				<description>{$a->descricao}</description>
+			</og>
+			<fb>
+				<admins>638997731</admins>
+			</fb>
+		</properties>
+	</pagina>
+
+	<pagina nome="cursos">
+		<meta>
+			<title>IEFAP &#8250; Cursos</title>
+			<robots>index, follow</robots>
+			<description>Cursos ofertados pelo IEFAP.</description>
+			<keywords>iefap, cursos, cursos oferecidos, pós-graduação, especialização, aperfeiçoamento profissional</keywords>
+		</meta>
+	</pagina>
+
+	<pagina nome="curso">
+		<meta>
+			<title>IEFAP &#8250; {$a->tipo} &#8250; {$a->categorias} &#8250; {$a->nome}</title>
+			<robots>index, follow</robots>
+			<description>Curso de {$a->tipo} em {$a->nome}</description>
+			<keywords>iefap, cursos</keywords>
+		</meta>
+	</pagina>
+
+	<pagina nome="matricula">
+		<meta>
+			<title>IEFAP &#8250; {$a->tipo} &#8250; {$a->categorias} &#8250; {$a->nome} &#8250; Matrícula</title>
+			<robots>index, follow</robots>
+			<description>Faça sua matrícula no curso de {$a->tipo} em {$a->nome}</description>
+			<keywords>iefap, matrícula, curso, {$a->lowerTipo}, {$a->lowerNome}</keywords>
+		</meta>
+	</pagina>
+
+	<pagina nome="inscricao">
+		<meta>
+			<title>IEFAP &#8250; {$a->tipo} &#8250; {$a->categorias} &#8250; {$a->nome} &#8250; Inscrição</title>
+			<robots>index, follow</robots>
+			<description>Faça sua inscrição no curso de {$a->tipo} em {$a->nome}</description>
+			<keywords>iefap, inscrição, curso, {$a->lowerTipo}, {$a->lowerNome}</keywords>
+		</meta>
+	</pagina>
+
+	<pagina nome="contato">
+		<meta>
+			<title>IEFAP &#8250; Contatos</title>
+			<robots>index, follow</robots>
+			<description>Tem alguma dúvida ou quer saber mais sobre os cursos ofertados pelo IEFAP? Utilize o formulário de contato para nos enviar perguntas sobre assuntos do seu interesse.</description>
+			<keywords>iefap, informações, contato</keywords>
+		</meta>
+	</pagina>
+
+	<pagina nome="area-aluno">
+		<meta>
+			<title>IEFAP &#8250; Área do Aluno</title>
+			<robots>noindex, nofollow</robots>
+			<description>Acesse a Área do Aluno IEFAP. Este espaço concentra alguns serviços do Sistema Acadêmico do IEFAP. Nossos alunos podem acessar para consultar notas, frequências e solicitar requerimentos, bem como acompanhar o processo de atendimento destes.</description>
+			<keywords>iefap, alunos, serviços, acadêmico, requerimentos, notas, frequências, acompanhamento</keywords>
+		</meta>
+	</pagina>
+
+	<pagina nome="area-aluno-login">
+		<meta>
+			<title>IEFAP &#8250; Área do Aluno &#8250; Login</title>
+			<robots>noindex, nofollow</robots>
+			<description>Acesse a Área do Aluno IEFAP. Este espaço concentra alguns serviços do Sistema Acadêmico do IEFAP. Nossos alunos podem acessar para consultar notas e frequências e solicitar requerimentos, bem como acompanhar o processo de atendimento destes.</description>
+			<keywords>iefap, alunos, serviços, acadêmico, requerimentos, notas, frequências, acompanhamento</keywords>
+		</meta>
+	</pagina>
+
+	<pagina nome="area-aluno-cadastrar">
+		<meta>
+			<title>IEFAP &#8250; Área do Aluno &#8250; Cadastrar Senha</title>
+			<robots>noindex, nofollow</robots>
+			<description>Cadastre sua senha e tenha acesso a Área do Aluno IEFAP.</description>
+			<keywords>iefap, alunos, serviços, acadêmico, requerimentos, notas, frequências, acompanhamento, cadastrar, senha</keywords>
+		</meta>
+	</pagina>
+
+	<pagina nome="area-aluno-recuperar">
+		<meta>
+			<title>IEFAP &#8250; Área do Aluno &#8250; Recuperar Senha</title>
+			<robots>noindex, nofollow</robots>
+			<description>Esqueceu sua senha? Utilize o mecanismo de recuperação de senhas e recupere seu acesso à Área do Aluno IEFAP.</description>
+			<keywords>iefap, alunos, serviços, acadêmico, requerimentos, notas, frequências, acompanhamento, recuperar, senha</keywords>
+		</meta>
+	</pagina>
+
+	<pagina nome="area-aluno-acompanhamento">
+		<meta>
+			<title>IEFAP &#8250; Área do Aluno &#8250; Requerimentos &#8250; Acompanhamento</title>
+			<robots>noindex, nofollow</robots>
+			<description>Acompanhe a situação dos seus requerimentos.</description>
+			<keywords>iefap, área do aluno, acadêmico, requerimentos, acompanhamento</keywords>
+		</meta>
+	</pagina>
+
+	<pagina nome="area-aluno-requerimentos">
+		<meta>
+			<title>IEFAP &#8250; Área do Aluno &#8250; Requerimentos</title>
+			<robots>noindex, nofollow</robots>
+			<description>Utilize o formulário de requerimentos para solicitar documentos junto a direção do IEFAP.</description>
+			<keywords>iefap, área do aluno, acadêmico, requerimentos, documentos, secretaria</keywords>
+		</meta>
+	</pagina>
+
+	<pagina nome="area-aluno-consultar">
+		<meta>
+			<title>IEFAP &#8250; Área do Aluno &#8250; Frequência e Notas</title>
+			<robots>noindex, nofollow</robots>
+			<description>Consulte suas frequências e notas.</description>
+			<keywords>iefap, área do aluno, acadêmico, consulta, frequência, notas</keywords>
+		</meta>
+	</pagina>
+
+	<pagina nome="trabalhe-conosco">
+		<meta>
+			<title>IEFAP &#8250; Trabalhe Conosco</title>
+			<robots>index, follow</robots>
+			<description>Envie seu currículo ou cadastre-se e venha trabalhar conosco. Profissionais que queiram deixar seu cadastro registrado no IEFAP para futuras contratações.</description>
+			<keywords>iefap, trabalhe conosco, docente, representante, administrativo, parceiro</keywords>
+		</meta>
+	</pagina>
+
+	<pagina nome="colaboradores">
+		<meta>
+			<title>IEFAP &#8250; Trabalhe Conosco &#8250; Colaboradores</title>
+			<robots>index, follow</robots>
+			<description>Seja nosso colaborador. Profissionais que queiram deixar seu cadastro registrado no IEFAP para futuras contratações.</description>
+			<keywords>iefap, trabalhe conosco, administrativo, colaborador, colaboradores</keywords>
+		</meta>
+	</pagina>
+
+	<pagina nome="parcerias">
+		<meta>
+			<title>IEFAP &#8250; Trabalhe Conosco &#8250; Parcerias</title>
+			<robots>index, follow</robots>
+			<description>Seja nosso parceiro. Pessoas ou empresas que queiram deixar seu cadastro registrado no IEFAP para futuras parcerias.</description>
+			<keywords>iefap, trabalhe conosco, parcerias, parceiros, pessoas, empresas</keywords>
+		</meta>
+	</pagina>
+
+	<pagina nome="representantes">
+		<meta>
+			<title>IEFAP &#8250; Trabalhe conosco &#8250; Representantes</title>
+			<robots>index, follow</robots>
+			<description>Seja nosso representante. Profissionais que queiram deixar seu cadastro registrado no IEFAP para futuras contratações</description>
+			<keywords>iefap, trabalhe conosco, administrativo, docente, representante</keywords>
+		</meta>
+	</pagina>
+
+	<pagina nome="docentes">
+		<meta>
+			<title>IEFAP &#8250; Trabalhe conosco &#8250; Docentes</title>
+			<robots>index, follow</robots>
+			<description>Seja nosso professor. Profissionais que queiram deixar seu cadastro registrado no IEFAP para futuras contratações</description>
+			<keywords>iefap, trabalhe conosco, administrativo, docente, representante</keywords>
+		</meta>
+	</pagina>
+
+	<pagina nome="busca">
+		<meta>
+			<title>IEFAP &#8250; Resultados da busca para {$a->search}</title>
+			<robots>noindex, nofollow</robots>
+			<description>Resultados da busca para {$a->search}</description>
+		</meta>
+	</pagina>
+
+</paginas>

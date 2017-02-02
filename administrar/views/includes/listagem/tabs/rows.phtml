@@ -1,0 +1,204 @@
+<?php
+
+	$rows = '';
+
+	$evalPattern = '/return /';
+
+	if (count($params["objetos"]) == 0) {
+		$rows .= '<tr class="none"><td class="small center" colspan="' . (count($table['fields']) + 3) . '">Nenhum registro</td></tr>';
+	}
+	else {
+		foreach ($params["objetos"] as $key => $objeto) {
+
+			$classes = array();
+
+			$elemento = '<tr id="tr%d" class="%s">';
+
+			$rows .= sprintf($elemento, $objeto['id'], implode(" ", $classes));
+
+			if (isset($objeto["status"]) && $objeto['status'] == 0) {
+				$classes[] = 'desativada';
+			}
+
+			$elemento = '<th><small>%d</small></th>';
+
+			$rows .= sprintf($elemento, $iniCount++);
+
+			$elemento = '<td><input type="checkbox" name="objetos[]" value="%d" /></td>';
+        	$rows .= sprintf($elemento, $objeto["id"]);
+
+			foreach ($table['fields'] as $key => $f) {
+
+				$classes = array();
+
+				$elemento = '<td class="%s">';
+
+				if (isset($f['align'])) {
+					$classes[] = $f['align'];
+				}
+
+				$tooltip = isset($f['tooltip']);
+
+				if ($tooltip) {
+					$classes[] = 'tooltp';
+					$classes[] = $f['tooltip']['type'];
+				}
+
+				$rows .= sprintf($elemento, implode(" ", $classes));
+
+				$classes = array();
+
+				$elemento = '<span>';
+
+				// se campo for um link
+				if (isset($f['link'])) {
+
+					$link = $f['link'];
+
+					if (!isset($link['condition']) || 
+						(isset($link['condition']) && eval($link['condition']))) {
+
+						// add order to query string
+						if (isset($order) && !empty($order)) {
+							$link['qsParams']["order"] = $order;
+						}
+
+						$elemento = '<a target="%s" href="%s"';
+
+						$target = isset($link['target']) ? $link['target'] : '_self';
+
+						// monta href do campo
+						$qsParams = array();
+						foreach ($link['qsParams'] as $qsKey => $qsValue) {
+							$param = '%s=%s';
+							if (preg_match($evalPattern, $qsValue)) {
+								$qsValue = eval($qsValue);
+							}
+							$qsParams[] = sprintf($param, $qsKey, $qsValue);
+						}
+						$href = '?' . implode('&', $qsParams);
+						
+						$elemento = sprintf($elemento, $target, $href);
+
+						$elemento .= '>';
+
+					}
+				}
+
+				$rows .= $elemento;
+
+				if (isset($f['content']) && preg_match($evalPattern, $f['content'])) {
+					$rows .= eval($f['content']);
+				}
+				else {
+					$rows .= $objeto[$key];
+				}
+
+				if (isset($f['link'])) {
+					$elemento = '</a>';
+				}
+				else {
+					$elemento = '</span>';
+				}
+
+				$rows .= $elemento;
+
+				if (isset($f['infos']) && count(eval($f['infos']))) {
+					$rows .= '<br />';
+					$info = '<small>%s</small>';
+					foreach (eval($f['infos']) as $inf) {
+						$rows .= sprintf($info, $inf);
+						$rows .= '<br />';
+					}
+				}
+
+				// labels e notas ...
+				if (isset($f['labels']) && count(eval($f['labels']))) {
+					foreach (eval($f['labels']) as $n) {
+						$text = isset($n['text']) ? $n['text'] : $n['label'];
+						$class = isset($n['class']) ? $n['class'] : 'warning';
+						$label = '<span class="label label-%s hint--info hint--bottom-right" data-hint="%s">%s</span> ';
+							$rows .= sprintf($label, $class, $text, $n['label']);
+					}
+				}
+
+				if (isset($f['links'])) {
+					$links = $f['links'];
+					$colspan = count($table['fields']) + 1;
+				}
+				
+				if ($tooltip) {
+					if (isset($f['tooltip']['condition']) && eval($f['tooltip']['condition'])) {
+						if (!empty(eval($f['tooltip']['text']))) {
+							$elemento = '<div class="tip %s">%s</div></a>';
+							$rows .= sprintf($elemento, $f['tooltip']['type'], eval($f['tooltip']['text']));
+						}
+					}
+				}
+
+				$rows .= '</td>';
+			}
+
+			if (isset($table["acoes"]) && count($table["acoes"]) > 0) {
+				foreach ($table["acoes"] as $nomeAcao => $acao) {
+					$rows .= '<td align="center">';
+					
+					$a = '<a class="%s" target="%s" href="%s">%s</a>';
+
+					// monta href do campo
+					$qsParams = array();
+					foreach ($acao['qsParams'] as $qsKey => $qsValue) {
+						
+						$param = '%s=%s';
+						if (preg_match($evalPattern, $qsValue)) {
+							$qsValue = eval($qsValue);
+						}
+						$qsParams[] = sprintf($param, $qsKey, $qsValue);
+					}
+					$href = '?' . implode('&', $qsParams); 
+
+					// target
+					$target = isset($acao['target']) ? $acao['target'] : '_self';
+					// class
+					$class = isset($acao['class']) ? $acao['class'] : '';
+
+					$rows .= sprintf($a, $class, $target, $href, $nomeAcao);
+
+					$rows .= '</td>';
+				}
+			}
+			
+			$rows .= '</tr>';
+
+			if (isset($links)) {
+
+				$rows .= '<tr class="links"><td>&nbsp;</td><td>&nbsp;</td>';
+				$rows .= '<td colspan="' . $colspan . '">';
+				$elemento = '<div id="links">%s</div>';
+				$a = '<a target="%s" href="%s">%s</a>';
+				$as = array();
+
+				foreach ($links as $key => $link) {
+					// target
+					$target = isset($link['target']) ? $link['target'] : '_self';
+					// monta href do campo
+					$qsParams = array();
+					foreach ($link['qsParams'] as $qsKey => $qsValue) {
+						$param = '%s=%s';
+						if (preg_match($evalPattern, $qsValue)) {
+							$qsValue = eval($qsValue);
+						}
+						$qsParams[] = sprintf($param, $qsKey, $qsValue);
+					}
+					$href = '?' . implode('&', $qsParams); 
+					$as[] = sprintf($a, $target, $href, $key);
+				}
+				$rows .= sprintf($elemento, implode(" | ", $as));
+
+				$rows .= '</tr></td>';
+			}
+		}
+
+	}
+
+?>

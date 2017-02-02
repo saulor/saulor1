@@ -1,0 +1,34 @@
+<?php
+
+  $table = array(
+    'fields' => array(
+      'nome' => array(
+        'order' => true,
+        'infos' => 'return $objeto["infos"];',
+        'labels' => 'return $objeto["labels"];',
+        'title' => 'Curso',
+        'ajax' => 'ajax-index.php',
+        'link' => array(
+          'condition' => 'return checaPermissao(\'' . $modulo . '\',\'visualizar\',$_SESSION[PREFIX . "permissoes"]);',
+          'qsParams' => array(
+            'modulo' => $modulo,
+            'acao' => 'visualizar',
+            'curso' => 'return $objeto["id"];'
+          )
+        )
+      ),
+      'unidadeCertificadora' => array(
+        'title' => 'Certificadora',
+        'ajax' => 'ajax-index.php',
+        'content' => 'return Curso::getCertificadora($objeto["unidadeCertificadora"]);',
+        'align' => 'center'
+      ),
+      'tipo' => array(
+        'ajax' => 'ajax-index.php',
+        'content' => 'return Curso::getTipo($objeto["tipo"]);',
+        'align' => 'center'
+      )
+    )
+  );
+
+?>

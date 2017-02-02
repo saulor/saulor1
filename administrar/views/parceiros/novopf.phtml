@@ -1,0 +1,244 @@
+<?php
+	$params = $this->getParams();
+	$objeto = $params["objeto"];
+?>
+
+<form method="post">
+
+	<fieldset>
+	    <legend><strong>Dados Pessoais</strong></legend>
+	    
+	    <input type="hidden" name="id" value="<?php echo $objeto->id; ?>" />
+	    <input type="hidden" name="tipo" value="<?php echo $objeto->tipo; ?>" />
+	    
+	    <div class="grid">
+	    	<div class="col-2-12">
+	    		<div class="content">
+	    			<label for="CPF">CPF:</label>
+	    		</div>
+	    	</div>
+	    	<div class="col-3-12">
+	    		<div class="content">
+	    			<input class="form-control cpf" name="cpf" type="text" value="<?php echo $objeto->cpf; ?>" autofocus="autofocus" />
+	    		</div>
+	    	</div>
+	    </div>
+	    
+	    <div class="grid">
+	    	<div class="col-2-12">
+	    		<div class="content">
+	    			<label for="Nome">Nome:</label>
+	    		</div>
+	    	</div>
+	    	<div class="col-10-12">
+	    		<div class="content">
+	    			<input class="form-control" name="nome" type="text" value="<?php echo $objeto->nome; ?>" />
+	    		</div>
+	    	</div>
+	    </div>
+	
+		<div class="grid">
+			<div class="col-2-12">
+				<div class="content">
+					<label for="Telefone Residencial">Tel. Residencial:</label>
+				</div>
+			</div>
+			<div class="col-2-12">
+				<div class="content">
+					<input name="telefoneResidencial" class="telefone form-control" type="text" value="<?php echo $objeto->telefoneResidencial; ?>" />
+				</div>
+			</div>
+			<div class="col-3-12">
+				<div class="content" style="text-align: right;">
+					<label for="Operadora Celular">Operadora Celular:</label>
+				</div>
+			</div>
+			<div class="col-1-8">
+				<div class="content">
+					<select class="form-control" name="operadoraCelular">
+						<option value="">--Selecione--</option>
+						<option value="Claro"<?php if($objeto->operadoraCelular == "Claro") echo ' selected'; ?>>Claro</option>
+						<option value="Tim"<?php if($objeto->operadoraCelular == "Tim") echo ' selected'; ?>>Tim</option>
+						<option value="Vivo"<?php if($objeto->operadoraCelular == "Vivo") echo ' selected'; ?>>Vivo</option>
+					</select>
+				</div>
+			</div>
+			<div class="col-1-8">
+				<div class="content">
+					<label for="Telefone Celular">Tel. Celular:</label>
+				</div>
+			</div>
+			<div class="col-1-6">
+				<div class="content">
+					<input class="form-control telefone" id="telefoneCelular" type="text" name="telefoneCelular" value="<?php echo $objeto->telefoneCelular; ?>" />
+				</div>
+			</div>
+		</div>
+		
+		<div class="grid">
+			<div class="col-2-12">
+				<div class="content">
+					<label for="E-mail">E-mail:</label>
+				</div>
+			</div>
+			<div class="col-10-12">
+				<div class="content">
+					<input class="form-control" name="email" type="text" value="<?php echo $objeto->email; ?>" />
+				</div>
+			</div>
+		</div>
+
+	</fieldset>
+
+	<fieldset>
+	    <legend><strong>Endereço</strong></legend>
+	    
+	    <div class="grid">
+	    	<div class="col-2-12">
+	    		<div class="content">
+	    			<label for="Cep">Cep:</label>
+	    		</div>
+	    	</div>
+	    	<div class="col-4-12">
+	    		<div class="content">
+	    			<input name="cep" placeholder="CEP" class="form-control cep" type="text" value="<?php echo $objeto->cep; ?>" />
+	    		</div>
+	    	</div>
+	    </div>
+	    
+	    <div class="grid">
+	        <div class="col-2-12">
+	        	<div class="content">
+	        		<label for="Endereço">Endereço:</label>
+	        	</div>
+	        </div>
+	        <div class="col-6-12">
+	        	<div class="content">
+	        		<input class="form-control" placeholder="Endereço" name="endereco" id="endereco" type="text" value="<?php echo $objeto->endereco; ?>" />
+	        	</div>
+	        </div>
+	        <div class="col-2-12">
+	        	<div class="content">
+	        		<label for="Número">Número:</label>
+	        	</div>
+	        </div>
+	        <div class="col-2-12">
+	        	<div class="content">
+	        		<input class="form-control" placeholder="Número" name="numero" type="text" value="<?php echo $objeto->numero; ?>" />
+	        	</div>
+	        </div>
+	    </div>
+	    
+	    <div class="grid">
+	    	<div class="col-2-12">
+	    		<div class="content">
+	    			<label for="Complemento">Complemento:</label>
+	    		</div>
+	    	</div>
+	    	<div class="col-4-12">
+	    		<div class="content">
+	    			<input class="form-control" placeholder="Complemento" name="complemento" type="text" value="<?php echo $objeto->complemento; ?>" />
+	    		</div>
+	    	</div>
+	    	<div class="col-2-12">
+	    		<div class="content">
+	    			<label for="Bairro">Bairro:</label>
+	    		</div>
+	    	</div>
+	    	<div class="col-4-12">
+	    		<div class="content">
+	    			<input class="form-control" placeholder="Bairro" name="bairro" id="bairro" type="text" value="<?php echo $objeto->bairro; ?>" />
+	    		</div>
+	    	</div>
+	    </div>
+	    
+	    <div class="grid">
+	        <div class="col-2-12">
+	        	<div class="content">
+	        		<label for="Cidade">Cidade:</label>
+	        	</div>
+	        </div>
+	        <div class="col-6-12">
+	        	<div class="content">
+	        		<input class="form-control" placeholder="Cidade" name="cidade" id="cidade" type="text" value="<?php echo $objeto->cidade; ?>" />
+	        	</div>
+	        </div>
+	        <div class="col-2-12">
+	        	<div class="content">
+	        		<label for="estado">UF:</label>
+	        	</div>
+	        </div>
+	        <div class="col-2-12">
+	        	<div class="content">
+	        		<select class="form-control" name="estado" id="estado">
+	        		    <option value=""<?php if ($objeto->estado == "") echo ' selected';  ?>>--Selecione--</option>
+	        		    <option value="AC"<?php if ($objeto->estado == "AC") echo ' selected'; ?>>AC</option>
+	        		    <option value="AL"<?php if ($objeto->estado == "AL") echo ' selected'; ?>>AL</option>
+	        		    <option value="AP"<?php if ($objeto->estado == "AP") echo ' selected'; ?>>AP</option>
+	        		    <option value="AM"<?php if ($objeto->estado == "AM") echo ' selected'; ?>>AM</option>
+	        		    <option value="BA"<?php if ($objeto->estado == "BA") echo ' selected'; ?>>BA</option>
+	        		    <option value="CE"<?php if ($objeto->estado == "CE") echo ' selected'; ?>>CE</option>
+	        		    <option value="DF"<?php if ($objeto->estado == "DF") echo ' selected'; ?>>DF</option>
+	        		    <option value="ES"<?php if ($objeto->estado == "ES") echo ' selected'; ?>>ES</option>
+	        		    <option value="GO"<?php if ($objeto->estado == "GO") echo ' selected'; ?>>GO</option>
+	        		    <option value="MA"<?php if ($objeto->estado == "MA") echo ' selected'; ?>>MA</option>
+	        		    <option value="MT"<?php if ($objeto->estado == "MT") echo ' selected'; ?>>MT</option>
+	        		    <option value="MS"<?php if ($objeto->estado == "MS") echo ' selected'; ?>>MS</option>
+	        		    <option value="MG"<?php if ($objeto->estado == "MG") echo ' selected'; ?>>MG</option>
+	        		    <option value="PA"<?php if ($objeto->estado == "PA") echo ' selected'; ?>>PA</option>
+	        		    <option value="PB"<?php if ($objeto->estado == "PB") echo ' selected'; ?>>PB</option>
+	        		    <option value="PR"<?php if ($objeto->estado == "PR") echo ' selected'; ?>>PR</option>
+	        		    <option value="PE"<?php if ($objeto->estado == "PE") echo ' selected'; ?>>PE</option>
+	        		    <option value="PI"<?php if ($objeto->estado == "PI") echo ' selected'; ?>>PI</option>
+	        		    <option value="RJ"<?php if ($objeto->estado == "RJ") echo ' selected'; ?>>RJ</option>
+	        		    <option value="RN"<?php if ($objeto->estado == "RN") echo ' selected'; ?>>RN</option>
+	        		    <option value="RS"<?php if ($objeto->estado == "RS") echo ' selected'; ?>>RS</option>
+	        		    <option value="RO"<?php if ($objeto->estado == "RO") echo ' selected'; ?>>RO</option>
+	        		    <option value="RR"<?php if ($objeto->estado == "RR") echo ' selected'; ?>>RR</option>
+	        		    <option value="SC"<?php if ($objeto->estado == "SC") echo ' selected'; ?>>SC</option>
+	        		    <option value="SP"<?php if ($objeto->estado == "SP") echo ' selected'; ?>>SP</option>
+	        		    <option value="SE"<?php if ($objeto->estado == "SE") echo ' selected'; ?>>SE</option>
+	        		    <option value="TO"<?php if ($objeto->estado == "TO") echo ' selected'; ?>>TO</option>
+	        		</select>
+	        	</div>
+	        </div>
+	    </div>
+    
+	</fieldset>
+	
+	<fieldset>
+		<legend><strong>Outras informações</strong></legend>
+		
+		<div class="grid">
+			<div class="col-2-12">
+				<div class="content">
+					<label for="Solicitação">Solicitação:</label>
+				</div>
+			</div>
+			<div class="col-10-12">
+				<div class="content">
+					<textarea placeholder="Solicitação" class="form-control" name="solicitacao" rows="10"><?php echo $objeto->solicitacao; ?></textarea>
+				</div>
+			</div>
+		</div>
+		
+		<div class="grid">
+			<div class="col-2-12">
+				<div class="content">
+					<label for="Observações">Observações:</label>
+				</div>
+			</div>
+			<div class="col-10-12">
+				<div class="content">
+					<textarea class="form-control" placeholder="Observações" name="observacoes" rows="5"><?php echo $objeto->observacoes; ?></textarea>
+				</div>
+			</div>
+		</div>
+		
+	</fieldset>
+	
+	<br />
+
+	<input type="submit" class="btn btn-default" value="Salvar" /> 
+
+</form>

@@ -1,0 +1,447 @@
+<style>
+	label {
+		padding: 8px;
+	}
+	label:hover {
+		background-color: #FAF1E7;
+	}
+</style>
+
+<?php
+
+	$params = $this->getParams();
+	$permissao = $params["permissao"];
+	$permissoesAtuais = $params["permissoesAtuais"];
+
+    $modulos = array (
+
+    	"academico" => array (
+    		"nome" => "Acadêmico",
+    		"permissoes" => array (
+                array(
+                    "acoes" => "area",
+                    "nome" => "Visualizar usuários que se cadastraram para acessar o acadêmico através site",
+                    "hint" => "visualizar usuários que se cadastraram para acessar o acadêmico através site"
+                ),
+    			array(
+    				"acoes" => "visualizar",
+    				"nome" => "Visualizar listagem",
+    				"hint" => "visualizar listagem de frequências e notas"
+    			),
+    			array(
+    				"acoes" => "visualizar,carregar,processa,preview,ler",
+    				"nome" => "Carregar Arquivo",
+    				"hint" => "carregar arquivo com informações de frequências e notas"
+    			),
+    			array(
+    				"acoes" => "visualizar,cadastrar,opcoes",
+    				"nome" => "Manter registros",
+    				"hint" => "cadastrar e atualizar registros de frequências e notas"
+    			),
+    			array(
+    				"acoes" => "excluir",
+    				"nome" => "Excluir registros",
+    				"hint" => "excluir registros de frequências e notas"
+    			)
+    		)
+    	),
+
+    	"banco" => array (
+    		"nome" => "Banco de Dados",
+    		"permissoes" => array (
+    			array(
+    				"acoes" => "index",
+    				"nome" => "Visualizar listagem",
+    				"hint" => "visualizar listagem das informações"
+    			),
+    			array(
+    				"acoes" => "index,visualizar,cadastrar,opcoes",
+    				"nome" => "Manter informações",
+    				"hint" => "cadastrar e atualizar informações do banco de dados"
+    			),
+    			array(
+    				"acoes" => "carregar,processa",
+    				"nome" => "Carregar arquivo",
+    				"hint" => "carregar arquivo com informações"
+    			),
+    			array(
+    				"acoes" => "planilha",
+    				"nome" => "Imprimir planilhas",
+    				"hint" => "imprimir planilhas"
+    			),
+    			array(
+    				"acoes" => "excluir",
+    				"nome" => "Excluir informações",
+    				"hint" => "excluir informações do banco de dados"
+    			)
+    		)
+    	),
+
+    	"banners" => array (
+    		"nome" => "Banners",
+    		"permissoes" => array (
+    			array(
+    				"acoes" => "index",
+    				"nome" => "Visualizar banners",
+    				"hint" => "visualizar banners"
+    			),
+    			array(
+    				"acoes" => "index,cadastrar,opcoes",
+    				"nome" => "Manter banners",
+    				"hint" => "cadastrar e atualizar banners"
+    			),
+    			array(
+    				"acoes" => "excluir",
+    				"nome" => "Excluir banners",
+    				"hint" => "excluir banners"
+    			)
+    		)
+    	),
+
+    	"contatos" => array (
+    		"nome" => "Contatos",
+    		"permissoes" => array (
+    			array(
+    				"acoes" => "index",
+    				"nome" => "Visualizar contatos",
+    				"hint" => "visualizar contatos"
+    			),
+    			array(
+    				"acoes" => "index,responder,enviar,editar",
+    				"nome" => "Responder contatos",
+    				"hint" => "responder contatos"
+    			),
+    			array(
+    				"acoes" => "index,observacoes,status,opcoes",
+    				"nome" => "Manter contatos",
+    				"hint" => "atualizar contatos"
+    			),
+    			array(
+    				"acoes" => "excluir",
+    				"nome" => "Excluir contatos",
+    				"hint" => "excluir contatos"
+    			),
+					array(
+    				"acoes" => "planilha",
+    				"nome" => "Imprimir planilhas",
+    				"hint" => "imprimir planilhas"
+    			)
+    		)
+    	),
+
+    	"cursos" => array (
+    		"nome" => "Cursos",
+    		"permissoes" => array (
+    			array(
+    				"acoes" => "index",
+    				"nome" => "Visualizar cursos",
+    				"hint" => "visualizar cursos"
+    			),
+    			array(
+    				"acoes" => "index,cadastrar,opcoes",
+    				"nome" => "Manter cursos",
+    				"hint" => "cadastrar e atualizar cursos"
+    			),
+    			array(
+    				"acoes" => "excluir",
+    				"nome" => "Excluir cursos",
+    				"hint" => "excluir cursos"
+    			),
+    			array(
+    				"acoes" => "index,estados,cidades,adicionar,duplicar",
+    				"nome" => "Gerenciar cidades",
+    				"hint" => "cadastrar e atualizar cidades"
+    			),
+    			array(
+    				"acoes" => "remover",
+    				"nome" => "Excluir cidades",
+    				"hint" => "excluir cidades"
+    			),
+    			array(
+    				"acoes" => "informacoesDoc1,informacoesDoc2,informacoesDoc1,informacoesPdf,imprimirPdf,imprimirExcel",
+    				"nome" => "Imprimir listagens",
+    				"hint" => "imprimir listagens e informativos em EXCEL ou PDF"
+    			)
+    		)
+    	),
+
+        "ligar" => array (
+            "nome" => "Ligar",
+            "permissoes" => array (
+                array(
+                    "acoes" => "index",
+                    "nome" => "Visualizar registros",
+                    "hint" => "visualizar registros"
+                ),
+                array(
+                    "acoes" => "index,editar,opcoes",
+                    "nome" => "Manter registros",
+                    "hint" => "cadastrar e atualizar registros"
+                ),
+                array(
+                    "acoes" => "excluir",
+                    "nome" => "Excluir registros",
+                    "hint" => "excluir registros"
+                )
+            )
+        ),
+
+    	"noticias" => array (
+    		"nome" => "Notícias",
+    		"permissoes" => array (
+    			array(
+    				"acoes" => "index",
+    				"nome" => "Visualizar notícias",
+    				"hint" => "visualizar notícias"
+    			),
+    			array(
+    				"acoes" => "index,cadastrar,opcoes",
+    				"nome" => "Manter notícias",
+    				"hint" => "cadastrar e atualizar notícias"
+    			),
+    			array(
+    				"acoes" => "excluir",
+    				"nome" => "Excluir notícias",
+    				"hint" => "excluir notícias"
+    			)
+    		)
+    	),
+
+    	"paginas" => array (
+    		"nome" => "Páginas",
+    		"permissoes" => array (
+    			array(
+    				"acoes" => "index",
+    				"nome" => "Visualizar páginas",
+    				"hint" => "visualizar páginas"
+    			),
+    			array(
+    				"acoes" => "index,cadastrar,opcoes",
+    				"nome" => "Manter páginas",
+    				"hint" => "cadastrar e atualizar páginas"
+    			),
+    			array(
+    				"acoes" => "excluir",
+    				"nome" => "Excluir páginas",
+    				"hint" => "excluir páginas"
+    			)
+    		)
+    	),
+
+    	"parcerias" => array (
+    		"nome" => "Parcerias/Convênios",
+    		"permissoes" => array (
+    			array(
+    				"acoes" => "index",
+    				"nome" => "Visualizar parcerias/convênios",
+    				"hint" => "visualizar parcerias e convênios"
+    			),
+    			array(
+    				"acoes" => "index,cadastrar,opcoes",
+    				"nome" => "Manter parcerias/convênios",
+    				"hint" => "cadastrar e atualizar parcerias/convênios"
+    			),
+    			array(
+    				"acoes" => "excluir",
+    				"nome" => "Excluir parcerias/convênios",
+    				"hint" => "excluir parcerias/convênios"
+    			)
+
+    		)
+    	),
+
+    	"preinscricoes" => array (
+    		"nome" => "Pré-inscrições",
+    		"permissoes" => array (
+    			array(
+    				"acoes" => "visualizar",
+    				"nome" => "Visualizar pré-inscrições",
+    				"hint" => "visualizar listagem de pré-inscrições"
+    			),
+    			array(
+    				"acoes" => "index,visualizar,cadastrar,mudar,duplicar,status,situacao,opcoes",
+    				"nome" => "Manter pré-inscrições",
+    				"hint" => "cadastrar, atualizar, duplicar, alterar status de pré-inscrições, bem como mudar opção de curso"
+    			),
+    			array(
+    				"acoes" => "excluir",
+    				"nome" => "Excluir pré-inscrições",
+    				"hint" => "excluir pré-inscrições"
+    			),
+    			array(
+    				"acoes" => "index,visualizar,historico",
+    				"nome" => "Visualizar histórico",
+    				"hint" => "visualizar histórico dos alunos"
+    			),
+    			array(
+    				"acoes" => "historico,adicionar",
+    				"nome" => "Manter histórico",
+    				"hint" => "cadastrar e atualizar registros do histórico"
+    			),
+    			array(
+    				"acoes" => "remover",
+    				"nome" => "Excluir histórico",
+    				"hint" => "excluir registros do histórico"
+    			),
+    			array(
+    				"acoes" => "planilha",
+    				"nome" => "Gerar planilhas",
+    				"hint" => "gerar planilhas de pré-inscrições"
+    			),
+    			array(
+    				"acoes" => "imprimirePdf,imprimireExcel,imprimirpListagem,imprimirSituacao,imprimirHistorico,formulario,contrato,financeiro",
+    				"nome" => "Gerar listagens, formulários, contratos e acordos financeiros",
+    				"hint" => "gerar listagens, formulários, contratos e acordos financeiros de pré-inscrição"
+    			),
+    			array(
+    				"acoes" => "index,visualizar,opcoes,moodle",
+    				"nome" => "Inscrever no moodle",
+    				"hint" => "gerar arquivo de inscrição no moodle"
+    			),
+    			array(
+    				"acoes" => "index,visualizar,opcoes,academico",
+    				"nome" => "Cadastrar no sistema acadêmico",
+    				"hint" => "gerar arquivo texto para cadastrar alunos no sistema acadêmico"
+    			),
+    			array(
+    				"acoes" => "filtro",
+    				"nome" => "Filtrar pré-inscrições",
+    				"hint" => "filtrar pré-inscrições"
+    			),
+    		)
+    	),
+
+    	"profissionais" => array (
+    		"nome" => "Profissionais",
+    		"permissoes" => array (
+    			array(
+    				"acoes" => "index",
+    				"nome" => "Visualizar profissionais",
+    				"hint" => "visualizar profissionais (administrativos, docentes, representantes e parceiros)"
+    			),
+    			array(
+    				"acoes" => "index,cadastrar,opcoes",
+    				"nome" => "Manter profissionais",
+    				"hint" => "cadastrar, atualizar e excluir profissionais (administrativos, docentes, representantes e parceiros)"
+    			),
+    			array(
+    				"acoes" => "index,cadastrar,excluir,opcoes",
+    				"nome" => "Excluir profissionais",
+    				"hint" => "excluir profissionais (administrativos, docentes, representantes e parceiros)"
+    			),
+    			array(
+    				"acoes" => "index,email",
+    				"nome" => "Enviar e-mail",
+    				"hint" => "enviar e-mail aos profissionais cadastrados"
+    			),
+    			array(
+    				"acoes" => "imprimir",
+    				"nome" => "Gerar formulários",
+    				"hint" => "gerar formulários em PDF dos profissionais"
+    			)
+    		)
+    	),
+
+    	"requerimentos" => array (
+    		"nome" => "Requerimentos",
+    		"permissoes" => array (
+    			array(
+    				"acoes" => "index,visualizar",
+    				"nome" => "Visualizar requerimentos",
+    				"hint" => "visualizar requerimentos"
+    			),
+    			array(
+    				"acoes" => "index,visualizar,cadastrar,opcoes",
+    				"nome" => "Manter requerimentos",
+    				"hint" => "atualizar requerimentos"
+    			),
+    			array(
+    				"acoes" => "excluir",
+    				"nome" => "Excluir requerimentos",
+    				"hint" => "excluir requerimentos"
+    			),
+    			array(
+    				"acoes" => "index,formulario",
+    				"nome" => "Imprimir formulários",
+    				"hint" => "imprimir formulário de requerimento"
+    			),
+    		)
+    	)
+	);
+
+?>
+
+<div class="grid">
+	<div class="col-1-1">
+		<div class="content">
+    		<span><strong>Permissão:</strong> <?php echo $permissao->nome; ?></span>
+    	</div>
+    </div>
+</div>
+
+<div class="checkbox">
+    <label>
+        <input type="checkbox" name="objetos[]" value="-1" onclick="marcarDesmarcar(this, 'form')"> <small><strong>Marcar todos</strong></small>
+    </label>
+</div>
+
+<form id="form" method="post">
+    <?php
+        foreach ($modulos as $nomeModulo => $modulo) {
+            echo '<fieldset>';
+            echo '<legend><strong>' . $modulo["nome"] . '</strong></legend>';
+            foreach ($modulo["permissoes"] as $key2 => $permissao) {
+                $p = $nomeModulo . ':' . $permissao["acoes"];
+				echo '<label class="checkbox-inline">';
+                echo '<span';
+				echo '>';
+                echo '<input type="checkbox" name="permissoes[]" value="' . $p . '"';
+
+                $aux = array();
+                foreach (explode(",", $permissao["acoes"]) as $acao) {
+                    $aux[] = $nomeModulo . ':' . $acao;
+                }
+
+                if (count(array_diff($aux, $permissoesAtuais)) == 0) {
+                    echo ' checked="checked"';
+                }
+
+                echo '/>';
+                echo $permissao["nome"];
+                echo '<br />';
+                echo '<small>Liberar permissão para ' . $permissao["hint"] . '.</small>';
+                echo '</span>';
+                echo '</label>';
+            }
+            echo '</fieldset>';
+        }
+    ?>
+
+	<input type="hidden" name="submeteu" value="1" />
+
+	<br />
+
+	<input class="btn btn-default" type="submit" value="Salvar" />
+
+</form>
+
+<script type="text/javascript">
+
+	function marcaDesmarca (id) {
+		var inputs = $j("#" + id).find("input");
+		var bool = $j(inputs[0]).prop("checked");
+		inputs.each(function(){
+			$j(this).prop("checked", bool);
+		});
+	}
+
+	function marca (id) {
+	    var input = $j("#chk"+id);
+	    $j(input).prop("checked", true);
+	    var inputs = $j("#"+id+" input:checked");
+	    if (inputs.length == 1) {
+            $j(input).prop("checked", false);
+        }
+	}
+
+</script>

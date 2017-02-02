@@ -1,0 +1,224 @@
+<?php
+	$params = $this->getParams();
+	$parceiro = $params['objeto'];
+?>
+
+<form method="post">
+
+<fieldset>
+    <legend><strong>Informações de contato</strong></legend>
+    
+    <input type="hidden" name="id" value="<?php echo $parceiro->id;; ?>" />
+    
+    <div class="grid">
+    	<div class="col-2-12">
+    	   <div class="content">
+    	   		<label for="Instituição/Empresa">Instituição/Empresa:</label>
+    	   </div>
+      	</div>
+    	<div class="col-10-12">
+    		<div class="content">
+    			<input class="form-control" name="instituicaoEmpresa" type="text" value="<?php echo $parceiro->instituicaoEmpresa;; ?>" autofocus="autofocus" />
+    		</div>
+    	</div>
+    </div>
+    
+    <div class="grid">
+    	<div class="col-2-12">
+    	   <div class="content">
+    	   		<label for="Contato">Contato:</label>
+    	   </div>
+      	</div>
+    	<div class="col-4-12">
+    		<div class="content">
+    			<input class="form-control" name="contato" type="text" value="<?php echo $parceiro->contato;; ?>" />
+    		</div>
+    	</div>
+    	<div class="col-2-12">
+    	   <div class="content">
+    	   		<label for="E-mail">E-mail:</label>
+    	   </div>
+    		</div>
+    	<div class="col-4-12">
+    		<div class="content">
+    			<input class="form-control" name="email" type="text" value="<?php echo $parceiro->email;; ?>" />
+    		</div>
+    	</div>
+    </div>
+    
+    <div class="grid">
+    	<div class="col-2-12">
+    	   <div class="content">
+    	   		<label for="Telefone Comercial">Telefone Comercial:</label>
+    	   </div>
+      	</div>
+    	<div class="col-4-12">
+    		<div class="content">
+    			<input class="form-control telefone" name="telefone1" type="text" value="<?php echo $parceiro->telefone1;; ?>" />
+    		</div>
+    	</div>
+    	<div class="col-2-12">
+    	   <div class="content">
+    	   		<label for="Telefone 2">Telefone Celular:</label>
+    	   </div>
+    		</div>
+    	<div class="col-4-12">
+    		<div class="content">
+    			<input class="form-control telefone" id="telefoneCelular" type="text" name="telefone2" value="<?php echo $parceiro->telefone2;; ?>" />
+    		</div>
+    	</div>
+    </div>
+
+</fieldset>
+
+<fieldset>
+    <legend><strong>Endereço</strong></legend>
+    
+	<div class="grid">
+		<div class="col-2-12">
+			<div class="content">
+				<label for="Cep">Cep:</label>
+			</div>
+		</div>
+		<div class="col-4-12">
+			<div class="content">
+				<input name="cep" class="form-control cep" type="text" value="<?php echo $parceiro->cep;; ?>" />
+			</div>
+		</div>
+	</div>
+	
+	<div class="grid">
+	    <div class="col-2-12">
+	    	<div class="content">
+	    		<label for="Endereço">Endereço:</label>
+	    	</div>
+	    </div>
+	    <div class="col-8-12">
+	    	<div class="content">
+	    		<input class="form-control" name="endereco" id="endereco" type="text" value="<?php echo $parceiro->endereco;; ?>" />
+	    	</div>
+	    </div>
+	    <div class="col-1-12">
+	    	<div class="content">
+	    		<label for="Número">Número:</label>
+	    	</div>
+	    </div>
+	    <div class="col-1-12">
+	    	<div class="content">
+	    		<input class="form-control" name="numero" type="text" value="<?php echo $parceiro->numero;; ?>" />
+	    	</div>
+	    </div>
+	</div>
+	
+	<div class="grid">
+		<div class="col-2-12">
+			<div class="content">
+				<label for="Complemento">Complemento:</label>
+			</div>
+		</div>
+		<div class="col-4-12">
+			<div class="content">
+				<input class="form-control" name="complemento" type="text" value="<?php echo $parceiro->complemento;; ?>" />
+			</div>
+		</div>
+		<div class="col-2-12">
+			<div class="content">
+				<label for="Bairro">Bairro:</label>
+			</div>
+		</div>
+		<div class="col-4-12">
+			<div class="content">
+				<input class="form-control" name="bairro" id="bairro" type="text" value="<?php echo $parceiro->bairro;; ?>" />
+			</div>
+		</div>
+	</div>
+	
+	<div class="grid">
+	    <div class="col-2-12">
+	    	<div class="content">
+	    		<label for="Cidade">Cidade:</label>
+	    	</div>
+	    </div>
+	    <div class="col-8-12">
+	    	<div class="content">
+	    		<input class="form-control" name="cidade" id="cidade" type="text" value="<?php echo $parceiro->cidade;; ?>" />
+	    	</div>
+	    </div>
+	    <div class="col-1-12">
+	    	<div class="content">
+	    		<label for="UF">UF:</label>
+	    	</div>
+	    </div>
+	    <div class="col-1-12">
+	    	<div class="content">
+	    		<select class="form-control" name="estado" id="estado">
+	    		    <option value="" <?php if ($parceiro->estado == "") echo ' selected';  ?>>--Selecione--</option>
+	    		    <option value="AC"<?php if ($parceiro->estado == "AC") echo ' selected'; ?>>AC</option>
+	    		    <option value="AL"<?php if ($parceiro->estado == "AL") echo ' selected'; ?>>AL</option>
+	    		    <option value="AP"<?php if ($parceiro->estado == "AP") echo ' selected'; ?>>AP</option>
+	    		    <option value="AM"<?php if ($parceiro->estado == "AM") echo ' selected'; ?>>AM</option>
+	    		    <option value="BA"<?php if ($parceiro->estado == "BA") echo ' selected'; ?>>BA</option>
+	    		    <option value="CE"<?php if ($parceiro->estado == "CE") echo ' selected'; ?>>CE</option>
+	    		    <option value="DF"<?php if ($parceiro->estado == "DF") echo ' selected'; ?>>DF</option>
+	    		    <option value="ES"<?php if ($parceiro->estado == "ES") echo ' selected'; ?>>ES</option>
+	    		    <option value="GO"<?php if ($parceiro->estado == "GO") echo ' selected'; ?>>GO</option>
+	    		    <option value="MA"<?php if ($parceiro->estado == "MA") echo ' selected'; ?>>MA</option>
+	    		    <option value="MT"<?php if ($parceiro->estado == "MT") echo ' selected'; ?>>MT</option>
+	    		    <option value="MS"<?php if ($parceiro->estado == "MS") echo ' selected'; ?>>MS</option>
+	    		    <option value="MG"<?php if ($parceiro->estado == "MG") echo ' selected'; ?>>MG</option>
+	    		    <option value="PA"<?php if ($parceiro->estado == "PA") echo ' selected'; ?>>PA</option>
+	    		    <option value="PB"<?php if ($parceiro->estado == "PB") echo ' selected'; ?>>PB</option>
+	    		    <option value="PR"<?php if ($parceiro->estado == "PR") echo ' selected'; ?>>PR</option>
+	    		    <option value="PE"<?php if ($parceiro->estado == "PE") echo ' selected'; ?>>PE</option>
+	    		    <option value="PI"<?php if ($parceiro->estado == "PI") echo ' selected'; ?>>PI</option>
+	    		    <option value="RJ"<?php if ($parceiro->estado == "RJ") echo ' selected'; ?>>RJ</option>
+	    		    <option value="RN"<?php if ($parceiro->estado == "RN") echo ' selected'; ?>>RN</option>
+	    		    <option value="RS"<?php if ($parceiro->estado == "RS") echo ' selected'; ?>>RS</option>
+	    		    <option value="RO"<?php if ($parceiro->estado == "RO") echo ' selected'; ?>>RO</option>
+	    		    <option value="RR"<?php if ($parceiro->estado == "RR") echo ' selected'; ?>>RR</option>
+	    		    <option value="SC"<?php if ($parceiro->estado == "SC") echo ' selected'; ?>>SC</option>
+	    		    <option value="SP"<?php if ($parceiro->estado == "SP") echo ' selected'; ?>>SP</option>
+	    		    <option value="SE"<?php if ($parceiro->estado == "SE") echo ' selected'; ?>>SE</option>
+	    		    <option value="TO"<?php if ($parceiro->estado == "TO") echo ' selected'; ?>>TO</option>
+	    		</select>
+	    	</div>
+	    </div>
+	</div>
+    
+</fieldset>
+
+<fieldset>
+	<legend><strong>Outras Informações</strong></legend>
+	<div class="grid">
+		<div class="col-2-12">
+			<div class="content">
+				<label for="Desconto">Desconto:</label>
+			</div>
+		</div>
+		<div class="col-3-12">
+			<div class="content">
+				<input class="form-control" id="desconto" name="desconto" class="pequeno" type="text" value="<?php echo $parceiro->desconto;; ?>" />
+			</div>
+		</div>
+	</div>
+	
+	<div class="grid">
+		<div class="col-2-12">
+			<div class="content">
+				<label for="Observações">Observações:</label>
+			</div>
+		</div>
+		<div class="col-10-12">
+			<div class="content">
+				<textarea class="form-control" name="observacoes" rows="6"><?php echo $parceiro->observacoes;; ?></textarea>
+			</div>
+		</div>
+	</div>
+</fieldset>
+
+<br />
+
+<input class="btn btn-default" type="submit" value="Salvar" /> 
+
+</form>
+

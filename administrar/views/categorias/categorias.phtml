@@ -1,0 +1,181 @@
+<?php
+	$params = $this->getParams();
+	$categoria = $params["objeto"];
+?>
+
+<form method="post" enctype="multipart/form-data">
+
+	<input type="hidden" name="id" value="<?php echo $categoria->id; ?>" />
+
+	<div class="grid">
+		<div class="col-2-12">
+		   <div class="content">
+		   		<label for="Visível?">Visível?:</label>
+		   </div>
+	  	</div>
+		<div class="col-2-12">
+			<div class="content">
+				<input type="hidden" name="visivel" value="0" />
+				<input type="checkbox" name="visivel" value="1"<?php if ($categoria->visivel == 1) echo ' checked'; ?> />
+			</div>
+		</div>
+	</div>
+
+	<div class="grid">
+		<div class="col-2-12">
+		   <div class="content">
+		   		<label for="Categoria Pai">Categoria Pai:</label>
+		   </div>
+	  	</div>
+		<div class="col-4-12">
+			<div class="content">
+				<select class="form-control" name="pai">
+					<option value="0">--Selecione--</option>
+					<?php
+						foreach ($params['categorias'] as $c) {
+							echo '<option ';
+							if ($c->id == $categoria->pai) {
+								echo ' selected="selected"';
+							}
+							echo ' value="' . $c->id . '">' . $c->nome . '</option>';
+						}
+					?>
+				</select>
+			</div>
+		</div>
+	</div>
+
+	<div class="grid">
+		<div class="col-2-12">
+		   <div class="content">
+		   		<label for="Nome">Nome:</label>
+		   </div>
+	  	</div>
+		<div class="col-4-12">
+			<div class="content">
+				<input type="text" name="nome" maxlength="255" class="form-control" value="<?php echo $categoria->nome; ?>" />
+			</div>
+		</div>
+	</div>
+
+	<div class="grid">
+		<div class="col-2-12">
+		   <div class="content">
+		   		<label for="Descrição">Descrição:</label>
+		   </div>
+	  	</div>
+		<div class="col-10-12">
+			<div class="content">
+				<textarea class="ckeditor" name="descricao"><?php echo $categoria->descricao; ?></textarea>
+			</div>
+		</div>
+	</div>
+
+	<?php $label = "Banner"; if (!empty($categoria->banner)) { $label = "Substituir banner"; ?>
+	
+	<div class="grid">
+		<div class="col-2-12">
+		   <div class="content">
+		   		<label for="Banner">Banner:</label>
+		   </div>
+	  	</div>
+		<div class="col-6-12">
+			<div class="content">
+			<?php
+				if (!empty($categoria->banner)) {
+					$diretorio = DIR_UPLOADS . '/categorias/' . $categoria->id . '/' . $categoria->banner;
+					if (existeArquivo($diretorio)) {
+						$html = '<a data-lightbox="curso" title="%s" href="%s">
+						<img class="img-responsive" src="%s" title="Banner do curso %s" 
+						alt="Imagem da categoria %s" /></a>
+						<p class="text-center"><a class="excluir-click text-center" href="%s"><small>Excluir</small></a></p>';
+						$path = WWW_ROOT . DS . 'assets' . DS . 'uploads' . DS . 'categorias' . DS . $categoria->id . DS . $categoria->banner;
+						$href = '?modulo=categorias&acao=removerb&id=' . $categoria->id;
+						echo sprintf($html, $categoria->nome, $path, $path, $categoria->nome, 
+							$categoria->nome, $href);
+					}
+					else {
+						echo '<img class="img-responsive" src="imagens/banner-nao-encontrado.jpg" title="O banner da categoria não foi encontrado" alt="Imagem não encontrada" />';
+						echo '<p class="text-center"><small>Imagem não encontrada</small></p>';
+					}
+				}
+			?>
+			</div>
+		</div>
+	</div>
+	<?php } ?>
+	
+	<div class="grid">
+		<div class="col-2-12">
+		   <div class="content">
+		   		<label for="<?php echo $label; ?>"><?php echo $label; ?>:</label>
+		   </div>
+	  	</div>
+		<div class="col-4-12">
+			<div class="content">
+				<input name="banner" type="file" />
+			</div>
+		</div>
+	</div>
+
+	<?php $label = "Imagem"; if (!empty($categoria->imagem)) { $label = "Substituir imagem"; ?>
+	
+	<div class="grid">
+		<div class="col-2-12">
+		   <div class="content">
+		   		<label for="Imagem">Imagem:</label>
+		   </div>
+	  	</div>
+		<div class="col-4-12">
+			<div class="content">
+			<?php
+				if (!empty($categoria->imagem)) {
+					$diretorio = DIR_UPLOADS . '/categorias/' . $categoria->id . '/' . $categoria->imagem;
+					if (existeArquivo($diretorio)) {
+						$html = '<a data-lightbox="curso" title="%s" href="%s">
+						<img class="img-responsive" src="%s" title="Banner do curso %s" 
+						alt="Imagem da categoria %s" /></a>
+						<a class="excluir-click text-center" href="%s"><small>Excluir</small></a>';
+						$path = WWW_ROOT . DS . 'assets' . DS . 'uploads' . DS . 'categorias' . DS . $categoria->id . DS . $categoria->imagem;
+						$href = '?modulo=categorias&acao=removeri&id=' . $categoria->id;
+						echo sprintf($html, $categoria->nome, $path, $path, $categoria->nome, 
+							$categoria->nome, $href);
+					}
+					else {
+						echo '<img class="img-responsive" src="imagens/banner-nao-encontrado.jpg" title="A imagem da categoria não foi encontrada" alt="Imagem não encontrada" />';
+						echo '<p class="text-center"><small>Imagem não encontrada</small></p>';
+					}
+				}
+			?>
+			</div>
+		</div>
+	</div>
+	<?php } ?>
+	
+	<div class="grid">
+		<div class="col-2-12">
+		   <div class="content">
+		   		<label for="<?php echo $label; ?>"><?php echo $label; ?>:</label>
+		   </div>
+	  	</div>
+		<div class="col-4-12">
+			<div class="content">
+				<input name="imagem" type="file" />
+			</div>
+		</div>
+	</div>
+	
+	<div class="grid">
+		<div class="col-2-12">
+		   <div class="content">
+		   		&nbsp;		   
+		   	</div>
+	  	</div>
+		<div class="col-9-12">
+			<div class="content">
+				<input class="btn btn-default" type="submit" value="Salvar" />
+			</div>
+		</div>
+	</div>
+
+</form>

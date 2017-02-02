@@ -1,0 +1,74 @@
+
+<form method="POST">
+    <!--div class="grid">
+    	<div class="col-1-1">
+    		<div class="content">
+				<a href="?modulo=categorias&acao=cadastrar">
+					<div class="item">
+						<span class="ti-save"></span>
+						<span class="icon-name">Nova Categoria</span>
+					</div>
+				</a>
+    		</div>
+    	</div>
+    </div-->
+    <div class="grid">
+		<div class="col-1-1">
+			<div class="content">
+			    <table class="table table-categorias">
+				    <thead>
+				        <tr>
+							<th>&nbsp;</th>
+				            <th><strong>Categoria</strong></th>
+				            <th class="center"><strong>Quantidade de Cursos</strong></th>
+				            <th class="center"><strong>em Pós-Graduação</strong></th>
+				            <th class="center"><strong>em Aperfeiçoamento</strong></th>
+				            <th class="center"><strong>Data</strong></th>
+				            <th></th>
+				        </tr>
+				    </thead>
+				    <tbody>
+					    <?php
+					    	echo $params["categorias"];
+					    ?>
+				    </tbody>
+			    </table>
+			</div>
+		</div>
+    </div>
+</form>
+
+<script>
+	$('.visible').on('click', function(e) {
+		e.preventDefault();
+		// referência ao elemento que foi clicado
+		var a = $(this);
+		// html do elemento ícone olho aberto/fechado
+		var span = $(a).html();
+		// div container
+		var div = $(this).parent();
+		// id do elemento que foi clicado
+		var id = $(a).attr('id');
+		// valor atual da propriedade visível
+		var visivel = $(a).attr('data-visivel');
+
+		var loader = $('<img/>', {
+			src : 'imagens/ajax-loader.gif'
+		});
+
+		$(a).html(loader);
+		$('.subcategoria' + id).html(loader);
+
+		$.ajax({
+			type: "GET",
+			dataType : "json",
+			url: 'views/categorias/ajax.php',
+			data: { id : id, visivel : visivel }
+		}).done(function(data) {
+			$('.visible img').remove();
+			$(a).attr('data-visivel', data.visivel);
+			$(a).html(data.result);
+			$('.subcategoria' + id).html(data.result);
+		});
+	});
+</script>

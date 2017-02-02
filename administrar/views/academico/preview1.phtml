@@ -1,0 +1,188 @@
+<?php
+	$params = $this->getParams();
+    $conteudo = $params["conteudo"];
+?>
+
+<style>
+	/*table {
+		table-layout: fixed !important;
+	}
+	
+	table tbody {
+		font-size: 0.8em;
+	}
+	
+	table th,
+	table td {
+		padding: 3px;
+	}*/
+
+	.table {
+		font-size: 0.8em;
+	}
+
+	.table th {
+		font-weight: bold;
+	}
+	
+	.grid {
+		margin: 0;
+		padding: 0;
+	}
+</style>
+
+<div class="grid top-items">
+	<div class="col-1-1">
+		<div class="content">
+			<a href="?modulo=academico&acao=carregar">
+				<div class="item">
+					<span class="ti-file"></span>
+					<span class="icon-name">Carregar outro arquivo</span>
+				</span>
+			</a>
+		</div>
+	</div>
+</div>
+
+<div class="grid">
+	<div class="col-1-1">
+		<form method="post" action="?modulo=academico&acao=carregar&file=<?php echo $_GET['file']; ?>">
+			<div class="grid top-items">
+				<div class="col-1-1">
+					<div class="content">
+						<input class="btn btn-default" type="submit" value="Cadastrar" />
+					</div>
+				</div>
+			</div>
+			<div class="scroll-pane">
+				<table class="table">
+					<thead>
+						<th>&nbsp;</th>
+						<th class="center">Ação</th>
+						<th class="center">Código</th>
+						<th>Curso</th>
+						<th>CPF</th>
+						<th>Nome</th>
+						<th>Disciplina</th>
+						<th>Professor</th>
+						<th>Título</th>
+						<!-- th class="center">Carga Horária</th -->
+						<th class="center">Data Início</th>
+						<th class="center">Data Fim</th>
+						<th class="center">Nota</th>
+						<th class="center">Faltas</th>
+						<th class="center">Situação</th>
+						<th class="center">Data Fim Curso</th>
+						<th class="center">Nota Substituída</th>
+						<th class="center">Data Reposição</th>
+					</thead>
+					<tbody>
+						<?php
+						$linha = true;
+						foreach ($conteudo as $key => $value) {
+							
+							// list($id,$codigoAluno, $numSeqAluno, $nomeAluno, $dataMatAluno, $situacaoAluno, $codigoCurso, $nomeCurso, $nomeDisciplina, $cargaHorDisciplina, $notaAluno, $situacaoNota, $numeroFaltas, $notaTrabalho, $dataInicio, $dataFim, $email, $cpf, $dataFimCurso, 
+							// 	$notaSubstituida,$dataReposicao, $obsReposicao) = explode(";", $value);
+
+							list($id,$codigoAluno,$nomeAluno,$dataMatAluno,$codigoCurso,$nomeCurso,$unidade,$nomeDisciplina,$professor,$titulo,$notaAluno,$situacaoNota,$numeroFaltas,$notaTrabalho,$dataInicio,$dataFim,$email,$cpf,$dataFimCurso,$notaSubstituida,$dataReposicao,$obsReposicao) = explode(";", $value);
+							
+							echo '<tr';
+							if ($linha) {
+								 echo ' style="background-color:#f4f0f0;" class="linha"';
+							}
+							echo '>';
+							echo '<td><small>' . (++$key) . '</small></td>';
+							
+							echo '<td class="center">';
+							echo $id != 0 ? "Atualizar" : "Cadastrar";
+							echo '</td>';
+
+							echo '<td class="center">';
+							echo $codigoCurso;
+							echo '</td>';
+							
+							echo '<td>';
+							echo utf8_encode($nomeCurso);
+							echo '</td>';
+							
+							echo '<td>';
+							echo $cpf;
+							echo '</td>';
+							
+							echo '<td>';
+							echo utf8_encode($nomeAluno);
+							echo '</td>';
+							
+							echo '<td>';
+							echo utf8_encode($nomeDisciplina);
+							echo '</td>';
+
+							echo '<td>';
+							echo utf8_encode($professor);
+							echo '</td>';
+
+							echo '<td>';
+							echo utf8_encode($titulo);
+							echo '</td>';
+							
+							// echo '<td class="center">';
+							// echo $cargaHorDisciplina;
+							// echo '</td>';
+							
+							echo '<td class="center">';
+							echo $dataInicio;
+							echo '</td>';
+
+							echo '<td class="center">';
+							echo $dataFim;
+							echo '</td>';
+							
+							echo '<td class="center">';
+							echo $notaAluno;
+							echo '</td>';
+							
+							echo '<td class="center">';
+							echo $numeroFaltas;
+							echo '</td>';
+							
+							echo '<td class="center">';
+							echo $situacaoNota;
+							echo '</td>';
+
+							echo '<td class="center">';
+							echo $dataFimCurso;
+							echo '</td>';
+
+							echo '<td class="center">';
+							echo $notaSubstituida;
+							echo '</td>';
+
+							echo '<td class="center">';
+							echo $dataReposicao;
+							echo '</td>';
+							
+							$linha = !$linha;
+							echo '</tr>';
+						}
+						?>
+					</tbody>
+				</table>
+			</div>
+			<input type="hidden" name="cadastrar" value="1" />
+			
+		</form>
+	</div>
+</div>
+
+<div class="grid">
+	<div class="col-1-1">
+		<div class="content">
+			<a href="?modulo=academico&acao=carregar">
+				<div class="item">
+					<span class="ti-file"></span>
+					<span class="icon-name">Carregar outro arquivo</span>
+				</span>
+			</a>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,52 @@
+<?php
+	$params = $this->getParams();
+?>
+
+<form method="post" enctype="multipart/form-data" action="?modulo=<?php echo $_GET["modulo"]; ?>&acao=processa">
+	<fieldset>
+		<legend><strong>Carregar arquivo</strong></legend>	
+		<div class="grid">
+		    <div class="col-2-12">
+		       <div class="content">
+		           <label for="Arquivo">Arquivo:</label>
+		       </div>
+		    </div>
+		    <div class="col-4-12">
+		       <div class="content">
+		           <input type="file" name="arquivo" />
+		       </div>
+		    </div>
+		</div>
+		<div class="grid">
+		    <div class="col-2-12">
+		       <div class="content">
+		           <label for="Pré-visualizar">Pré-visualizar:</label>
+		       </div>
+		    </div>
+		    <div class="col-2-12">
+		       <div class="content">
+		           <select class="form-control" name="previsualizar">
+			           	<option value="">--Selecione--</option>
+			           	<option value="10">10</option>
+			           	<option value="100">100</option>
+			           	<option value="1000">1000</option>
+			           	<option value="5000">5000</option>
+			           	<option value="10000">10000</option>
+		           </select>
+		       </div>
+		    </div>
+		</div>
+		<div class="grid">
+		    <div class="col-2-12">
+		       <div class="content">
+		           &nbsp;
+		       </div>
+		    </div>
+		    <div class="col-4-12">
+		       <div class="content">
+		           <input class="btn btn-default" type="submit" value="Enviar" />
+		       </div>
+		    </div>
+		</div>
+	</fieldset>
+</form>

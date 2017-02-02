@@ -1,0 +1,880 @@
+<?php
+	$params = $this->getParams();
+	$requerimento = $params["requerimento"];
+	$pendencias = explode(",", $requerimento["pendencias"]);
+?>
+
+<script>
+
+	$(function() {
+
+		var availableTags = [<?php echo $params["cursosDisponiveis"]; ?>];
+		$(".autocomplete").autocomplete({
+			source: availableTags
+		});
+
+		if ($("#situacao").val() == 6) {
+			$("#finalizar").show();
+			$("#arquivo").show();
+		}
+
+		// evento click dos rádios buttons que determinam se o requerimento
+		// é isento de pagamento
+		$('#isento input').on('click', function(){
+			if($(this).data('valor') == "sim") {
+				$('#pago input').each(function(){
+					$(this).prop('disabled', true);
+					$('#pago input').each(function(){
+						$(this).prop('checked', false);
+					})
+				})
+			}
+			else {
+				$('#pago input').each(function(){
+					$(this).prop('disabled', false);
+				})
+			}
+		});
+
+		// quando carregar a página, se o requerimento for isento de pagamento
+		// os radio buttons que indicam se foi pago ou não devem estar desabilitados
+		if ($('#isento input:eq(0)').prop('checked')) {
+			$('#pago input').each(function(){
+				$(this).prop('disabled', true);
+				$('#pago input').each(function(){
+					$(this).prop('checked', false);
+				})
+			})
+		}
+
+	});
+
+	function mostraExtensao (obj) {
+		$("#finalizar").hide();
+		$("#arquivo").hide();
+		if ($(obj).val() == 6) {
+			$("#finalizar").show();
+			$("#arquivo").show();
+		}
+		$(".extensaoSituacao").hide();
+		$("#pen-" + $(obj).val()).show();
+	}
+</script>
+
+<style>
+	.items label.radio {
+		margin-left: 21px;
+	}
+	.extensaoSituacao,
+	#finalizar,
+	#arquivo {
+		display: none;
+	}
+</style>
+
+<form method="post" enctype="multipart/form-data">
+
+	<input type="hidden" name="id" value="<?php echo $requerimento["id"]; ?>" />
+	<input type="hidden" name="protocolo" value="<?php echo $requerimento["protocolo"]; ?>" />
+
+	<small><strong>Solicitação realizada em <?php echo getDataHoraFormatada($requerimento["timestamp"]); ?> com número de protocolo <?php echo $requerimento["protocolo"]; ?>.</strong></small>
+
+	<fieldset>
+		<legend><strong>Requerente</strong></legend>
+
+		<div class="grid">
+			<div class="col-1-8">
+			   <div class="content">
+			   		<label for="Certificadora">Certificadora:</label>
+			   </div>
+		  </div>
+			<div class="col-3-12">
+				<div class="content">
+					<select class="form-control" name="unidadeCertificadora">
+						<option value="">--Selecione--</option>
+						<?php
+							foreach (Curso::getCertificadoras() as $key => $value) {
+								echo '<option';
+								if ($requerimento["unidadeCertificadora"] == $key) {
+									echo ' selected="selected"';
+								}
+								echo ' value="' . $key . '">' . $value . '</option>';
+
+							}
+						?>
+					</select>
+				</div>
+			</div>
+		</div>
+
+		<div class="grid">
+			<div class="col-1-8">
+			   <div class="content">
+			   		<label for="Nome">Nome:</label>
+			   </div>
+		  </div>
+			<div class="col-5-12">
+				<div class="content">
+					<input class="form-control" type="text" name="nome" value="<?php echo $requerimento["nome"]; ?>" />
+				</div>
+			</div>
+			<div class="col-1-11">
+			   <div class="content">
+			   		<label for="E-mail">E-mail:</label>
+			   </div>
+			</div>
+			<div class="col-4-12">
+				<div class="content">
+					<input class="form-control" type="text" name="email" value="<?php echo $requerimento["email"]; ?>" />
+				</div>
+			</div>
+		</div>
+
+		<div class="grid">
+			<div class="col-1-8">
+			   <div class="content">
+			   		<label for="Nome">Curso:</label>
+			   </div>
+		  	</div>
+			<div class="col-5-12">
+				<div class="content">
+					<input class="autocomplete form-control" type="text" name="curso" value="<?php echo $requerimento["curso"]; ?>" />
+				</div>
+			</div>
+			<div class="col-1-11">
+			   <div class="content">
+			   		<label for="Cidade">Cidade:</label>
+			   </div>
+			</div>
+			<div class="col-4-12">
+				<div class="content">
+					<input class="form-control" type="text" name="cidade1" value="<?php echo $requerimento["cidade1"]; ?>" />
+				</div>
+			</div>
+		</div>
+
+		<div class="grid">
+			<div class="col-1-8">
+			   <div class="content">
+			   		<label for="Telefone Residencial">Tel. Residencial:</label>
+			   </div>
+		  	</div>
+			<div class="col-1-8">
+				<div class="content">
+					<input class="telefone form-control" type="text" name="telefoneResidencial" value="<?php echo $requerimento["telefoneResidencial"]; ?>" />
+				</div>
+			</div>
+			<div class="col-1-7">
+			   <div class="content">
+			   		<label for="Cidade">Operadora:</label>
+			   </div>
+			</div>
+			<div class="col-1-7">
+				<div class="content">
+					<select class="form-control" name="operadoraCelular">
+						<option value="">--Operadora--</option>
+						<option value="Claro"<?php if($requerimento["operadoraCelular"] == "Claro") echo ' selected="selected"'; ?>>Claro</option>
+						<option value="Tim"<?php if($requerimento["operadoraCelular"] == "Tim") echo ' selected="selected"'; ?>>Tim</option>
+						<option value="Vivo"<?php if($requerimento["operadoraCelular"] == "Vivo") echo ' selected="selected"'; ?>>Vivo</option>
+					</select>
+				</div>
+			</div>
+			<div class="col-1-11">
+			   <div class="content">
+			   		<label for="Tel. Celular">Tel. Celular:</label>
+			   </div>
+			</div>
+			<div class="col-4-12">
+				<div class="content">
+					<input class="form-control telefone" id="telefoneCelular" type="text" name="telefoneCelular" value="<?php echo $requerimento["telefoneCelular"]; ?>" />
+				</div>
+			</div>
+		</div>
+	</fieldset>
+
+	<fieldset class="items">
+		<legend><strong>Tipo de requerimento</strong></legend>
+		<div class="grid">
+			<div class="col-5-12">
+				<div class="content">
+				<?php
+					$metade = (int) (count($params["tipos"]) / 2);
+					foreach ($params["tipos"] as $key => $value) {
+						echo '<label class="radio">';
+						echo '<input type="radio" name="tipo" value="' . $key . '"';
+						if ($requerimento["tipo"] == $key) {
+							echo 'checked="checked"';
+						}
+						echo ' />';
+						echo $value["descricao"];
+						if (!empty($value["taxa"])) {
+							echo '<br />';
+							echo '<small style="color: #f58634">Taxa: ' . $value["taxa"] . '</small>';
+						}
+						echo '</label>';
+						if ($key == $metade) {
+							break;
+						}
+					}
+				?>
+				</div>
+			</div>
+			<div class="col-6-12">
+				<div class="content">
+				<?php
+					foreach ($params["tipos"] as $key => $value) {
+						if ($key <= $metade) {
+							continue;
+						}
+						echo '<label class="radio">';
+						echo '<input type="radio" name="tipo" value="' . $key . '"';
+						if ($requerimento["tipo"] == $key) {
+							echo 'checked="checked"';
+						}
+						echo ' />';
+						echo $value["descricao"];
+						if (!empty($value["taxa"])) {
+							echo '<br />';
+							echo '<small style="color: #f58634">Taxa: ' . $value["taxa"] . '</small>';
+						}
+						echo '</label>';
+					}
+				?>
+				</div>
+			</div>
+		</div>
+		<div class="grid">
+			<div class="col-2-12">
+				<div class="content">
+					<label for="especificacoes">Especificações:</label>
+				</div>
+			</div>
+			<div class="col-10-12">
+				<div class="content">
+					<textarea class="form-control" name="especificacoes" rows="5"
+						placeholder="Especificações"><?php echo $requerimento["especificacoes"]; ?></textarea>
+				</div>
+			</div>
+		</div>
+		<div class="grid">
+			<div class="col-2-12">
+				<div class="content">
+					<label for="Comprovante">Comprovante:</label>
+				</div>
+			</div>
+			<div class="col-9-12">
+				<div class="content">
+					<?php
+						if ($requerimento["enviouComprovante"] == 1) {
+							if (existeArquivo(DIR_UPLOADS . '/requerimentos/' . $requerimento["id"] . '/' . base64_decode($requerimento["comprovante"]))) {
+								echo '<input type="hidden" name="comprovante" value="' . $requerimento["comprovante"];
+								echo  '" />';
+								echo '<input type="hidden" name="mime" value="' . $requerimento["mimeComprovante"] . '" />';
+								echo '<input type="hidden" name="extensao" value="' . $requerimento["extensaoComprovante"] . '" />';
+								$mimePdf = 'application/pdf';
+								$mimeJpeg = 'image/jpeg';
+								$mimesWord = 'application/msword|application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+								$mimesWordArray = explode('|', $mimesWord);
+								$mime = $requerimento["mimeComprovante"];
+								echo '<img src="imagens/';
+								if ($mime == $mimePdf) {
+									echo 'pdf-icon';
+								}
+								else if ($mime == $mimeJpeg) {
+									echo 'jpg-icon';
+								}
+								else if (in_array($mime, $mimesWordArray)) {
+									echo 'word-icon';
+								}
+								echo '.gif" />';
+								echo '&nbsp;<a title="Baixar comprovante" href="?modulo=requerimentos&q=comprovante&acao=download&id=' . $requerimento["id"] . '">';
+								echo base64_decode($requerimento["comprovante"]);
+								echo '</a>';
+								echo ' <small>(<a onclick="excluir-click"';
+								echo ' href="?modulo=requerimentos&acao=excluirc&id=';
+								echo $requerimento["id"] . '">Excluir</a>)</small>';
+							}
+							else {
+								echo base64_decode($requerimento["comprovante"]);
+								echo ' <small class="destaque">Comprovante não encontrado!</small>';
+							}
+						}
+						else {
+							echo '<input type="file" name="comprovante" />';
+						}
+					?>
+				</div>
+			</div>
+		</div>
+		<div class="grid">
+			<div class="col-2-12">
+				<div class="content">
+					<label for="Anexo">Anexo:</label>
+				</div>
+			</div>
+			<div class="col-9-12">
+				<div class="content">
+					<?php
+						if ($requerimento["enviouAnexo"] == 1) {
+							if (existeArquivo(DIR_UPLOADS . '/requerimentos/' . $requerimento["id"] . '/' . base64_decode($requerimento["anexo"]))) {
+								echo '<input type="hidden" name="anexo" value="' . $requerimento["anexo"];
+								echo  '" />';
+								echo '<input type="hidden" name="mimeAnexo" value="' . $requerimento["mimeAnexo"] . '" />';
+								echo '<input type="hidden" name="extensaoAnexo" value="' . $requerimento["extensaoAnexo"] . '" />';
+								$mimePdf = 'application/pdf';
+								$mimeJpeg = 'image/jpeg';
+								$mimesWord = 'application/msword|application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+								$mimesWordArray = explode('|', $mimesWord);
+								$mime = $requerimento["mimeAnexo"];
+								echo '<img src="imagens/';
+								if ($mime == $mimePdf) {
+									echo 'pdf-icon';
+								}
+								else if ($mime == $mimeJpeg) {
+									echo 'jpg-icon';
+								}
+								else if (in_array($mime, $mimesWordArray)) {
+									echo 'word-icon';
+								}
+								echo '.gif" />';
+								echo '&nbsp;<a title="Baixar anexo" href="?modulo=requerimentos&acao=download&q=anexo&id=' . $requerimento["id"] . '">';
+								echo base64_decode($requerimento["anexo"]);
+								echo '</a>';
+								echo ' <small>(<a class="excluir-click"';
+								echo ' href="?modulo=requerimentos&acao=excluira&id=';
+								echo $requerimento["id"] . '">Excluir</a>)</small>';
+							}
+							else {
+								echo base64_decode($requerimento["comprovante"]);
+								echo ' <small class="destaque">Comprovante não encontrado!</small>';
+							}
+						}
+						else {
+							echo '<input type="file" name="anexo" />';
+						}
+					?>
+				</div>
+			</div>
+		</div>
+	</fieldset>
+
+	<fieldset>
+		<legend><strong>Endereço para entrega</strong></legend>
+		<div class="grid">
+			<div class="col-1-8">
+			   <div class="content">
+			   		<label for="CEP">CEP:</label>
+			   </div>
+		  	</div>
+			<div class="col-5-8">
+				<div class="content">
+					<input name="cep" style="float:left; margin-right:5px; width: 120px;" class="form-control" onblur="consultaCep(this)" type="text" value="<?php echo $requerimento["cep"]; ?>" />
+					<img class="ajax-loader" src="imagens/ajax-loader.gif" />
+				</div>
+			</div>
+		</div>
+		<div class="grid">
+			<div class="col-1-8">
+			   <div class="content">
+			   		<label for="Endereço">Endereço:</label>
+			   </div>
+			</div>
+			<div class="col-6-12">
+				<div class="content">
+					<input class="form-control" id="endereco" type="text" name="endereco" value="<?php echo $requerimento["endereco"]; ?>" />
+				</div>
+			</div>
+			<div class="col-1-12">
+				<div class="content">
+					<label for="Número">Número:</label>
+				</div>
+			</div>
+			<div class="col-1-8">
+				<div class="content">
+					<input class="form-control" type="text" name="numero" value="<?php echo $requerimento["numero"]; ?>" />
+				</div>
+			</div>
+		</div>
+		<div class="grid">
+			<div class="col-1-8">
+			   <div class="content">
+			   		<label for="Complemento">Complemento:</label>
+			   </div>
+			</div>
+			<div class="col-6-12">
+				<div class="content">
+					<input class="form-control" type="text" name="complemento" value="<?php echo $requerimento["complemento"]; ?>" />
+				</div>
+			</div>
+			<div class="col-1-12">
+			   <div class="content">
+			   		<label for="Bairro">Bairro:</label>
+			   </div>
+			</div>
+			<div class="col-3-12">
+				<div class="content">
+					<input class="form-control" id="bairro" type="text" name="bairro" value="<?php echo $requerimento["bairro"]; ?>" />
+				</div>
+			</div>
+		</div>
+		<div class="grid">
+			<div class="col-1-8">
+				<div class="content">
+					<label for="Cidade">Cidade:</label>
+				</div>
+			</div>
+			<div class="col-6-12">
+				<div class="content">
+					<input class="form-control" id="cidade" type="text" name="cidade2" value="<?php echo $requerimento["cidade2"]; ?>" />
+				</div>
+			</div>
+			<div class="col-1-12">
+			   <div class="content">
+			   		<label for="UF">UF:</label>
+			   </div>
+			</div>
+			<div class="col-1-12">
+				<div class="content">
+					<select class="form-control" id="uf" name="uf">
+						<option value="" <?php if ($requerimento["uf"] == "") echo 'selected="selected"';  ?>>--Selecione--</option>
+						<option value="AC" <?php if ($requerimento["uf"] == "AC") echo 'selected="selected"'; ?>>AC</option>
+						<option value="AL" <?php if ($requerimento["uf"] == "AL") echo 'selected="selected"'; ?>>AL</option>
+						<option value="AP" <?php if ($requerimento["uf"] == "AP") echo 'selected="selected"'; ?>>AP</option>
+						<option value="AM" <?php if ($requerimento["uf"] == "AM") echo 'selected="selected"'; ?>>AM</option>
+						<option value="BA" <?php if ($requerimento["uf"] == "BA") echo 'selected="selected"'; ?>>BA</option>
+						<option value="CE" <?php if ($requerimento["uf"] == "CE") echo 'selected="selected"'; ?>>CE</option>
+						<option value="DF" <?php if ($requerimento["uf"] == "DF") echo 'selected="selected"'; ?>>DF</option>
+						<option value="ES" <?php if ($requerimento["uf"] == "ES") echo 'selected="selected"'; ?>>ES</option>
+						<option value="GO" <?php if ($requerimento["uf"] == "GO") echo 'selected="selected"'; ?>>GO</option>
+						<option value="MA" <?php if ($requerimento["uf"] == "MA") echo 'selected="selected"'; ?>>MA</option>
+						<option value="MT" <?php if ($requerimento["uf"] == "MT") echo 'selected="selected"'; ?>>MT</option>
+						<option value="MS" <?php if ($requerimento["uf"] == "MS") echo 'selected="selected"'; ?>>MS</option>
+						<option value="MG" <?php if ($requerimento["uf"] == "MG") echo 'selected="selected"'; ?>>MG</option>
+						<option value="PA" <?php if ($requerimento["uf"] == "PA") echo 'selected="selected"'; ?>>PA</option>
+						<option value="PB" <?php if ($requerimento["uf"] == "PB") echo 'selected="selected"'; ?>>PB</option>
+						<option value="PR" <?php if ($requerimento["uf"] == "PR") echo 'selected="selected"'; ?>>PR</option>
+						<option value="PE" <?php if ($requerimento["uf"] == "PE") echo 'selected="selected"'; ?>>PE</option>
+						<option value="PI" <?php if ($requerimento["uf"] == "PI") echo 'selected="selected"'; ?>>PI</option>
+						<option value="RJ" <?php if ($requerimento["uf"] == "RJ") echo 'selected="selected"'; ?>>RJ</option>
+						<option value="RN" <?php if ($requerimento["uf"] == "RN") echo 'selected="selected"'; ?>>RN</option>
+						<option value="RS" <?php if ($requerimento["uf"] == "RS") echo 'selected="selected"'; ?>>RS</option>
+						<option value="RO" <?php if ($requerimento["uf"] == "RO") echo 'selected="selected"'; ?>>RO</option>
+						<option value="RR" <?php if ($requerimento["uf"] == "RR") echo 'selected="selected"'; ?>>RR</option>
+						<option value="SC" <?php if ($requerimento["uf"] == "SC") echo 'selected="selected"'; ?>>SC</option>
+						<option value="SP" <?php if ($requerimento["uf"] == "SP") echo 'selected="selected"'; ?>>SP</option>
+						<option value="SE" <?php if ($requerimento["uf"] == "SE") echo 'selected="selected"'; ?>>SE</option>
+						<option value="TO" <?php if ($requerimento["uf"] == "TO") echo 'selected="selected"'; ?>>TO</option>
+					</select>
+				</div>
+			</div>
+		</div>
+	</fieldset>
+
+	<fieldset>
+		<legend><strong>Situação do Requerimento</strong></legend>
+		<div class="grid">
+			<div class="col-1-8">
+				<div class="content">
+					<label for="Situação">Situação:</label>
+				</div>
+			</div>
+			<div class="col-3-12">
+				<div class="content">
+					<select class="form-control" id="situacao" name="situacao" onchange="mostraExtensao(this)">
+					<?php
+						foreach (Requerimento::getSituacoes() as $key => $value) {
+							echo '<option value="' . $key . '"';
+							if ($requerimento["situacao"] == $key) {
+								echo ' selected="selected"';
+							}
+							echo '>' . $value . '</option>';
+						}
+					?>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="grid" id="finalizar">
+			<div class="col-1-8">
+				<div class="content">
+					&nbsp;
+				</div>
+			</div>
+			<div class="col-8-12">
+				<div class="content destaque">
+					<p><strong>Atencão: Uma vez finalizada esta solicitação de requerimento não poderá mais ser reaberta!</strong></p>
+				</div>
+			</div>
+		</div>
+		<div class="grid extensaoSituacao" id="pen-3"<?php if($requerimento["situacao"] == Requerimento::REQUERIMENTO_SITUACAO_DEFERIDO_PROCESSO_EMISSAO) echo ' style="display:block;"';?>>
+			<div class="col-1-8">
+				<div class="content">
+					<label for="Previsão">Previsão:</label>
+				</div>
+			</div>
+			<div class="col-10-12">
+				<label class="radio-inline">
+					<input type="radio" name="previsao" value="7 dias úteis"<?php if (isset($requerimento["previsao"]) && $requerimento["previsao"] == "7 dias úteis") echo ' checked="checked"'; ?> /><small>7 dias úteis</small>
+				</label>
+				<label class="radio-inline">
+					<input type="radio" name="previsao" value="15 dias úteis"<?php if (isset($requerimento["previsao"]) && $requerimento["previsao"] == "15 dias úteis") echo ' checked="checked"'; ?> /><small>15 dias úteis</small>
+				</label>
+				<label class="radio-inline">
+					<input type="radio" name="previsao" value="30 dias úteis"<?php if (isset($requerimento["previsao"]) && $requerimento["previsao"] == "30 dias úteis") echo ' checked="checked"'; ?> /><small>30 dias úteis</small>
+				</label>
+				<label class="radio-inline">
+					<input type="radio" name="previsao" value="60 dias úteis"<?php if (isset($requerimento["previsao"]) && $requerimento["previsao"] == "60 dias úteis") echo ' checked="checked"'; ?> /><small>60 dias úteis</small>
+				</label>
+				<label class="radio-inline">
+					<input type="radio" name="previsao" value="90 dias úteis"<?php if (isset($requerimento["previsao"]) && $requerimento["previsao"] == "90 dias úteis") echo ' checked="checked"'; ?> /><small>90 dias úteis</small>
+				</label>
+				<label class="radio-inline">
+					<input type="radio" name="previsao" value="120 dias úteis"<?php if (isset($requerimento["previsao"]) && $requerimento["previsao"] == "120 dias úteis") echo ' checked="checked"'; ?> /><small>120 dias úteis</small>
+				</label>
+				<label class="radio-inline">
+					<input type="radio" name="previsao" value="Outros"<?php if (isset($requerimento["previsao"]) && $requerimento["previsao"] == "Outros") echo ' checked="checked"'; ?> /><small>Outros</small>
+				</label>
+			</div>
+		</div>
+		<div class="grid extensaoSituacao" id="pen-4"<?php if($requerimento["situacao"] == Requerimento::REQUERIMENTO_SITUACAO_REGULARIZAR_PENDENCIA) echo ' style="display:block;"';?>>
+			<div class="col-1-8">
+				<div class="content">
+					<label for="Pendência(s)">Pendência(s):</label>
+				</div>
+			</div>
+			<div class="col-10-12">
+				<div class="content">
+					<div class="grid">
+						<div class="col-1-4">
+							<div class="content">
+								<label class="checkbox-inline">
+									<input type="checkbox" name="pendencias[]" value="<?php echo Requerimento::REQUERIMENTO_PENDENCIA_FICHA_INSCRICAO; ?>"<?php if (in_array(Requerimento::REQUERIMENTO_PENDENCIA_FICHA_INSCRICAO, $pendencias)) echo 'checked="checked"'; ?> /><small>Ficha de Inscrição</small>
+								</label>
+							</div>
+						</div>
+						<div class="col-1-4">
+							<div class="content">
+								<label class="checkbox-inline">
+									<input type="checkbox" name="pendencias[]" value="<?php echo  Requerimento::REQUERIMENTO_PENDENCIA_ACORDO_FINANCEIRO; ?>"<?php if (in_array(Requerimento::REQUERIMENTO_PENDENCIA_ACORDO_FINANCEIRO, $pendencias)) echo 'checked="checked"'; ?> /><small>Acordo Financeiro</small>
+								</label>
+							</div>
+						</div>
+						<div class="col-1-4">
+							<div class="content">
+								<label class="checkbox-inline">
+									<input type="checkbox" name="pendencias[]" value="<?php echo  Requerimento::REQUERIMENTO_PENDENCIA_CONTRATO; ?>"<?php if (in_array(Requerimento::REQUERIMENTO_PENDENCIA_CONTRATO, $pendencias)) echo 'checked="checked"'; ?> /><small>Contrato</small>
+								</label>
+							</div>
+						</div>
+						<div class="col-1-4">
+							<div class="content">
+								<label class="checkbox-inline">
+									<input type="checkbox" name="pendencias[]" value="<?php echo  Requerimento::REQUERIMENTO_PENDENCIA_DIPLOMA_GRADUACAO; ?>"<?php if (in_array(Requerimento::REQUERIMENTO_PENDENCIA_DIPLOMA_GRADUACAO, $pendencias)) echo 'checked="checked"'; ?> /><small>Diploma de Graduação (autenticado)</small>
+								</label>
+							</div>
+						</div>
+						<div class="col-1-4">
+							<div class="content">
+								<label class="checkbox-inline">
+									<input type="checkbox" name="pendencias[]" value="<?php echo  Requerimento::REQUERIMENTO_PENDENCIA_CERTIDAO_CONCLUSAO; ?>"<?php if (in_array(Requerimento::REQUERIMENTO_PENDENCIA_CERTIDAO_CONCLUSAO, $pendencias)) echo 'checked="checked"'; ?> /><small>Certidão de Conclusão</small>
+								</label>
+							</div>
+						</div>
+						<div class="col-1-4">
+							<div class="content">
+								<label class="checkbox-inline">
+									<input type="checkbox" name="pendencias[]" value="<?php echo  Requerimento::REQUERIMENTO_PENDENCIA_COMPROVANTE_RESIDENCIA; ?>"<?php if (in_array(Requerimento::REQUERIMENTO_PENDENCIA_COMPROVANTE_RESIDENCIA, $pendencias)) echo 'checked="checked"'; ?> /><small>Comprovante Residência</small>
+								</label>
+							</div>
+						</div>
+						<div class="col-1-4">
+							<div class="content">
+								<label class="checkbox-inline">
+									<input type="checkbox" name="pendencias[]" value="<?php echo  Requerimento::REQUERIMENTO_PENDENCIA_EMENTARIO_HISTORICO; ?>"<?php if (in_array(Requerimento::REQUERIMENTO_PENDENCIA_EMENTARIO_HISTORICO, $pendencias)) echo 'checked="checked"'; ?> /><small>Ementário e/ou Histórico</small>
+								</label>
+							</div>
+						</div>
+						<div class="col-1-4">
+							<div class="content">
+								<label class="checkbox-inline">
+									<input type="checkbox" name="pendencias[]" value="<?php echo  Requerimento::REQUERIMENTO_PENDENCIA_CERTIDAO_NASCIMENTO; ?>"<?php if (in_array(Requerimento::REQUERIMENTO_PENDENCIA_CERTIDAO_NASCIMENTO, $pendencias)) echo 'checked="checked"'; ?> /><small>Certidão Nascimento/casamento</small>
+								</label>
+							</div>
+						</div>
+						<div class="col-1-4">
+							<div class="content">
+								<label class="checkbox-inline">
+									<input type="checkbox" name="pendencias[]" value="<?php echo  Requerimento::REQUERIMENTO_PENDENCIA_FOTO_3X4; ?>"<?php if (in_array(Requerimento::REQUERIMENTO_PENDENCIA_FOTO_3X4, $pendencias)) echo 'checked="checked"'; ?> /><small>Foto 3x4</small>
+								</label>
+							</div>
+						</div>
+						<div class="col-1-4">
+							<div class="content">
+								<label class="checkbox-inline">
+									<input type="checkbox" name="pendencias[]" value="<?php echo  Requerimento::REQUERIMENTO_PENDENCIA_CURRICULO; ?>"<?php if (in_array(Requerimento::REQUERIMENTO_PENDENCIA_CURRICULO, $pendencias)) echo 'checked="checked"'; ?> /><small>Currículo</small>
+								</label>
+							</div>
+						</div>
+						<div class="col-1-4">
+							<div class="content">
+								<label class="checkbox-inline">
+									<input type="checkbox" name="pendencias[]" value="<?php echo  Requerimento::REQUERIMENTO_PENDENCIA_HISTORICO_ESCOLAR; ?>"<?php if (in_array(Requerimento::REQUERIMENTO_PENDENCIA_HISTORICO_ESCOLAR, $pendencias)) echo 'checked="checked"'; ?> /><small>Histórico Escolar</small>
+								</label>
+							</div>
+						</div>
+						<div class="col-1-4">
+							<div class="content">
+								<label class="checkbox-inline">
+									<input type="checkbox" name="pendencias[]" value="<?php echo  Requerimento::REQUERIMENTO_PENDENCIA_REPOSICAO_AULA_PRESENCIAL; ?>"<?php if (in_array(Requerimento::REQUERIMENTO_PENDENCIA_REPOSICAO_AULA_PRESENCIAL, $pendencias)) echo 'checked="checked"'; ?> /><small>Reposição de Aula Presencial</small>
+								</label>
+							</div>
+						</div>
+						<div class="col-1-4">
+							<div class="content">
+								<label class="checkbox-inline">
+									<input type="checkbox" name="pendencias[]" value="<?php echo  Requerimento::REQUERIMENTO_PENDENCIA_TRABALHO_REPOSICAO; ?>"<?php if (in_array(Requerimento::REQUERIMENTO_PENDENCIA_TRABALHO_REPOSICAO, $pendencias)) echo 'checked="checked"'; ?> /><small>Trabalho de Reposição</small>
+								</label>
+							</div>
+						</div>
+						<div class="col-1-4">
+							<div class="content">
+								<label class="checkbox-inline">
+									<input type="checkbox" name="pendencias[]" value="<?php echo  Requerimento::REQUERIMENTO_PENDENCIA_REPOSICAO_CARGA_HORARIA; ?>"<?php if (in_array(Requerimento::REQUERIMENTO_PENDENCIA_REPOSICAO_CARGA_HORARIA, $pendencias)) echo 'checked="checked"'; ?> /><small>Reposição de Carga Horária</small>
+								</label>
+							</div>
+						</div>
+						<div class="col-1-4">
+							<div class="content">
+								<label class="checkbox-inline">
+									<input type="checkbox" name="pendencias[]" value="<?php echo  Requerimento::REQUERIMENTO_PENDENCIA_PROVA_SUBSTITUTIVA; ?>"<?php if (in_array(Requerimento::REQUERIMENTO_PENDENCIA_PROVA_SUBSTITUTIVA, $pendencias)) echo 'checked="checked"'; ?> /><small>Prova Substitutiva</small>
+								</label>
+							</div>
+						</div>
+						<div class="col-1-4">
+							<div class="content">
+								<label class="checkbox-inline">
+									<input type="checkbox" name="pendencias[]" value="<?php echo  Requerimento::REQUERIMENTO_PENDENCIA_RG; ?>"<?php if (in_array(Requerimento::REQUERIMENTO_PENDENCIA_RG, $pendencias)) echo 'checked="checked"'; ?> /><small>RG</small>
+								</label>
+							</div>
+						</div>
+						<div class="col-1-4">
+							<div class="content">
+								<label class="checkbox-inline">
+									<input type="checkbox" name="pendencias[]" value="<?php echo  Requerimento::REQUERIMENTO_PENDENCIA_CPF; ?>"<?php if (in_array(Requerimento::REQUERIMENTO_PENDENCIA_CPF, $pendencias)) echo 'checked="checked"'; ?> /><small>CPF</small>
+								</label>
+							</div>
+						</div>
+						<div class="col-1-4">
+							<div class="content">
+								<label class="checkbox-inline">
+									<input type="checkbox" name="pendencias[]" value="<?php echo  Requerimento::REQUERIMENTO_PENDENCIA_PAGAMENTO; ?>"<?php if (in_array(Requerimento::REQUERIMENTO_PENDENCIA_PAGAMENTO, $pendencias)) echo 'checked="checked"'; ?> /><small>Pagamento da Taxa</small>
+								</label>
+							</div>
+						</div>
+						<div class="col-1-4">
+							<div class="content">
+								<label class="checkbox-inline">
+									<input type="checkbox" name="pendencias[]" value="<?php echo  Requerimento::REQUERIMENTO_PENDENCIA_OUTROS; ?>"<?php if (in_array(Requerimento::REQUERIMENTO_PENDENCIA_OUTROS, $pendencias)) echo 'checked="checked"'; ?> /><small>Outros</small>
+								</label>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="grid">
+			<div class="col-1-8">
+				<div class="content">
+					<label for="Observações">Observações:</label>
+				</div>
+			</div>
+			<div class="col-10-12">
+				<div class="content">
+					<textarea class="form-control" name="observacoes" rows="5"
+						placeholder="Observações"><?php echo empty($requerimento["observacoes"]) ? "Em caso de dúvidas, entre em contato com a Secretaria Acadêmica pelo e-mail: secretaria@iefap.com.br ou pelo telefone (44) 3123-6000." : $requerimento["observacoes"]; ?></textarea>
+				</div>
+			</div>
+		</div>
+		<div class="grid" id="arquivo">
+			<div class="col-1-8">
+				<div class="content">
+					<label for="Anexar requerimento">Anexar Requer.:</label>
+				</div>
+			</div>
+			<div class="col-10-12">
+				<div class="content">
+					<?php
+						if (!empty($requerimento["arquivo"])) {
+							if (existeArquivo(DIR_UPLOADS . '/requerimentos/' . $requerimento["id"] . '/' . base64_decode($requerimento["arquivo"]))) {
+								echo '<input type="hidden" name="anexo" value="' . $requerimento["arquivo"];
+								echo  '" />';
+								echo '<input type="hidden" name="mimeAnexo" value="' . $requerimento["mime"] . '" />';
+								echo '<input type="hidden" name="extensaoAnexo" value="' . $requerimento["extensao"] . '" />';
+								$mimePdf = 'application/pdf';
+								$mimeJpeg = 'image/jpeg';
+								$mimesWord = 'application/msword|application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+								$mimesWordArray = explode('|', $mimesWord);
+								$mime = $requerimento["mime"];
+								echo '<img src="imagens/';
+								if ($mime == $mimePdf) {
+									echo 'pdf-icon';
+								}
+								else if ($mime == $mimeJpeg) {
+									echo 'jpg-icon';
+								}
+								else if (in_array($mime, $mimesWordArray)) {
+									echo 'word-icon';
+								}
+								echo '.gif" />';
+								echo '&nbsp;<a title="Baixar arquivo" href="?modulo=requerimentos&acao=download&q=arquivo&id=' . $requerimento["id"] . '">';
+								echo base64_decode($requerimento["arquivo"]);
+								echo '</a>';
+								echo ' <small>(';
+								echo '<a class="excluir-click" ';
+								echo 'href="?modulo=requerimentos&acao=remover&id=';
+								echo $requerimento["id"] . '">';
+								echo 'Excluir';
+								echo '</a>';
+								echo ')</small>';
+							}
+							else {
+								echo base64_decode($requerimento["arquivo"]);
+								echo ' <small class="destaque">Arquivo não encontrado!</small>';
+							}
+						}
+						else {
+							echo '<input type="file" name="arquivo" />';
+						}
+					?>
+				</div>
+			</div>
+		</div>
+	</fieldset>
+
+	<fieldset>
+		<legend><strong>Controle Interno</strong></legend>
+		<div class="grid">
+			<div class="col-1-8">
+				<div class="content">
+					<label for="Isento de pagamento?">Isento de pag.?:</label>
+				</div>
+			</div>
+			<div class="col-10-12">
+				<div class="content" id="isento">
+					<label class="radio-inline">
+						<input data-valor="sim" type="radio"
+							name="isento"<?php if ($requerimento["isento"] == 1) echo ' checked="checked"'; ?> value="1" /> Sim
+					</label>
+					<label class="radio-inline">
+						<input data-valor="nao" type="radio"
+							name="isento"<?php if ($requerimento["isento"] == 0) echo ' checked="checked"'; ?> value="0" /> Não
+					</label>
+				</div>
+			</div>
+		</div>
+		<div class="grid">
+			<div class="col-1-8">
+				<div class="content">
+					<label for="Pago?">Foi pago?:</label>
+				</div>
+			</div>
+			<div class="col-10-12">
+				<div class="content" id="pago">
+					<label class="radio-inline">
+						<input type="radio" name="pago"<?php if ($requerimento["pago"] == 1) echo ' checked="checked"'; ?> value="1" /> Sim
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="pago"<?php if ($requerimento["pago"] == 0) echo ' checked="checked"'; ?> value="0" /> Não
+					</label>
+				</div>
+			</div>
+		</div>
+		<div class="grid">
+			<div class="col-1-8">
+				<div class="content">
+					<label for="Data do pagamento">Data do pagam.:</label>
+				</div>
+			</div>
+			<div class="col-2-12">
+				<div class="content">
+					<input type="text" class="form-control datepicker" name="dataPagamento"
+						placeholder="Data do Pagamento"
+						value="<?php echo $requerimento["dataPagamento"]; ?>" />
+				</div>
+			</div>
+		</div>
+		<div class="grid">
+			<div class="col-1-8">
+				<div class="content">
+					<label for="Data de Vencimento">Data de Vencim.:</label>
+				</div>
+			</div>
+			<div class="col-2-12">
+				<div class="content">
+					<input type="text" class="form-control datepicker" name="dataVencimento"
+						placeholder="Data de Vencimento"
+						value="<?php echo $requerimento["dataVencimento"]; ?>" />
+				</div>
+			</div>
+		</div>
+		<div class="grid">
+			<div class="col-1-8">
+				<div class="content">
+					<label for="Procedimentos Internos">Procedimentos Internos:</label>
+				</div>
+			</div>
+			<div class="col-10-12">
+					<div class="content">
+						<textarea class="form-control" name="procedimentosInternos" rows="5"
+							placeholder="Procedimentos Internos"><?php echo $requerimento["procedimentosInternos"]; ?></textarea>
+					</div>
+			</div>
+		</div>
+		<?php if($requerimento["situacao"] == Requerimento::REQUERIMENTO_SITUACAO_FINALIZADO) { ?>
+		<div class="grid">
+			<div class="col-1-8">
+				<div class="content">
+					<label for="Data do finalização">Data de finaliz.:</label>
+				</div>
+			</div>
+			<div class="col-2-12">
+				<div class="content">
+					<input type="text" class="form-control datepicker" name="dataFinalizacao"
+						placeholder="Data de finalização"
+						value="<?php echo $requerimento["dataFinalizacao"]; ?>" />
+				</div>
+			</div>
+		</div>
+		<div class="grid">
+			<div class="col-1-8">
+				<div class="content">
+					<label for="Finalizado por">Finalizado por.:</label>
+				</div>
+			</div>
+			<div class="col-4-12">
+				<div class="content">
+					<select name="finalizadoPor" class="form-control">
+						<option value="">--Selecione--</option>
+						<?php
+							foreach ($params["usuarios"] as $usuario) {
+								echo '<option';
+								if ($usuario["nome"] == $requerimento["finalizadoPor"]) {
+									echo ' selected="selected"';
+								}
+								echo ' value="' . $usuario["nome"] . '">';
+								echo $usuario["nome"];
+								echo '</option>';
+							}
+						?>
+					</select>
+				</div>
+			</div>
+		</div>
+		<?php } ?>
+	</fieldset>
+
+	<br />
+
+	<input class="btn btn-default" type="submit" value="Cadastrar" />
+
+</form>

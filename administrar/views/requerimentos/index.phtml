@@ -1,0 +1,96 @@
+<?php
+  $params = $this->getParams();
+  $order = isset($_GET['order']) ? $_GET['order'] : 'data';
+?>
+
+<style>
+  .tabs2 {
+    font-size: 0.85em;
+  }
+</style>
+
+<ul class="tabs2 nav nav-pills" role="tablist">
+<?php foreach ($params['tabs'] as $key => $value) { ?>
+    <li id="tab<?php echo $key; ?>" data-tab="tab-<?php echo $key ?>" role="presentation">
+    <a href=""><?php echo compactaTexto($value['valor'],25); ?><span class="badge"><?php echo $value['quantidade']; ?></span></a></li>
+<?php } ?>
+</ul>
+
+<div class="tab" id="objetos">
+</div>
+
+<script>
+
+	$(document).ready(function(){
+
+	    $('.tabs2').on('click', 'li', function(ev) {
+
+			ev.preventDefault();
+
+			var li = $(this);
+			var tab = $(li).attr('data-tab');
+			var situacao = tab.split('-')[1];
+
+			var qs = {};
+
+			$('#objetos').children().remove();
+			// add ajax loader
+			var img = $('<img />', {
+				src: 'imagens/gears.gif',
+				style: 'display:block;margin:0 auto;'
+			});
+			$('#objetos').append(img);
+
+			$.ajax({
+				type: "POST",
+				url: '<?php echo WWW_ROOT; ?>/administrar/?modulo=requerimentos&acao=view',
+			}).done(function(response1) {
+				$('.tabs2 li.active').removeClass('active');
+				$(li).addClass('active');
+				$('#' + tab).removeClass('hidden');
+				$.ajax({
+					type: "POST",
+					url: '<?php echo WWW_ROOT; ?>/administrar/?modulo=requerimentos&acao=requerimentos',
+					data: {qs, situacao: situacao }
+				}).done(function(response) {
+					$('#objetos').children().remove();
+					$('#objetos').html(response1);
+					var html = $.parseHTML(response);
+				    $('#quantidade').html($(html).filter('tr:not(.none):not(.links)').length);
+			  		$('#objetos tbody tr:not(:first-child)').children().remove();
+			  		$('#objetos tr#buscaAjax').after(response);
+			  		$('.ajax-loader').css('display', 'none');
+			  		$('table.listagem').on('keyup', 'input.filtro', function(ev){			
+					$('.ajax-loader').css('display', 'inline');
+					$('table.listagem input.filtro').each(function(ev) {
+							qs[$(this).attr('name')] = $(this).val();
+						});
+						$.ajax({
+							type: "POST",
+							url: '<?php echo WWW_ROOT; ?>/administrar/?modulo=requerimentos&acao=requerimentos',
+							data: {qs, situacao: situacao }
+						}).done(function(response) {
+							var html = $.parseHTML(response);
+						    $('#quantidade').html($(html).filter('tr:not(.none):not(.links)').length);
+					  		$('#objetos tbody tr:not(:first-child)').children().remove();
+					  		$('#objetos tr#buscaAjax').after(response);
+					  		$('.ajax-loader').css('display', 'none');
+						});
+					});
+				});
+			});
+	    });
+	
+
+    <?php if (isset($_GET['tab'])) { ?>
+    	$('li#tab<?php echo $_GET['tab']; ?>').trigger('click');
+    <?php
+    } else {
+    ?>
+   		$('.tabs2 li:first').trigger('click');
+   	<?php
+    }
+    ?>
+});
+
+</script>

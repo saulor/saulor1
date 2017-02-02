@@ -1,0 +1,142 @@
+<?php
+	$params = $this->getParams();
+	$contato = $params["contato"];
+?>
+
+<script>
+	var engine = new Bloodhound({
+		queryTokenizer : Bloodhound.tokenizers.whitespace,
+		datumTokenizer : Bloodhound.tokenizers.whitespace
+	});
+	engine.initialize();
+
+	$(function() {
+		$('.typeahead').tokenfield({
+			delimiter: ',',
+		  	typeahead: [null, { source: engine.ttAdapter() }]
+		});
+	});
+</script>
+
+<form method="post" enctype="multipart/form-data">
+
+	<input type="hidden" name="id" value="<?php echo $contato->id; ?>" />
+
+	<fieldset>
+		<legend><strong>Mensagem</strong></legend>
+		<div class="grid">
+			<div class="col-1-1">
+			   <div class="content">
+			   		<?php echo $contato->mensagem; ?>
+			   </div>
+		  	</div>
+			<div class="col-1-1">
+			   <div class="content">
+			   		<div style="background-color: #f0f0f0; padding: 10px; margin-top:20px;">
+				   		<strong><?php echo $contato->nome; ?></strong>
+				   		<?php
+				   			if (!empty($contato->cidade)) {
+				   				echo " de <strong>" . $contato->cidade . "</strong>";
+				   			}
+				   			if (!empty($contato->estado)) {
+				   				echo " - <strong>" . $contato->estado . "</strong>";
+				   			}
+				   		?>
+				   		<br />
+				   		<small>Enviada em: <?php echo $contato->data; ?>
+				   		<?php
+				   			if (!empty($contato->email)) {
+				   				echo "<br />E-mail: ". $contato->email;
+				   			}
+				   			if (!empty($contato->telefone)) {
+				   				echo "<br />Telefone: ". $contato->telefone;
+				   			}
+				   			if(!empty($contato->curso)) {
+				   				echo '<br /><strong>Curso(s) de Interesse:</strong> ' . $contato->curso;
+				   			}
+				   		?>
+			   			</small>
+			   		</div>
+			   </div>
+		  	</div>
+		</div>
+	</fieldset>
+
+	<?php if ($contato->respondido == Contato::CONTATO_STATUS_RESPONDIDO) { ?>
+
+	<fieldset>
+		<legend><strong>Resposta</strong></legend>
+		<div class="grid">
+			<div class="col-1-1">
+			   <div class="content">
+			   		<?php echo $contato->resposta; ?>
+			   </div>
+		  	</div>
+		  	<div class="col-1-1">
+			   <div class="content">
+			   		<div style="background-color: #f0f0f0; padding: 8px; margin-top:10px;">
+						<small>
+						<?php
+							if ($contato->timestampResposta != 0) {
+								echo 'Respondido por <strong>' . $contato->respondidoPor . '</strong>';
+								echo ' em ' . $contato->dataResposta;
+							}
+							if (!empty($contato->cc)) {
+								echo "<br />Enviada com cópia(s) para: " . implode(", ", explode(",", $contato->cc));
+							}
+						?>
+						</small>
+					</div>
+			   </div>
+		  	</div>
+		</div>
+	</fieldset>
+
+	<?php } ?>
+
+	<?php if ($contato->respondido == Contato::CONTATO_STATUS_NAO_RESPONDIDO) { ?>
+
+		<br />
+
+		<div class="grid">
+			<div class="col-1-12">
+			   <div class="content">
+			   		<label class="left" for="CC"><strong>CC:</strong></label>
+			   </div>
+		  	</div>
+		  	<div class="col-11-12">
+		  	   <div class="content">
+		  	   		<input class="form-control typeahead" placeholder="Informe o e-mail e digite Enter" type="text" name="cc" size="80" value="<?php echo $contato->cc; ?>" />
+		  	   </div>
+		  	</div>
+		</div>
+
+		<div class="grid">
+			<div class="col-1-12">
+			   <div class="content">
+			   		<label for="Resposta"><strong>Resposta:</strong></label>
+			   </div>
+		  	</div>
+		  	<div class="col-11-12">
+		  	   <div class="content">
+		  	   		<textarea class="editor" data-toolbar="basic" name="resposta" id="resposta"><?php echo $contato->resposta; ?></textarea>
+		  	   </div>
+		  	</div>
+		</div>
+
+		<div class="grid">
+			<div class="col-1-12">
+			   <div class="content">
+			   		&nbsp;
+			   </div>
+		  	</div>
+		  	<div class="col-11-12">
+		  	   <div class="content">
+		  	   		<input type="submit" class="btn btn-default" value="Visualizar e-mail"/>
+		  	   </div>
+		  	</div>
+		</div>
+
+	<?php } ?>
+
+</form>

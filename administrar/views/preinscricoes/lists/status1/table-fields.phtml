@@ -1,0 +1,275 @@
+<?php
+	$table = array(
+		'fields' => array(
+			'nome' => array(
+				'order' => true,
+				'ajax' => 'ajax-visualizar1.php',
+				'infos' => 'return $objeto["infos"];',
+				'labels' => 'return $objeto["labels"];',
+				'link' => array(
+					'condition' => 'return checaPermissao("' . $modulo . '","cadastrar",$_SESSION[PREFIX . "permissoes"]);',
+					'qsParams' => array(
+						'modulo' => $modulo,
+						'acao' 	 => 'cadastrar',
+						'curso'  => 'return $objeto["idCurso"];',
+						'id' 	 => 'return $objeto["id"];',
+						'tab1' 	 => 'return $status;' 
+					)
+				),
+				'links' => array(
+					'Status' => array(
+						'condition' => 'return checaPermissao("' . $modulo . '","status",$_SESSION[PREFIX . "permissoes"]);',
+						'qsParams' => array(
+							'modulo' => $modulo,
+							'acao' 	 => 'status',
+							'curso'  => 'return $objeto["idCurso"];',
+							'id' 	 => 'return $objeto["id"];',
+							'tab1' 	 => 'return $status;' 
+						),
+					),
+					'Mudar' => array(
+						'condition' => 'return checaPermissao("' . $modulo . '","mudar",$_SESSION[PREFIX . "permissoes"]);',
+						'qsParams' => array(
+							'modulo' => $modulo,
+							'acao' 	 => 'mudar',
+							'curso'  => 'return $objeto["idCurso"];',
+							'id' 	 => 'return $objeto["id"];',
+							'tab1' 	 => 'return $status;' 
+						),
+						
+					),
+					'Duplicar' => array(
+						'condition' => 'return checaPermissao("' . $modulo . '","duplicar",$_SESSION[PREFIX . "permissoes"]);',
+						'qsParams' => array(
+							'modulo' => $modulo,
+							'acao' 	 => 'duplicar',
+							'curso'  => 'return $objeto["idCurso"];',
+							'id' 	 => 'return $objeto["id"];',
+							'tab1' 	 => 'return $status;' 
+						),
+						
+					),
+					'Documentação' => array(
+						'condition' => 'return checaPermissao("' . $modulo . '","situacao",$_SESSION[PREFIX . "permissoes"]);',
+						'target' => '_blank',
+						'qsParams' => array(
+							'modulo' => $modulo,
+							'acao' 	 => 'documentacao',
+							'curso'  => 'return $objeto["idCurso"];',
+							'id' 	 => 'return $objeto["id"];',
+							'tab1' 	 => 'return $status;' 
+						),
+						
+					),
+					'Formulário' => array(
+						'condition' => 'return checaPermissao("' . $modulo . '","formulario",$_SESSION[PREFIX . "permissoes"]);',
+						'qsParams' => array(
+							'modulo' => $modulo,
+							'acao' 	 => 'formulario',
+							'curso'  => 'return $objeto["idCurso"];',
+							'id' 	 => 'return $objeto["id"];',
+							'tab1' 	 => 'return $status;' 
+						),
+						
+					),
+					'Contrato' => array(
+						'condition' => 'return checaPermissao("' . $modulo . '","contrato",$_SESSION[PREFIX . "permissoes"]);',
+						'qsParams' => array(
+							'modulo' => $modulo,
+							'acao' 	 => 'contrato',
+							'curso'  => 'return $objeto["idCurso"];',
+							'id' 	 => 'return $objeto["id"];',
+							'tab1' 	 => 'return $status;' 
+						),
+						
+					),
+					'Contrato Especial' => array(
+						'condition' => 'return checaPermissao("' . $modulo . '","contrato",$_SESSION[PREFIX . "permissoes"]);',
+						'qsParams' => array(
+							'modulo' => $modulo,
+							'acao' 	 => 'contrato',
+							'curso'  => 'return $objeto["idCurso"];',
+							'id' 	 => 'return $objeto["id"];',
+							'f' 	 => 'especial',
+							'tab1' 	 => 'return $status;' 
+						),
+						
+					),
+					'Financeiro' => array(
+						'condition' => 'return checaPermissao("' . $modulo . '","financeiro",$_SESSION[PREFIX . "permissoes"]);',
+						'qsParams' => array(
+							'modulo' => $modulo,
+							'acao' 	 => 'financeiro',
+							'curso'  => 'return $objeto["idCurso"];',
+							'id' 	 => 'return $objeto["id"];',
+							'tab1' 	 => 'return $status;' 
+						),
+						
+					),
+					'Histórico da inscrição' => array(
+						'condition' => 'return checaPermissao("' . $modulo . '","historico",$_SESSION[PREFIX . "permissoes"]);',
+						'target' => '_blank',
+						'qsParams' => array(
+							'modulo' => $modulo,
+							'acao' 	 => 'historico',
+							'curso'  => 'return $objeto["idCurso"];',
+							'id' 	 => 'return $objeto["id"];',
+							'tab1' 	 => 'return $status;' 
+						),
+						
+					),
+					'Histórico de situacões' => array(
+						'condition' => 'return checaPermissao("' . $modulo . '","historico",$_SESSION[PREFIX . "permissoes"]);',
+						'target' => '_blank',
+						'qsParams' => array(
+							'modulo' 	=> 'situacao',
+							'acao' 	 	=> 'historico',
+							'curso'  	=> 'return $objeto["idCurso"];',
+							'inscricao'	=> 'return $objeto["id"];',
+							'tab1' 	 => 'return $status;' 
+						),
+						
+					),
+					'E-mail Interesse' => array(
+						'condition' => 'return $_SESSION[PREFIX . "loginId"] == 1;',
+						'target' => '_blank',
+						'qsParams' => array(
+							'modulo' => $modulo,
+							'acao' 	 => 'email',
+							'curso'  => 'return $objeto["idCurso"];',
+							'id' 	 => 'return $objeto["id"];',
+							'tipo' => 1,
+							'tab1' 	 => 'return $status;' 
+						),
+						
+					),
+					'E-mail Inscrição' => array(
+						'condition' => 'return $_SESSION[PREFIX . "loginId"] == 1;',
+						'target' => '_blank',
+						'qsParams' => array(
+							'modulo' => $modulo,
+							'acao' 	 => 'email',
+							'curso'  => 'return $objeto["idCurso"];',
+							'id' 	 => 'return $objeto["id"];',
+							'tipo' => 2,
+							'tab1' 	 => 'return $status;' 
+						),
+						
+					),
+					'E-mail Matrícula' => array(
+						'condition' => 'return $_SESSION[PREFIX . "loginId"] == 1;',
+						'target' => '_blank',
+						'qsParams' => array(
+							'modulo' => $modulo,
+							'acao' 	 => 'email',
+							'curso'  => 'return $objeto["idCurso"];',
+							'id' 	 => 'return $objeto["id"];',
+							'tipo' => 3,
+							'tab1' 	 => 'return $status;' 
+						),
+						
+					)
+				)
+			),
+			'tipoSituacao' => array(
+				'title' => 'Situação',
+				'content' => 'return Situacao::getTipo($objeto["tipoSituacao"]);',
+				'align' => 'center',
+				'ajax' => 'ajax-visualizar1.php',
+				'tooltip' => array(
+	              'type' => 'right',
+	              'condition' => 'return $objeto["tipoSituacao"] != 0;',
+	              'text' => 'return $objeto["resumo"];'
+	           	)
+			),
+			'responsavelNome' => array(
+				'title' => 'Responsável',
+				'align' => 'center',
+				'ajax' => 'ajax-visualizar1.php',
+			),
+			'unidadeCertificadora' => array(
+				'content' => 'return Curso::getCertificadora($objeto["unidadeCertificadora"]);',
+				'align' => 'center',
+				'ajax' => 'ajax-visualizar1.php',
+				'title' => 'Certificadora'
+			),
+			// 'idUnidade' => array(
+			// 	'align' => 'center',
+			// 	'ajax' => 'ajax-visualizar1.php',
+			// 	'order' => true
+			// ),
+			// 'nomeUnidade' => array(
+			// 	'align' => 'center',
+			// 	'ajax' => 'ajax-visualizar1.php',
+			// 	'order' => true
+			// ),
+			// 'idUnidade2' => array(
+			// 	'align' => 'center',
+			// 	'ajax' => 'ajax-visualizar1.php',
+			// 	'order' => true
+			// ),
+			// 'nomeUnidade2' => array(
+			// 	'align' => 'center',
+			// 	'ajax' => 'ajax-visualizar1.php',
+			// 	'order' => true
+			// ),
+			'nomeUnidade' => array(
+				'title' => 'Unidade',
+				'align' => 'center',
+				'ajax' => 'ajax-visualizar1.php',
+				'order' => true
+			),
+			'cidade' => array(
+				'align' => 'center',
+				'ajax' => 'ajax-visualizar1.php',
+			),
+			'uf' => array(
+				'align' => 'center',
+				'ajax' => 'ajax-visualizar1.php',
+				'title' => 'Estado'
+			),
+			'comprovante' => array(
+				'content' => 'return $objeto["enviouComprovante"] == 1 ? "Sim" : "Não";',
+				'link' => array(
+					'condition' => 'return $objeto["enviouComprovante"] == 1;',
+					'qsParams' => array(
+						"modulo" => $modulo,
+						"acao" => "download",
+						"curso" => 'return $objeto["idCurso"];',
+						"id" => 'return $objeto["id"];'
+					)
+				),
+				'align' => 'center',
+				'title' => 'Comprovante?'
+			),
+			'observacoes' => array(
+				'title' => 'Observações',
+				'content' => 'return compactaTexto($objeto["observacoes"], 10);',
+				'tooltip' => array(
+	              'type' => 'left',
+	              'condition' => 'return !empty($objeto["observacoes"]);',
+	              'text' => 'return $objeto["observacoes"];'
+	           	)
+			),
+			'data' => array(
+				'content' => 'return $objeto["dataF"];',
+				'align' => 'center',
+				'class' => 'data',
+				'ajax' => 'ajax-visualizar1.php',
+				'order' => true
+			)
+		),
+		'acoes' => array(
+			'Excluir' => array(
+				'class' => 'excluir-click',
+				'qsParams' => array(
+					'modulo' => $modulo,
+					'acao' => 'excluir',
+					'curso' => 'return $objeto["idCurso"];',
+					'id' => 'return $objeto["id"];',
+					'tab1' => 'return $status;'
+				)
+			)
+		)
+	);
+?>

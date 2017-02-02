@@ -1,0 +1,35 @@
+<?php foreach($params['objetos'] as $key => $objeto) { ?>
+<tr id="tr<?php echo $objeto->id; ?>">
+  <th scope="row">
+    <small><?php echo $inicio++; ?></small>
+  </th>
+  <td>
+    <input type="checkbox" name="objetos[]" value="<?php echo $objeto->id; ?>">
+  </td>
+  <td>
+    <a href="?modulo=<?php echo $modulo; ?>&acao=cadastrar1&id=<?php echo $objeto->id; ?>"><?php echo $objeto->nomeAluno; ?></a>
+  </td>
+  <td class="center"><?php echo $objeto->cpf; ?></td>
+  <td class="center"><?php echo $objeto->unidade; ?></td>
+  <td class="center"><?php echo $objeto->codigoCurso; ?></td>
+  <td class="center"><?php echo $objeto->nomeCurso; ?></td>
+  <td class="center"><?php echo $objeto->nomeDisciplina; ?></td>
+  <td class="center"><?php echo $objeto->professor; ?></td>
+  <td class="center"><?php echo $objeto->titulo; ?></td>
+  <td class="center"><?php echo $objeto->cargaHorDisciplina; ?></td>
+  <td class="center"><?php echo $objeto->dataInicio; ?></td>
+  <td class="center"><?php echo $objeto->dataFim; ?></td>
+  <td class="center"><?php echo $objeto->notaAluno; ?></td>
+  <td class="center"><?php echo $objeto->situacaoNota; ?></td>
+  <td class="center"><?php echo $objeto->numeroFaltas; ?></td>
+  <td class="center"><?php echo $objeto->dataFimCurso; ?></td>
+  <td class="center"><?php echo $objeto->notaSubstituida; ?></td>
+  <td class="center"><?php echo $objeto->dataReposicao; ?></td>
+  <td class="center"><?php echo $objeto->obsReposicao; ?></td>
+  <td class="center"><?php echo Funcoes::soData($objeto->data); ?></td>
+  <td align="center">
+    <a class="excluir-click" target="_self" 
+      href="?modulo=<?php echo $modulo; ?>&acao=excluir1&id=<?php echo $objeto->id; ?>">Excluir</a>
+  </td>
+</tr>
+<?php } ?>

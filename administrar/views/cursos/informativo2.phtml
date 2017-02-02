@@ -1,0 +1,124 @@
+<?php
+	$params = $this->getParams();
+    $cursos = $params["cursos"];
+	$idCurso = $params["idCurso"];
+	$idCidade = $params["idCidade"];
+?>
+
+<script>
+
+	function cidades() {
+	
+		var curso = $("#curso").val();
+		$("#loading").removeClass("hidden");
+		
+		$.ajax({
+			type: "POST",
+			dataType : "json",
+			url: "views/cursos/ajax-cidades.php",
+			data: { "curso" : curso }
+		}).success(function(data) {
+			if (data.length > 0) {
+				$("#fieldsetCidades").children().not("legend").remove();
+				$("#cidades").removeClass("hidden");
+				
+				for (i=0; i<data.length-1; i++) {
+					
+					var label = $('<label/>', {
+						'class' : 'radio-inline',
+					}).appendTo('#fieldsetCidades');
+					
+					var input = $('<input/>', {
+						'type' : 'radio',
+						'value' : data[i].id,
+						'name' : 'cidade'
+					}).appendTo(label);
+					
+					$(label).append(document.createTextNode(data[i].nome));
+					
+				}
+			}
+		}).done(function(){
+			$("#loading").addClass("hidden");
+		});
+	}
+
+</script>
+
+<form method="post">
+	
+	<div class="grid">
+		<div class="col-1-12">
+		   <div class="content">
+		   		<label for="Curso">Curso:</label>
+		   </div>
+	  	</div>
+		<div class="col-10-12">
+			<div class="content">
+				<select class="form-control" id="curso" name="curso" onchange="cidades()">
+					<option value="">--Selecione o curso--</option>
+					<?php	
+						foreach ($params["cursos"] as $curso) {
+							echo '<option';
+							if ($idCurso == $curso->id) {
+								echo ' selected';
+							}
+							echo ' value="' . $curso->id . '"';
+							echo '>';
+							echo $curso->nome;
+							echo '</option>';
+						}
+					?>
+				</select>
+			</div>
+		</div>
+	</div>
+	
+	<div class="grid hidden" id="loading">
+		<div class="col-1-12">
+			<div class="content">
+				&nbsp;
+			</div>
+		</div>
+		<div class="col-3-12">
+			<div class="content">
+				<strong><small class="destaque">Carregando cidades...</small></strong>
+			</div>
+		</div>
+	</div>
+	
+	<div class="grid hidden" id="cidades">
+		<div class="col-1-12">
+			<div class="content">
+				&nbsp;
+			</div>
+		</div>
+		<div class="col-11-12">
+			<div class="content">
+				<fieldset id="fieldsetCidades">
+					<legend><strong>Cidades</strong></legend>
+				</fieldset>
+			</div>
+		</div>
+	</div>
+	
+	<div class="grid">
+		<div class="col-1-12">
+		   <div class="content">
+		   		&nbsp;		   
+		   	</div>
+	  	</div>
+		<div class="col-9-12">
+			<div class="content">
+				<input class="btn btn-default" type="submit" value="Gerar" />
+			</div>
+		</div>
+	</div>
+	
+	<?php
+		if ($idCurso > 0) {
+			echo '<script type="text/javascript">cidades();</script>';
+		}
+	?>
+		
+</form>

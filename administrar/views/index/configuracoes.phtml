@@ -1,0 +1,146 @@
+<?php
+	$params = $this->getParams();
+	$configuracoes = $params["configuracoes"];
+?>
+
+<script>
+	
+	var engine = new Bloodhound({
+		queryTokenizer : Bloodhound.tokenizers.whitespace,
+		datumTokenizer : Bloodhound.tokenizers.whitespace
+	});
+	engine.initialize();
+	
+	$(function() {
+		$('.typeahead').tokenfield({
+			delimiter: ',',
+		  	typeahead: [null, { source: engine.ttAdapter() }]
+		});
+	});
+	
+</script>
+
+<form method="post">
+
+	<fieldset>
+		<legend><strong>Notificações por E-mail</strong></legend>
+		
+		<div class="grid">
+			<div class="col-2-12">
+			   <div class="content">
+			   		<label for="Notificação de Pré-Inscrições">Pré-Inscrições:</label>
+			   </div>
+		  	</div>
+			<div class="col-10-12">
+				<div class="content">
+					<input type="hidden" name="configuracoes[<?php echo Configuracoes::EMAIL_INSCRICOES; ?>][id]" value="<?php echo $configuracoes[Configuracoes::EMAIL_INSCRICOES]["id"]; ?>" />
+					<input type="hidden" name="configuracoes[<?php echo Configuracoes::EMAIL_INSCRICOES; ?>][chave]" value="<?php echo $configuracoes[Configuracoes::EMAIL_INSCRICOES]["chave"]; ?>" />
+					<input class="form-control typeahead" name="configuracoes[<?php echo Configuracoes::EMAIL_INSCRICOES; ?>][valor]" type="text" value="<?php echo $configuracoes[Configuracoes::EMAIL_INSCRICOES]["valor"]; ?>" placeholder="Informe o e-mail e digite Enter" autofocus="autofocus" />
+					<small class="destaque">E-mail para onde serão enviadas as notificações de novas pré-inscrições realizadas.</small>
+				</div>
+			</div>
+		</div>
+		
+		<div class="grid">
+			<div class="col-2-12">
+			   <div class="content">
+			   		<label for="Notificação de Contatos">Contatos:</label>
+			   </div>
+		  	</div>
+			<div class="col-10-12">
+				<div class="content">
+					<input type="hidden" name="configuracoes[<?php echo Configuracoes::EMAIL_CONTATOS; ?>][id]" value="<?php echo $configuracoes[Configuracoes::EMAIL_CONTATOS]["id"]; ?>" />
+					<input type="hidden" name="configuracoes[<?php echo Configuracoes::EMAIL_CONTATOS; ?>][chave]" value="<?php echo $configuracoes[Configuracoes::EMAIL_CONTATOS]["chave"]; ?>" />
+					<input class="form-control typeahead" name="configuracoes[<?php echo Configuracoes::EMAIL_CONTATOS; ?>][valor]" type="text" value="<?php echo $configuracoes[Configuracoes::EMAIL_CONTATOS]["valor"]; ?>" placeholder="Informe o e-mail e digite Enter" />
+					<small class="destaque">E-mail para onde serão enviadas as notificações de contatos realizados através do site.</small>
+				</div>
+			</div>
+		</div>
+		
+		<div class="grid">
+			<div class="col-2-12">
+			   <div class="content">
+			   		<label for="Notificação de Contatos">Docentes:</label>
+			   </div>
+		  	</div>
+			<div class="col-10-12">
+				<div class="content">
+					<input type="hidden" name="configuracoes[<?php echo Configuracoes::EMAIL_DOCENTES; ?>][id]" value="<?php echo $configuracoes[Configuracoes::EMAIL_DOCENTES]["id"]; ?>" />
+					<input type="hidden" name="configuracoes[<?php echo Configuracoes::EMAIL_DOCENTES; ?>][chave]" value="<?php echo $configuracoes[Configuracoes::EMAIL_DOCENTES]["chave"]; ?>" />
+					<input class="form-control typeahead" name="configuracoes[<?php echo Configuracoes::EMAIL_DOCENTES; ?>][valor]" type="text" value="<?php echo $configuracoes[Configuracoes::EMAIL_DOCENTES]["valor"]; ?>" placeholder="Informe o e-mail e digite Enter" />
+					<small class="destaque">E-mail para onde serão enviadas as notificações de cadastro de profissional docente.</small>
+				</div>
+			</div>
+		</div>
+		
+		<div class="grid">
+			<div class="col-2-12">
+			   <div class="content">
+			   		<label for="Notificação de Contatos">Representantes:</label>
+			   </div>
+		  	</div>
+			<div class="col-10-12">
+				<div class="content">
+					<input type="hidden" name="configuracoes[<?php echo Configuracoes::EMAIL_REPRESENTANTES; ?>][id]" value="<?php echo $configuracoes[Configuracoes::EMAIL_REPRESENTANTES]["id"]; ?>" />
+					<input type="hidden" name="configuracoes[<?php echo Configuracoes::EMAIL_REPRESENTANTES; ?>][chave]" value="<?php echo $configuracoes[Configuracoes::EMAIL_REPRESENTANTES]["chave"]; ?>" />
+					<input class="form-control typeahead" name="configuracoes[<?php echo Configuracoes::EMAIL_REPRESENTANTES; ?>][valor]" type="text" value="<?php echo $configuracoes[Configuracoes::EMAIL_REPRESENTANTES]["valor"]; ?>" placeholder="Informe o e-mail e digite Enter" />
+					<small class="destaque">E-mail para onde serão enviadas as notificações de cadastro de profissional representante.</small>
+				</div>
+			</div>
+		</div>
+		
+		<div class="grid">
+			<div class="col-2-12">
+			   <div class="content">
+			   		<label for="Notificação de Contatos">Administrativos:</label>
+			   </div>
+		  	</div>
+			<div class="col-10-12">
+				<div class="content">
+					<input type="hidden" name="configuracoes[<?php echo Configuracoes::EMAIL_ADMINISTRATIVOS; ?>][id]" value="<?php echo $configuracoes[Configuracoes::EMAIL_ADMINISTRATIVOS]["id"]; ?>" />
+					<input type="hidden" name="configuracoes[<?php echo Configuracoes::EMAIL_ADMINISTRATIVOS; ?>][chave]" value="<?php echo $configuracoes[Configuracoes::EMAIL_ADMINISTRATIVOS]["chave"]; ?>" />
+					<input class="form-control typeahead" name="configuracoes[<?php echo Configuracoes::EMAIL_ADMINISTRATIVOS; ?>][valor]" type="text" value="<?php echo $configuracoes[Configuracoes::EMAIL_ADMINISTRATIVOS]["valor"]; ?>" placeholder="Informe o e-mail e digite Enter" />
+					<small class="destaque">E-mail para onde serão enviadas as notificações de cadastro de profissional administrativo.</small>
+				</div>
+			</div>
+		</div>
+		
+		<div class="grid">
+			<div class="col-2-12">
+			   <div class="content">
+			   		<label for="Notificação de Contatos">Parceiros:</label>
+			   </div>
+		  	</div>
+			<div class="col-10-12">
+				<div class="content">
+					<input type="hidden" name="configuracoes[<?php echo Configuracoes::EMAIL_PARCEIROS; ?>][id]" value="<?php echo $configuracoes[Configuracoes::EMAIL_PARCEIROS]["id"]; ?>" />
+					<input type="hidden" name="configuracoes[<?php echo Configuracoes::EMAIL_PARCEIROS; ?>][chave]" value="<?php echo $configuracoes[Configuracoes::EMAIL_PARCEIROS]["chave"]; ?>" />
+					<input class="form-control typeahead" name="configuracoes[<?php echo Configuracoes::EMAIL_PARCEIROS; ?>][valor]" type="text" value="<?php echo $configuracoes[Configuracoes::EMAIL_PARCEIROS]["valor"]; ?>" placeholder="Informe o e-mail e digite Enter" />
+					<small class="destaque">E-mail para onde serão enviadas as notificações de cadastro de parceiro.</small>
+				</div>
+			</div>
+		</div>
+		
+		<div class="grid">
+			<div class="col-2-12">
+			   <div class="content">
+			   		<label for="Notificação de Requerimentos">Requerimentos:</label>
+			   </div>
+		  	</div>
+			<div class="col-10-12">
+				<div class="content">
+					<input type="hidden" name="configuracoes[<?php echo Configuracoes::EMAIL_REQUERIMENTOS; ?>][id]" value="<?php echo $configuracoes[Configuracoes::EMAIL_REQUERIMENTOS]["id"]; ?>" />
+					<input type="hidden" name="configuracoes[<?php echo Configuracoes::EMAIL_REQUERIMENTOS; ?>][chave]" value="<?php echo $configuracoes[Configuracoes::EMAIL_REQUERIMENTOS]["chave"]; ?>" />
+					<input class="form-control typeahead" name="configuracoes[<?php echo Configuracoes::EMAIL_REQUERIMENTOS; ?>][valor]" type="text" value="<?php echo $configuracoes[Configuracoes::EMAIL_REQUERIMENTOS]["valor"]; ?>" placeholder="Informe o e-mail e digite Enter" />
+					<small class="destaque">E-mail para onde serão enviadas as notificações de cadastro de requerimentos.</small>
+				</div>
+			</div>
+		</div>
+		
+	</fieldset>
+	
+	<br />
+
+	<input class="btn btn-default" type="submit" value="Salvar" /> 
+
+</form>

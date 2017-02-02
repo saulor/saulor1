@@ -1,0 +1,15 @@
+.DS_Store
+error_log.txt
+administrar/temp/*
+administrar/migracao
+Conexao1.php
+Conexao2.php
+assets/uploads/**/*.*
+!assets/uploads/**/default.png
+db
+sitemap/
+backup/
+backups/
+gitignore.txt
+robots.txt
+sitemap.xml

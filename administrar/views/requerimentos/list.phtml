@@ -1,0 +1,114 @@
+<?php
+
+	$table = array(
+		'fields' => array(
+			'nome' => array(
+				'title' => 'Nome',
+				'ajax' => 'ajax.php',
+				'link' => array(
+					'condition' => 'return checaPermissao(\'' . $_GET['modulo'] . '\',\'visualizar\',$_SESSION[PREFIX . "permissoes"]);',
+					'qsParams' => array(
+						'modulo' => $_GET['modulo'],
+						'acao' => 'visualizar',
+						'id' => 'return $objeto["id"];',
+						'tab' => 'return $situacao;'
+					)
+				),
+				'links' => array(
+					'Formulário' => array(
+						'condition' => 'return checaPermissao(\'' . $_GET['modulo'] . '\',\'formulario\',$_SESSION[PREFIX . "permissoes"]);',
+						'qsParams' => array(
+							'modulo' => $_GET['modulo'],
+							'acao' => 'formulario',
+							'id' => 'return $objeto["id"];',
+						)
+					)
+				),
+				'infos' => 'return $objeto["infos"];',
+				'labels' => 'return $objeto["labels"];'
+			),
+			'protocolo' => array(
+				'ajax' => 'ajax.php',
+				'content' => 'return compactaTexto($objeto["protocolo"], 8);',
+				'tooltip' => array(
+	              'type' => 'right',
+	              'condition' => 'return !empty($objeto["protocolo"]);',
+	              'text' => 'return $objeto["protocolo"];'
+	           )
+			),
+			'curso' => array(
+				'ajax' => 'ajax.php',
+				'content' => 'return compactaTexto($objeto["curso"], 8);',
+				'tooltip' => array(
+	              'type' => 'right',
+	              'condition' => 'return !empty($objeto["curso"]);',
+	              'text' => 'return $objeto["curso"];'
+	           )
+			),
+			'cidade1' => array(
+				'ajax' => 'ajax.php',
+				'title' => 'Cidade'
+			),
+			'tipo' => array(
+				'content' => 'return Requerimento::getTipo($objeto["tipo"]);',
+				'align' => 'center',
+				'ajax' => 'ajax.php',
+				'title' => 'Requerimento',
+			),
+			'procedimentosInternos' => array(
+				'align' => 'center',
+				'ajax' => 'ajax.php',
+				'title' => 'Proc. Internos',
+				'content' => 'return compactaTexto($objeto["procedimentosInternos"], 8);',
+				'tooltip' => array(
+		          'type' => 'left',
+		          'condition' => 'return !empty($objeto["procedimentosInternos"]);',
+		          'text' => 'return $objeto["procedimentosInternos"];'
+		       ),
+			),
+			'unidadeCertificadora' => array(
+				'content' => 'return Curso::getCertificadora($objeto["unidadeCertificadora"]);',
+				'align' => 'center',
+				'ajax' => 'ajax.php',
+				'title' => 'Certificadora'
+			),
+			'pago' => array(
+				'content' => 'return $objeto["pago"] ? "Sim" : "Não";',
+				'align' => 'center',
+				'title' => 'Pago?',
+				'hint' => array(
+					'condition' => 'return $objeto["pago"];',
+					'hint' => 'return "Pago em " . timestampToData($objeto["dataPagamentoTimestamp"]);'
+				)
+			),
+			'dataVencimento' => array(
+				'content' => 'return timestampToData($objeto["dataVencimentoTimestamp"]);',
+				'align' => 'center',
+				'title' => 'Data Vencimento',
+				'class' => 'data',
+				'ajax' => 'ajax.php',
+			),
+			'data' => array(
+				'content' => 'return timestampToDatatime($objeto["timestamp"]);',
+				'align' => 'center',
+				'title' => 'Data',
+				'class' => 'data',
+				'ajax' => 'ajax.php',
+				)
+			),
+			'acoes' => array(
+				'Excluir' => array(
+					'class' => 'excluir-click',
+					'qsParams' => array(
+						'modulo' => $_GET['modulo'],
+						'acao' => 'excluir',
+						'id' => 'return $objeto["id"];',
+						'tab' 	 => 'return $situacao;'
+					)
+				)
+			)
+
+			//'acoesMassa' => $acoesMassa
+	);
+
+?>

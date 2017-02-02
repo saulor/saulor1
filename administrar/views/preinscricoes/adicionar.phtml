@@ -1,0 +1,42 @@
+<?php
+	$params = $this->getParams();
+	$preinscricao = $params["preinscricao"];
+	$historico = $params["historico"];
+	$curso = $params["curso"];
+?>
+
+<link rel="stylesheet" href="<?php echo WWW_ROOT; ?>/administrar/styles/bootstrap-3.3.4/css/bootstrap.min.css" />
+<link rel="stylesheet" href="<?php echo WWW_ROOT; ?>/administrar/styles/main-2.0.css" />
+
+<form method="post">
+	
+	<input type="hidden" name="id" value="<?php echo $historico["id"]; ?>"/>
+	<input type="hidden" name="preinscricao" value="<?php echo $historico["preinscricao"]; ?>"/>
+	
+	<div class="grid">
+		<div class="col-1-12">
+			<div class="content">
+				<label for="Descrição">Descrição:</label>
+			</div>
+		</div>
+		<div class="col-11-12">
+			<div class="content">
+				<textarea rows="10" name="descricao" class="form-control" autofocus="autofocus" placeholder="Inserir novo registro no histórico do(a) aluno(a) <?php echo $preinscricao["nome"]; ?>"><?php echo $historico["descricao"]; ?></textarea>
+			</div>
+		</div>
+	</div>
+	
+	<div class="grid">
+		<div class="col-1-12">
+			<div class="content">
+				&nbsp;
+			</div>
+		</div>
+		<div class="col-11-12">
+			<div class="content">
+				<input class="btn btn-default" type="submit" value="Salvar"
+			</div>
+		</div>
+	</div>
+    
+</form>

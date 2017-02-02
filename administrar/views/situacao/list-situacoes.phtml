@@ -1,0 +1,51 @@
+<?php
+
+  $table = array(
+    'fields' => array(
+      'tipo' => array(
+        'order' => true,
+        'title' => 'Tipo',
+        'content' => 'return Situacao::getTipo($objeto["tipo"]);'
+      ),
+      'motivo' => array(
+        'align' => 'center'
+      ),
+      'retornar' => array(
+        'align' => 'center',
+        'content' => 'return Funcoes::decodeDate($objeto["data"]);'
+      ),
+      'horario' => array(
+        'align' => 'center',
+        'title' => 'Horário',
+        'content' => 'return $objeto["horario"];'
+      ),
+      'nomeUsuario' => array(
+        'align' => 'center',
+        'title' => 'Usuário',
+      ),
+      'observacoes' => array(
+        'title' => 'Observações',
+      ),
+      'data' => array(
+        'content' => 'return Funcoes::decodeDatetime($objeto["dataC"]);',
+        'align' => 'center',
+        'class' => 'data',
+        //'ajax' => 'ajax-visualizar1.php',
+        'order' => true
+      )
+    ),
+    'acoes' => array(
+      'Excluir' => array(
+        'class' => 'excluir-click',
+        'qsParams' => array(
+          'modulo' => $modulo,
+          'acao' => 'excluir',
+          'id' => 'return $objeto["id"];',
+          'curso' => 'return $objeto["idCurso"];',
+          'inscricao' => 'return $objeto["inscricao"];'
+        )
+      )
+    )
+  );
+
+?>

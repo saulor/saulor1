@@ -1,0 +1,58 @@
+<?php
+	$params = $this->getParams();
+	$taxas = $params["taxas"];
+	$tipos = $params["tipos"];
+?>
+
+<style>
+	label {
+		min-height: 45px !important;
+	}
+</style>
+
+<form method="post">
+	
+	<?php
+		//$taxas = Requerimento::getTipos();
+		//array_pop($taxas);
+		$ultimaChave = max(array_keys($tipos));
+		$aux = 1;
+		
+		foreach ($tipos as $key => $value) {
+			
+			if ($aux%3==0) {
+				echo '</div>';
+				$aux = 1;
+			}
+			
+			if ($aux == 1) {
+				echo '<div class="grid">';
+			}
+			
+			echo '<div class="col-3-12">';
+			echo '<div class="content">';
+			echo '<label>';
+			echo $value;
+			echo '</label>';
+			echo '</div>';
+			echo '</div>';
+			echo '<div class="col-3-12">';
+			echo '<div class="content">';
+			echo '<input type="hidden" name="taxas[' . $key . '][id]" value="' . $taxas[$key]["id"] . '" />';
+			echo '<input class="form-control" type="text" name="taxas[' . $key . '][taxa]" value="' . $taxas[$key]["taxa"] . '" />';
+			echo '</div>';
+			echo '</div>';
+			$aux++;
+			
+			if ($key == $ultimaChave) {
+				echo '</div>';
+			}
+		}
+
+	?>
+		
+	<br />
+	
+	<input class="btn btn-default" type="submit" value="Cadastrar" />
+	
+</form>

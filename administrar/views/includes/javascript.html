@@ -1,0 +1,275 @@
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-tokenfield/0.12.0/bootstrap-tokenfield.min.js"></script>
+<script src="<?php echo WWW_ROOT; ?>/administrar/scripts/typeahead.bundle.min.js"></script>
+<script src="<?php echo WWW_ROOT; ?>/administrar/webtools/ckeditor/ckeditor.js"></script>
+<script src="<?php echo WWW_ROOT; ?>/administrar/scripts/jquery.ui.datepicker-pt-BR.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.min.js"></script>
+<script src="<?php echo WWW_ROOT; ?>/administrar/scripts/funcoes-2.0.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jScrollPane/2.0.23/script/jquery.jscrollpane.min.js"></script>
+<script src="<?php echo WWW_ROOT; ?>/administrar/scripts/tabs-inscricoes.js"></script>
+
+<script>
+	
+	/*
+	function receiveData(){
+	  var ajaxObject = new XMLHttpRequest();
+	  ajaxObject.open("GET", "?modulo=preinscricoes&acao=tabs");
+	  ajaxObject.onload = function(){
+	     if(ajaxObject.readyState == 4 || ajaxObject.status == 200)
+	     {
+	         document.getElementById("status").innerHTML = ajaxObject.responseText;
+	         setTimeout(receiveData, 3000);
+	     }
+	  }
+	  ajaxObject.send();
+	}
+	receiveData();
+	*/
+
+	$.fn.extend({
+		donetyping: function(callback, timeout) {
+		  timeout = timeout || 1e3;
+		  var timeoutReference, 
+		    doneTyping = function(el){
+		      if (!timeoutReference) return;
+		      timeoutReference = null;
+		      callback.call(el);
+		    }
+		  return this.each(function(i, el){
+		    var el = $(el);
+		    el.is(':input') && el.on('keyup keypress paste', function(e){
+		      if(e.type == 'keyup' && e.keyCode != 8) return;
+		      if (timeoutReference) clearTimeout (timeoutReference);
+		      timeoutReference = setTimeout(function(){
+		        doneTyping(el);
+		      }, timeout);
+		    }).on('blur', function(){
+		      doneTyping(el);
+		    });
+		  });
+		}
+	});
+
+	$(document).ready(function(){
+
+		var telefoneMask = function (val) {
+			return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
+		},
+		telefoneOptions = {
+			onKeyPress: function(val, e, field, options) {
+				field.mask(telefoneMask.apply({}, arguments), options);
+			},
+			placeholder:"(__) _____-____"
+		};
+		$(".telefone").mask(telefoneMask, telefoneOptions);
+		$(".cpf").mask("000.000.000-00", {placeholder: "___.___.___-__"});
+		$(".data").mask("00/00/0000", {placeholder: "__/__/____"});
+		$(".cep").mask("00000-000", {placeholder: "_____-___"});
+		$(".cnpj").mask("00.000.000/0000-00", {placeholder: "__.___.___/____-__"});
+		$(".horaPl").mask("00:00", {placeholder: "__:__"});
+		$(".hora").mask("00:00");
+		$(".datepicker").datepicker({
+	    	dateFormat: 'dd/mm/yy'
+	    });
+		$('.scroll-pane').jScrollPane();
+		$("#marcar-todos").click(function(){
+			var bool = $(this).prop('checked');
+			var inputs = $("#todos-container").find("input").not(":disabled");
+			inputs.each(function(){
+				$(this).prop('checked', bool);
+			});
+		});
+
+		// Ação de excluir registro da tabela
+		$('.primary').on('click', '.excluir-click', function(ev) {
+			ev.preventDefault();
+			var href = $(this).attr('href');
+			if (confirm('Tem certeza?')) {
+				window.location.href = href;
+			}
+		});
+
+		$('.editor').each(function() {
+			if($(this).attr('data-toolbar') != null) {
+				CKEDITOR.replace($(this).attr('id'), {
+					'toolbar' : $(this).attr('data-toolbar')
+				});
+			}
+			else {
+				CKEDITOR.replace($(this).attr('id'));
+			}
+		});
+
+		$('.cep').on('blur', function(){
+			var parent = $(this).parent();
+			var cep = $(this).val().replace(/-/g, '');
+			$("#cep-message").remove();
+
+			var loader = $('<img/>', {
+			    src: '../templates/default/assets/images/ajax-loader.gif'
+			}).appendTo(parent);
+
+			$.ajax({
+				url: "<?php echo WWW_ROOT; ?>/cep/" + cep,
+				dataType: "json",
+				success: function(json){
+					$(loader).remove();
+					if (parseInt(json.sucesso) == 1) {
+						$("#endereco").val(json.endereco);
+						$("#bairro").val(json.bairro);
+						$("#cidade").val(json.cidade);
+						$("#uf").val(json.uf);
+					}
+					else {
+						$('<span/>', {
+							id: 'cep-message',
+						    text: 'CEP não encontrado!',
+						    class: 'small text-danger',
+						}).appendTo(parent);
+					}
+				}
+			});
+		});
+
+		$('div.paginacao').on('click', 'a', function(ev){
+			ev.preventDefault();
+			$('.keyup-loader').removeClass('hidden');
+			var tr = $('tr#ajaxTyping');
+			var modulo = $(tr).attr('data-modulo');
+			var action = typeof($(tr).attr('data-action')) !== 'undefined' ? $(tr).attr('data-action') : 'ajax';
+			var order = $(tr).attr('data-order');
+			var exibir = $(tr).attr('data-exibir');
+			var modulo = $(tr).attr('data-modulo');
+			var li = $(this).parents('li');
+			var idLi = $(li).attr('id');
+			var pagina = idLi.split('-')[1];
+			$(tr).attr('data-pagina', pagina);
+			var dados = {modulo, order, exibir}
+			var qs = {};
+			$('tr#buscaAjax').find('input,select').each(function(){
+				qs[$(this).attr('name')] = $(this).val().trim();
+			});
+			$.ajax({
+				type: 'POST',
+				dataType: 'json',
+				url: '?modulo=' + modulo + '&acao=' + action + '&p=' + pagina,
+				data: { dados, qs }
+			}).done(function(response2) {
+				var trs = $.parseHTML(response2.trs);
+				$('.table tbody').children().filter(':not(#ajaxTyping)').remove();
+				$('.table tbody tr#ajaxTyping').after(trs);
+				$('#inicio').html(response2.inicio);
+				$('#fim').html(response2.fim);
+				var paginacao = $.parseHTML(response2.paginacao);
+				$('div.paginacao').html(paginacao).promise().done(function(){
+					$('#' + idLi).addClass('active');
+				});
+				$('.keyup-loader').addClass('hidden');
+			});
+		});
+
+		$('tr#ajaxTyping').find('input:text').donetyping(function() {
+
+			$('.keyup-loader').removeClass('hidden');
+
+			var tr = $(this).parents('tr');
+			$(tr).attr('data-pagina', 1); // sempre inicia com página 1
+
+			var modulo = $(tr).attr('data-modulo');
+			var action = typeof($(tr).attr('data-action')) !== 'undefined' ? $(tr).attr('data-action') : 'ajax';
+			var pagina = $(tr).attr('data-pagina');
+			var order = $(tr).attr('data-order');
+			var exibir = $(tr).attr('data-exibir');
+			var modulo = $(tr).attr('data-modulo');
+
+			$('form#planilha').find('input#' + $(this).attr('name')).remove();
+			if ($(this).val().trim() != '') {
+				var input = $('<input />', {
+					type: 'hidden',
+					id: $(this).attr('name'),
+					name: 'qs[' + $(this).attr('name') + ']',
+					value: $(this).val().trim(),
+				}).appendTo('form#planilha');
+			}
+
+			var dados = {modulo, order, exibir}
+
+			var qs = {};
+			$('tr#ajaxTyping').find('input,select').each(function(){
+				qs[$(this).attr('name')] = $(this).val().trim();
+			});
+
+			$.ajax({
+				type: 'POST',
+				dataType: 'json',
+				url: '?modulo=' + modulo + '&acao=' + action + '&p=' + pagina,
+				data: { dados, qs }
+			}).done(function(response) {
+				var trs = $.parseHTML(response.trs);
+				var paginacao = $.parseHTML(response.paginacao);
+				$('#inicio').html(response.inicio);
+				$('#fim').html(response.fim);
+				$('#quantidade').html(response.quantidade);
+				$('.table tbody').children().filter(':not(#ajaxTyping)').remove();
+				$('.table tbody tr#ajaxTyping').after(trs);
+				$('div.paginacao').html(paginacao);
+				$('.keyup-loader').addClass('hidden');
+			});
+		}, 300);
+
+		$('tr#ajaxTyping').find('select').on('change', function(ev) {
+			ev.preventDefault();
+			$('.keyup-loader').removeClass('hidden');
+
+			$('form#planilha').find('input#' + $(this).attr('name')).remove();
+			if ($(this).val()) {
+				var input = $('<input />', {
+					type: 'hidden',
+					id: $(this).attr('name'),
+					name: 'qs[' + $(this).attr('name') + ']',
+					value: $(this).val(),
+				}).appendTo('form#planilha');
+			}
+
+			var tr = $(this).parents('tr');
+
+			// sempre inicia com pagina = 1
+			$(tr).attr('data-pagina', 1);
+			var modulo = $(tr).attr('data-modulo');
+			var action = typeof($(tr).attr('data-action')) !== 'undefined' ? $(tr).attr('data-action') : 'ajax';
+			var pagina = $(tr).attr('data-pagina');
+			var order = $(tr).attr('data-order');
+			var exibir = $(tr).attr('data-exibir');
+			var modulo = $(tr).attr('data-modulo');
+
+			var dados = {modulo, order, exibir}
+
+			var qs = {};
+			$('tr#ajaxTyping').find('input,select').each(function(){
+				qs[$(this).attr('name')] = $(this).val();
+			});
+			
+			$.ajax({
+				type: 'POST',
+				dataType: 'json',
+				url: '?modulo=' + modulo + '&acao=' + action + '&p=' + pagina,
+				data: { dados, qs }
+			}).done(function(response) {
+				var trs = $.parseHTML(response.trs);
+				var paginacao = $.parseHTML(response.paginacao);
+				$('#inicio').html(response.inicio);
+				$('#fim').html(response.fim);
+				$('#quantidade').html(response.quantidade);
+				$('.table tbody').children().filter(':not(#ajaxTyping)').remove();
+				$('.table tbody tr#ajaxTyping').after(trs);
+				$('div.paginacao').html(paginacao);
+				$('.keyup-loader').addClass('hidden');
+			});
+		});
+
+  	});
+
+</script>

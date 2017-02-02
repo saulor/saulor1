@@ -1,0 +1,413 @@
+<?php
+	$params = $this->getParams();
+	$modulo = $_GET["modulo"];
+	//$exibir = isset($_GET["exibir"]) ? $_GET["exibir"] : NULL;
+	//$order = isset($_GET["order"]) ? $_GET["order"] : NULL;
+	$pagina = $params["pagina"];
+	$quantidade = $params["quantidade"];
+	$quantidadePorPagina = $params["quantidadePorPagina"];
+
+	if ($quantidade == 0) {
+		$iniCount = $inicio = 0;
+	}
+	else {
+		$iniCount = $inicio = ($quantidadePorPagina * $pagina) - ($quantidadePorPagina - 1);
+	}
+
+	if ($inicio + ($quantidadePorPagina - 1) > $quantidade) {
+		$fim = $quantidade;
+	}
+	else {
+		$fim = $inicio + ($quantidadePorPagina - 1);
+	}
+
+?>
+
+<style>
+	table {
+		font-size: 0.85em;
+	}
+	ul.pagination {
+		margin: 0 !important;
+		font-size: 0.8em;
+	}
+	ul.pagination li a {
+	    border: 1px solid #ebbc37!important;
+	}
+	ul.pagination li.active span,
+	ul.pagination li.active a {
+	    color: #fff !important;
+	    background-color: #ebbc37 !important;
+	    border: 1px solid #ebbc37!important;
+	}
+</style>
+
+<script>
+
+	function pesquisa(url, pagination) {
+
+		$(".ajax-loader").css("display", "block");
+
+		var busca = {
+			exibir : $("#exibir").val()
+		};
+
+		var opcoesPesquisa = $('#buscaAjax input:hidden');
+		$(opcoesPesquisa).each(function(){
+			busca[$(this).attr('name')] = $(this).val();
+		});
+
+		var opcoesPesquisa = $('#buscaAjax input:text');
+		$(opcoesPesquisa).each(function(){
+			busca[$(this).attr('name')] = $(this).val();
+		});
+
+		opcoesPesquisa = $('#buscaAjax select');
+		$(opcoesPesquisa).each(function(){
+			busca[$(this).attr('name')] = $(this).val();
+		});
+
+		var status = [];
+		var situacoes = [];
+		var key = '';
+		opcoesPesquisa = $('#buscaAjax input:checkbox:checked');
+
+		$(opcoesPesquisa).each(function(){
+			if ($(this).attr('name') == 'status') {
+				status.push($(this).val());
+			}
+			else {
+				situacoes.push($(this).val());
+			}
+		});
+
+		busca['status'] = status.join(',');
+		busca['situacoes'] = situacoes.join(',');
+
+		buscaAjax(url, busca).success(function (data) {
+
+			i = 0;
+			var quantidade = data.quantidade;
+			var inicio = data.inicio;
+			var fim = data.fim;
+
+			$("#quantidade").html(quantidade);
+			$("#inicio").html(inicio);
+			$("#fim").html(fim);
+
+			$("tbody tr#buscaAjax").nextAll("tr").remove();
+			$("tbody tr#buscaAjax").after(data.result);
+
+			var paginacao = $.parseHTML(data.paginacao);
+			$('div.paginacao-filtro').html(paginacao).promise().done(function(){
+				//$('#' + idLi).addClass('active');
+			});
+			
+			$('#impressao a').each(function(){
+				var href = $(this).attr("href").split("&");
+				href = href[0] + '&' + href[1] + '&' + data.listExcelHref;
+				$(this).attr("href", href);
+			});
+
+		});
+	}
+
+</script>
+
+<fieldset id="buscaAjax">
+	<legend><strong>Filtrar Inscrições</strong></legend>
+
+	<input type="hidden" name="order" value="<?php echo empty($_GET["order"]) ? NULL : $_GET["order"]; ?>" />
+	<input type="hidden" name="modulo" value="<?php echo empty($_GET["modulo"]) ? NULL : $_GET["modulo"]; ?>" />
+
+	<div class="grid">
+		<div class="col-2-12">
+			<div class="content">
+				<label for="Status">Status:</label>
+			</div>
+		</div>
+		<div class="col-8-12">
+			<div class="content">
+				<?php
+					foreach (Preinscricao::getStatuses() as $key => $value) {
+						echo '<label class="checkbox-inline"><input type="checkbox" onclick="pesquisa(\'views/preinscricoes/ajax-filtro.php?p=1\', true)" name="status" value="' . $key . '" />';
+						echo $value . '</label>';
+					}
+				?>
+			</div>
+		</div>
+	</div>
+
+	<div class="grid">
+		<div class="col-2-12">
+			<div class="content">
+				<label for="Situações">Situações:</label>
+			</div>
+		</div>
+		<div class="col-10-12">
+			<div class="content">
+				<?php
+					foreach (Situacao::getTipos() as $key => $value) {
+						echo '<label class="checkbox-inline"><input type="checkbox" onclick="pesquisa(\'views/preinscricoes/ajax-filtro.php?p=1\', true)" name="situacao" value="' . $key . '" />';
+						echo $value . '</label>';
+					}
+					echo '<label class="checkbox-inline"><input type="checkbox" onclick="pesquisa(\'views/preinscricoes/ajax-filtro.php?p=1\', true)" name="situacoes" value="-1" />Retornos</label>';
+				?>
+			</div>
+		</div>
+	</div>
+
+	<div class="grid">
+		<div class="col-2-12">
+			<div class="content">
+				<label for="Nome">Nome:</label>
+			</div>
+		</div>
+		<div class="col-10-12">
+			<div class="content">
+				<input class="form-control" type="text" name="nome" onkeyup="pesquisa('views/preinscricoes/ajax-filtro.php?p=1', true)" />
+			</div>
+		</div>
+	</div>
+
+	<div class="grid">
+		<div class="col-2-12">
+			<div class="content">
+				<label for="Nome">Curso:</label>
+			</div>
+		</div>
+		<div class="col-10-12">
+			<div class="content">
+				<select class="form-control" name="curso" onchange="pesquisa('views/preinscricoes/ajax-filtro.php?p=1', true);">
+					<option value="">--Selecione--</option>
+					<?php
+						foreach ($params["cursos"] as $curso) {
+							echo '<option value="' . $curso["id"] . '">';
+							echo $curso["nome"];
+							echo '</option>';
+						}
+					?>
+				</select>
+			</div>
+		</div>
+	</div>
+
+	<div class="grid">
+		<div class="col-2-12">
+			<div class="content">
+				<label for="Nome">Observações:</label>
+			</div>
+		</div>
+		<div class="col-10-12">
+			<div class="content">
+				<input class="form-control" type="text" name="observacoes" onkeyup="pesquisa('views/preinscricoes/ajax-filtro.php?p=1', true)" />
+			</div>
+		</div>
+	</div>
+
+	<div class="grid">
+		<div class="col-2-12">
+			<div class="content">
+				<label for="Curso">Unidade:</label>
+			</div>
+		</div>
+		<div class="col-4-12">
+			<div class="content">
+				<select class="form-control" name="unidade" onchange="pesquisa('views/preinscricoes/ajax-filtro.php?p=1', true);">
+					<option value="">--Selecione--</option>
+					<?php
+						foreach ($params["unidades"] as $unidade) {
+							echo '<option value="' . $unidade["id"] . '">';
+							echo $unidade["nome"];
+							echo '</option>';
+						}
+					?>
+				</select>
+			</div>
+		</div>
+		<div class="col-2-12">
+			<div class="content">
+				<label for="Estado">Estado:</label>
+			</div>
+		</div>
+		<div class="col-4-12">
+			<div class="content">
+				<select class="form-control" name="estado" onchange="pesquisa('views/preinscricoes/ajax-filtro.php?p=1', true);">
+				    <option value="">--Selecione--</option>
+				    <option value="AC">AC</option>
+				    <option value="AL">AL</option>
+				    <option value="AP">AP</option>
+				    <option value="AM">AM</option>
+				    <option value="BA">BA</option>
+				    <option value="CE">CE</option>
+				    <option value="DF">DF</option>
+				    <option value="ES">ES</option>
+				    <option value="GO">GO</option>
+				    <option value="MA">MA</option>
+				    <option value="MT">MT</option>
+				    <option value="MS">MS</option>
+				    <option value="MG">MG</option>
+				    <option value="PA">PA</option>
+				    <option value="PB">PB</option>
+				    <option value="PR">PR</option>
+				    <option value="PE">PE</option>
+				    <option value="PI">PI</option>
+				    <option value="RJ">RJ</option>
+				    <option value="RN">RN</option>
+				    <option value="RS">RS</option>
+				    <option value="RO">RO</option>
+				    <option value="RR">RR</option>
+				    <option value="SC">SC</option>
+				    <option value="SP">SP</option>
+				    <option value="SE">SE</option>
+				    <option value="TO">TO</option>
+				</select>
+			</div>
+		</div>
+	</div>
+
+	<div class="grid">
+		<div class="col-2-12">
+			<div class="content">
+				<label for="Data Inicial">Data Inicial:</label>
+			</div>
+		</div>
+		<div class="col-4-12">
+			<div class="content">
+				<input type="text" name="dataInicial" class="datepicker form-control" value="<?php echo date('d/m/Y'); ?>" onchange="pesquisa('views/preinscricoes/ajax-filtro.php?p=1', true);" />
+			</div>
+		</div>
+		<div class="col-2-12">
+			<div class="content">
+				<label for="Data Final">Data Final:</label>
+			</div>
+		</div>
+		<div class="col-4-12">
+			<div class="content">
+				<input type="text" name="dataFinal" class="datepicker form-control" value="<?php echo date('d/m/Y'); ?>" onchange="pesquisa('views/preinscricoes/ajax-filtro.php?p=1', true);" />
+			</div>
+		</div>
+	</div>
+
+	<?php if (in_array($_SESSION[PREFIX . "loginCodigo"], array(32,33))) { ?>
+
+	<div class="grid">
+		<div class="col-2-12">
+			<div class="content">
+				<label for="Responsável">Responsável:</label>
+			</div>
+		</div>
+		<div class="col-4-12">
+			<div class="content">
+				<select class="form-control" id="responsavel" name="responsavel" onchange="pesquisa('views/preinscricoes/ajax-filtro.php?p=1', true);">
+					<option value="">--Selecione--</option>
+					<?php
+						foreach ($params["usuarios"] as $usuario) {
+							echo '<option ';
+							echo 'value="' . $usuario["id"] . '">';
+							echo $usuario["nome"];
+							echo '</option>';
+						}
+					?>
+				</select>
+			</div>
+		</div>
+	</div>
+
+	<?php } ?>
+
+</fieldset>
+
+<div class="grid">
+  <div class="col-2-12">
+    <div class="content">
+      <small>
+        <strong id="inicio">
+          <?php if (isset($inicio)) echo $inicio; ?>
+        </strong> &rsaquo;
+        <strong id="fim">
+          <?php if (isset($fim)) echo $fim; ?>
+        </strong> de
+        <strong id="quantidade">
+          <?php if (isset($quantidade)) echo $quantidade; ?>
+        </strong> registro(s)
+      </small>
+    </div>
+  </div>
+</div>
+
+<?php include 'views/includes/exibir.phtml'; ?>
+
+<div class="paginacao-filtro">
+	<?php echo $params['paginacao']; ?>
+</div>
+
+<?php
+    // $qString = array();
+    // foreach (explode("&", $_SERVER['QUERY_STRING']) as $queryString) {
+    // 	$chave = explode("=", $queryString);
+    // 	if ($chave[0] != 'p') {
+    // 		$qString[] = $queryString;
+    // 	}
+    // }
+    // if ($quantidade > $quantidadePorPagina) {
+    // 	echo paginacao($quantidade, $quantidadePorPagina, $pagina, implode("&", $qString));
+    // }
+?>
+
+<table class="table">
+	<thead>
+	    <tr>
+			<th>&nbsp;</th>
+			<th><strong>Curso</strong></th>
+			<th><strong>Nome</strong></th>
+			<th class="center"><strong>Status</strong></th>
+			<th class="center"><strong>Situação</strong></th>
+			<th><strong>Responsável</strong></th>
+			<th><strong>Telefone</strong></th>
+			<th><strong>Horário</strong></th>
+			<th class="center"><strong>Unidade</strong></th>
+			<th class="center"><strong>Estado</strong></th>
+			<th><strong>Observações</strong></th>
+			<th class="center"><strong>Data</strong></th>		        
+		</tr>
+	</thead>
+	<tbody>
+	    <tr id="buscaAjax">
+	    	<input type="hidden" name="modulo" value="preinscricoes">
+	    	<td colspan="12">
+	    		<img class="ajax-loader" src="imagens/ajax-loader-white-transparent.gif">
+	    	</td>
+	    </tr>
+	    <?php include('rows-filtro.phtml'); ?>
+	</tbody>
+</table>
+
+<div id="impressao" class="grid">
+	<p>Imprimir em:</p>
+	<div>
+		<img src="imagens/excel-icon.gif" />
+		<a href="?modulo=preinscricoes&acao=listExcel" title="Imprimir listagem em excel">EXCEL</a>
+	</div>
+</div>
+
+<br />
+
+<div class="paginacao-filtro">
+	<?php echo $params['paginacao']; ?>
+</div>
+
+<script>
+	$(document).ready(function(){
+		$('#exibir').on('keyup', function() {
+			pesquisa('views/preinscricoes/ajax-filtro.php?p=1', true);
+		});
+		$('div.paginacao-filtro').on('click', 'a', function(ev){
+			ev.preventDefault();
+			var li = $(this).parents('li');
+			var idLi = $(li).attr('id');
+			var pagina = idLi.split('-')[1];
+			pesquisa('views/preinscricoes/ajax-filtro.php?p=' + pagina, true);
+		});
+	});
+</script>

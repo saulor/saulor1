@@ -1,0 +1,40 @@
+<style>
+	td.dado {
+		width: 200px;
+		border-bottom: 1px solid #fff;
+	}
+	td.valor {
+		border-bottom: 1px solid #ccc;
+	}
+	td {
+		vertical-align: top;
+		padding: 9px !important;
+	}
+</style>
+
+<?php
+	$params = $this->getParams();
+	echo '<div class="estatisticas">';
+	echo '<table width="100%">';
+	echo '<thead>';
+	echo '<tr>';
+	echo '<th class="modulo" colspan="2">';
+	echo '<strong>Principais estatísticas de pré-inscrições</strong>';
+	echo '</th>';
+	echo '</tr>';
+	echo '</thead>';
+	echo '<tbody>';
+	foreach ($params["estatisticas"] as $estatistica => $valor) {
+		echo '<tr>';
+		echo '<td class="dado">';
+		echo $estatistica;
+		echo '</td>';
+		echo '<td class="valor">';
+		echo $valor;
+		echo '</td>';
+		echo '</tr>';
+	}
+	echo '</tbody>';
+	echo '</table>';
+	echo '</div>';
+?>

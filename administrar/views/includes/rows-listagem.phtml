@@ -1,0 +1,237 @@
+<?php
+
+	$rows = '';
+
+	$evalPattern = '/return /';
+
+	foreach ($params["objetos"] as $key => $objeto) {
+
+		$classes = array();
+
+		$elemento = '<tr id="tr%d" class="%s">';
+
+		if (isset($objeto["status"]) && $objeto['status'] == 0) {
+			$classes[] = 'desativada';
+		}
+
+		$rows .= sprintf($elemento, $key, implode(" ", $classes));
+
+		$elemento = '<th scope="row"><small>%d</small></th>';
+
+		$rows .= sprintf($elemento, $iniCount++);
+
+		if (isset($table["acoesMassa"])) {
+			$elemento = '<td><input type="checkbox" name="objetos[]" value="%d" /></td>';
+        	$rows .= sprintf($elemento, $objeto["id"]);
+        }
+
+		foreach ($table['fields'] as $key => $f) {
+
+			$classes = array();
+
+			$elemento = '<td class="%s">';
+
+			if (isset($f['align'])) {
+				$classes[] = $f['align'];
+			}
+
+			$tooltip = isset($f['tooltip']);
+
+			if ($tooltip) {
+				$classes[] = 'tooltp';
+				$classes[] = $f['tooltip']['type'];
+			}
+
+			$rows .= sprintf($elemento, implode(" ", $classes));
+
+			$classes = array();
+
+			$elemento = '<span>';
+
+			// se campo for um link
+			if (isset($f['link'])) {
+
+				$link = $f['link'];
+
+				if (!isset($link['condition']) || 
+					(isset($link['condition']) && eval($link['condition']))) {
+
+					// add order to query string
+					if (isset($order) && !empty($order)) {
+						$link['qsParams']["order"] = $order;
+					}
+
+					$elemento = '<a href="%s"';
+
+					// monta href do campo
+					$qsParams = array();
+					if (isset($link['qsParams'])) {
+						foreach ($link['qsParams'] as $qsKey => $qsValue) {
+							$param = '%s=%s';
+							if (preg_match($evalPattern, $qsValue)) {
+								$qsValue = eval($qsValue);
+							}
+							$qsParams[] = sprintf($param, $qsKey, $qsValue);
+						}
+					}
+					
+					$href = '?' . implode('&', $qsParams);
+					
+					$elemento = sprintf($elemento, $href);
+
+					$elemento .= '>';
+
+				}
+			}
+
+			$rows .= $elemento;
+
+			if (isset($f['content']) && preg_match($evalPattern, $f['content'])) {
+				$rows .= eval($f['content']);
+			}
+			else {
+				$rows .= $objeto[$key];
+			}
+
+			if (isset($f['link'])) {
+				$elemento = '</a>';
+			}
+			else {
+				$elemento = '</span>';
+			}
+
+			$rows .= $elemento;
+
+			if (isset($f['infos']) && count(eval($f['infos']))) {
+				$rows .= '<br />';
+				$info = '<small>%s</small>';
+				$infos = array();
+				foreach (eval($f['infos']) as $inf) {
+					$infos[] = sprintf($info, $inf);
+				}
+				$rows .= implode('<br />', $infos);
+			}
+
+			// labels e notas ...
+			if (isset($f['labels']) && count(eval($f['labels']))) {
+				$rows .= '<br />';
+				foreach (eval($f['labels']) as $n) {
+					$class = isset($n['class']) ? $n['class'] : 'warning';
+					// se for nota
+					if (isset($n['nota'])) {
+						$notaObj = $n['nota'];
+						$label = '<span id="nota%d" data-id="%d" data-inscricao="%d" data-nome="%s" data-usuario="%d" data-curso="%s" class="add-nota label label-%s hint--info hint--bottom-right" data-hint="%s">%s</span> ';
+						$rows .= sprintf($label, $notaObj['id'], $notaObj['id'], $notaObj['inscricao'], $objeto['nome'], $notaObj['usuario'], $curso["nome"], $class, $n['text'], $n['label']);
+					}
+					else {
+						$label = '<span class="label label-%s hint--info hint--bottom-right" data-hint="%s">%s</span><br />';
+						$rows .= sprintf($label, $class, $n['text'], $n['label']);
+					}
+					
+				}
+			}
+
+			if (isset($f['links'])) {
+				$links = $f['links'];
+				$colspan = count($table['fields']) + 1;
+			}
+			
+			if ($tooltip) {
+				if (isset($f['tooltip']['condition']) && eval($f['tooltip']['condition'])) {
+					if (!empty(eval($f['tooltip']['text']))) {
+						$elemento = '<div class="tip %s">%s</div></a>';
+						$rows .= sprintf($elemento, $f['tooltip']['type'], eval($f['tooltip']['text']));
+					}
+				}
+			}
+
+			$rows .= '</td>';
+		}
+
+		if (isset($table["acoes"]) && count($table["acoes"]) > 0) {
+			foreach ($table["acoes"] as $nomeAcao => $acao) {
+
+				if (isset($acao['condition'])) {
+					if (!eval($acao['condition']))
+					continue;
+				}
+
+				$rows .= '<td align="center">';
+				
+				$a = '<a class="%s" target="%s" href="%s">%s</a>';
+
+				// monta href do campo
+				$qsParams = array();
+				if (isset($acao['qsParams'])) {
+					foreach ($acao['qsParams'] as $qsKey => $qsValue) {
+						$param = '%s=%s';
+						if (preg_match($evalPattern, $qsValue)) {
+							$qsValue = eval($qsValue);
+						}
+						$qsParams[] = sprintf($param, $qsKey, $qsValue);
+					}
+				}
+				
+				$href = '?' . implode('&', $qsParams); 
+
+				// target
+				$target = isset($acao['target']) ? $acao['target'] : '_self';
+				// class
+				$class = isset($acao['class']) ? $acao['class'] : '';
+
+				$rows .= sprintf($a, $class, $target, $href, $nomeAcao);
+
+				$rows .= '</td>';
+			}
+		}
+		
+		$rows .= '</tr>';
+
+		if (isset($links)) {
+			$rows .= '<tr class="links"><td>&nbsp;</td>';
+			
+			if (isset($table["acoesMassa"])) {
+				$rows .= '<td>&nbsp;</td>';
+			}
+
+			$rows .= '<td colspan="' . $colspan . '">';
+			$elemento = '<div id="links">%s</div>';
+			$a = '<a target="%s" href="%s">%s</a>';
+			$as = array();
+			foreach ($links as $key => $link) {
+
+				$href = '';
+				// condition
+				$condition = isset($link['condition']) ? $link['condition'] : 'return 1==2;';
+				// target
+				$target = isset($link['target']) ? $link['target'] : '_self';
+
+				if (isset($link['url'])) {
+					$href = eval($link['url']);
+				}
+				else {
+					if ($condition && eval($condition)) {
+						// monta href do campo
+						$qsParams = array();
+						if (isset($link['qsParams'])) {
+							foreach ($link['qsParams'] as $qsKey => $qsValue) {
+								$param = '%s=%s';
+								if (preg_match($evalPattern, $qsValue)) {
+									$qsValue = eval($qsValue);
+								}
+								$qsParams[] = sprintf($param, $qsKey, $qsValue);
+							}
+						}
+						$href = '?' . implode('&', $qsParams); 	
+					}
+				}
+
+				if (!empty($href)) {
+					$as[] = sprintf($a, $target, $href, $key);
+				}
+			}
+			$rows .= sprintf($elemento, implode(" | ", $as));
+			$rows .= '</tr></td>';
+		}
+	}
+?>

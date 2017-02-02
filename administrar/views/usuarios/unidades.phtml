@@ -1,0 +1,49 @@
+<?php
+	$params = $this->getParams();
+	$usuario = $params["objeto"];
+?>
+
+<style>
+	label.checkbox {
+		margin-left: 22px;
+	}
+</style>
+
+<form method="post">
+
+	<input type="hidden" name="id" value="<?php echo $usuario->id; ?>" />
+
+	<fieldset id="unidades">
+		<legend><strong>Unidades</strong></legend>
+		<?php 
+			foreach($params['unidades'] as $regiao => $unidades) {
+				echo '<fieldset style="border:0;">';
+				echo '<legend><strong>' . $regiao . '</strong></legend>';
+				foreach ($unidades as $unidade) {
+					echo '<p style="float:left;';
+					echo ' background-color:#f1f0f0;';
+					echo ' padding:3px; margin-right: 5px;">';
+					echo '<label class="checkbox-inline">';
+					echo '<input type="checkbox" name="unidades[]"';
+					if (in_array($unidade->id, $params['unidadesUsuario'])) {
+						echo ' checked';
+					}
+					echo ' value="' . $unidade->id . '"';
+					echo ' />';
+					echo '<small>' . $unidade->nome . " (" . $unidade->siglaEstado . ")</small>";
+					echo '</label></p>';
+				}
+				echo '</fieldset>';
+			}
+			echo '<div class="checkbox"><label>';
+			echo '<input type="checkbox" onclick="marcarDesmarcar(this, \'unidades\')" title="Clique para marcar/desmarcar todos" />';
+			echo '<strong>Marcar/Desmarcar todos</strong>';
+			echo '</label></div>';
+		?>
+	</fieldset>
+
+	<br />
+
+	<input class="btn btn-default" type="submit" value="Salvar" /> 
+
+</form>

@@ -1,0 +1,49 @@
+<?php
+	$params = $this->getParams();
+	$preinscricao = $params["preinscricao"];
+	$situacoes = $params["situacoes"];
+?>
+
+<style>
+	label.checkbox {
+		margin-left: 25px;
+	}
+</style>
+
+<form method="post">
+	
+	<input type="hidden" name="preinscricao" value="<?php echo $preinscricao["id"]; ?>" />
+    
+    <fieldset>
+    	<legend><strong>Documentação do Aluno</strong></legend>
+		
+		<label class="checkbox">
+			<input type="checkbox" id="todos"  /> Marcar todos
+		</label>
+		
+		<?php
+			foreach (PreinscricaoSituacao::getItens() as $key => $value) {
+	    		echo '<label class="checkbox">';
+	    		echo '<input type="checkbox" name="itens[]" value="' . $key . '"';
+	    		if (!empty($situacoes[$key]) && $situacoes[$key] == 1) {
+	    			echo ' checked="checked"';
+	    		}
+	    		echo  ' "/> ';
+	    		echo $value;
+	    		echo '</label>';
+			}
+		?>
+	
+	</fieldset>
+	
+	<br />
+
+    <input class="btn btn-default" type="submit" value="Salvar" />
+    
+</form>
+
+<script>
+	$("#todos").click(function() {
+		$("form").find(":checkbox").prop("checked", $("#todos").prop("checked"));
+	});
+</script>

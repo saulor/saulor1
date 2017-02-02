@@ -1,0 +1,122 @@
+<?php
+	$configuracoes = new Configuration(array(
+			"type" => "ini"
+		)
+	);
+	$configuracoes = $configuracoes->initialize()->parse('configuracoes');
+	$params = $this->getParams();
+?>
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title><?php echo $configuracoes->configuracao->sigla . " &rsaquo; Painel de Administração &rsaquo; " . $params["title"]; ?></title>
+<link rel="shortcut icon" href="<?php echo WWW_ROOT; ?>/templates/default/assets/images/favicon.png" /> 
+<?php 
+	include (DIR_ROOT . '/administrar/views/includes/css.html');
+	include (DIR_ROOT . '/administrar/views/includes/javascript.html');	  
+?>
+</head>
+<body>
+<div id="modal-mask"></div>
+<div id="modal-container" class="hidden"></div>
+<div id="page">
+	<header role="logo">
+		<div class="inner">
+			<a href="index.php">
+				<hgroup>
+					<h1><?php echo $configuracoes->configuracao->sigla; ?></h1>
+					<h2><strong>Painel de Administração</strong></h2>
+				</hgroup>
+			</a>
+			<?php 
+				if (isset($_SESSION[PREFIX . "loginId"])) {  
+					include (DIR_ROOT . '/administrar/views/includes/menus/top-menu.phtml');
+					include (DIR_ROOT . '/administrar/views/includes/menus/main-menu.phtml');	 
+				} 
+			?>
+		</div>
+	</header>
+	<div class="inner main">
+		<div id="primary" class="primary" role="main">
+			<?php if (isset($_SESSION[PREFIX . "loginId"])) {  ?>
+			<nav id="breadcrumbs" class="breadcrumbs" role="breadcrumbs">
+				<ul>
+					<li>
+						<a href="index.php"><?php echo $configuracoes->configuracao->sigla; ?></a>
+					</li>
+					
+					<?php
+						
+						// percorre os itens do breadcrumb para calcular o tamanho total dele
+						// se o tamanho for maior do que o esperado será tirada a diferença do maior item
+						
+						if (isset($params["breadcrumbs"])) {
+						
+							$tamanhoBreadcrumb = 5; 
+							foreach ($params["breadcrumbs"] as $key => $value) {
+								foreach ($value as $titulo => $link) {
+									$tamanhoBreadcrumb = $tamanhoBreadcrumb + (strlen($titulo) + 3);	
+								}
+							}
+							
+							$diferenca = 0;
+							
+							// 95 é a quantidade de caracteres que cabe na barra de breadcrumbs
+							// 19 é a média de caracteres que cabem em cada item do breadcrumb para totalizar os 95
+							
+							// calcula a sobra
+							if ($tamanhoBreadcrumb > 160) {
+								$diferenca = $tamanhoBreadcrumb - 160;
+							}
+								
+							foreach ($params["breadcrumbs"] as $key => $value) {
+								foreach ($value as $titulo => $link) {
+									echo '<li> &rsaquo; ';
+									if ($link != "")
+										echo '<a href="'.$link.'">';
+									if ($tamanhoBreadcrumb > 160 && strlen($titulo) > 19) {
+										echo substr($titulo, 0, strlen($titulo) - $diferenca).' ...';
+									}
+									else {
+										echo $titulo;
+									}
+									if ($link != "")
+										echo '</a>';
+									echo '</li>';
+									
+								}
+							}
+						}
+					?>
+					
+				</ul>
+			</nav>
+			
+			<?php }  ?>
+			
+			<?php 
+				$modulo = isset($_GET['modulo']) ? $_GET['modulo'] : 'index'; 
+				echo getMensagem($modulo); 
+			?>
+			
+			<?php echo $contents; ?>
+				
+		</div>
+	</div>
+	
+	<footer>
+		<?php 
+			echo $configuracoes->configuracao->sigla . " - " . $configuracoes->configuracao->nome . " © " . date('Y'); 
+			if (isset($_SESSION[PREFIX . "loginId"])) {
+				echo '<br />Você acessou como <a href="?modulo=index&acao=alterar&id=' . $_SESSION[PREFIX . "loginId"] . '">' . $_SESSION[PREFIX . "loginNome"]; 
+				echo '</a>';
+			}
+			echo '<br />Painel de Administração';
+		?>
+	</footer>
+	
+</div>
+
+</body>
+</html>

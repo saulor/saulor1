@@ -1,0 +1,216 @@
+<?php
+	$params = $this->getParams();
+	$objeto = $params['objeto'];
+?>
+
+<form method="post">
+
+	<input type="hidden" name="id" value="<?php echo $objeto->id; ?>" />
+	
+	<fieldset>
+		<legend><strong>Dados Pessoais</strong></legend>
+		
+		<div class="grid">
+			<div class="col-2-12">
+			   <div class="content">
+			   		<label for="CPF">CPF:</label>
+			   </div>
+		  	</div>
+			<div class="col-2-12">
+				<div class="content">
+					<input class="form-control cpf" placeholder="CPF" autofocus="autofocus" type="text" name="cpf" value="<?php echo $objeto->cpf; ?>" />
+				</div>
+			</div>
+		</div>
+		
+		<div class="grid">
+			<div class="col-2-12">
+			   <div class="content">
+			   		<label for="Nome">Nome:</label>
+			   </div>
+			</div>
+			<div class="col-10-12">
+				<div class="content">
+					<input class="form-control" placeholder="Nome" type="text" name="nome" value="<?php echo $objeto->nome; ?>" />
+				</div>
+			</div>
+		</div>
+		
+		<div class="grid">
+			<div class="col-2-12">
+			   <div class="content">
+			   		<label for="Curso">E-mail:</label>
+			   </div>
+			</div>
+			<div class="col-4-12">
+				<div class="content">
+					<input class="form-control" placeholder="E-mail" type="text" name="email" value="<?php echo $objeto->email; ?>" />
+				</div>
+			</div>
+			<div class="col-2-12">
+			   <div class="content">
+			   		<label for="Profissão">Profissão:</label>
+			   </div>
+				</div>
+			<div class="col-4-12">
+				<div class="content">
+					<input class="form-control" placeholder="Profissão" type="text" name="profissao" value="<?php echo $objeto->profissao;; ?>" />
+				</div>
+			</div>
+		</div>
+		
+		<div class="grid">
+			<div class="col-2-12">
+			   <div class="content">
+			   		<label for="Telefone Residencial">Telefone Residencial:</label>
+			   </div>
+		  	</div>
+			<div class="col-4-12">
+				<div class="content">
+					<input class="form-control telefone" placeholder="Telefone Residencial" type="text" name="telefoneResidencial" value="<?php echo $objeto->telefoneResidencial;; ?>" />
+				</div>
+			</div>
+			<div class="col-2-12">
+			   <div class="content">
+			   		<label for="Telefone Celular">Telefone Celular:</label>
+			   </div>
+			</div>
+			<div class="col-4-12">
+				<div class="content">
+					 <input placeholder="Telefone Celular" class="form-control telefone" id="telefoneCelular" type="text" name="telefoneCelular" value="<?php echo $objeto->telefoneCelular;; ?>" />
+				</div>
+			</div>
+		</div>
+	</fieldset>
+	
+	<fieldset>
+	    <legend><strong>Endereço</strong></legend>
+	    
+	    <div class="grid">
+	    	<div class="col-2-12">
+	    		<div class="content">
+	    			<label for="Cep">Cep:</label>
+	    		</div>
+	    	</div>
+	    	<div class="col-3-12">
+	    		<div class="content">
+	    			<input name="cep" class="form-control cep" placeholder="CEP" type="text" value="<?php echo $objeto->cep;; ?>"  />
+	    		</div>
+	    	</div>
+	    </div>
+	    
+	    <div class="grid">
+	        <div class="col-2-12">
+	        	<div class="content">
+	        		<label for="Endereço">Endereço Completo:</label>
+	        	</div>
+	        </div>
+	        <div class="col-10-12">
+	        	<div class="content">
+	        		<input class="form-control" placeholder="Endereço + Número + Bairro + Complemento" name="endereco" id="endereco" type="text" value="<?php echo $objeto->endereco;; ?>" />
+	        	</div>
+	        </div>
+	    </div>
+	    
+	    <div class="grid">
+	        <div class="col-2-12">
+	        	<div class="content">
+	        		<label for="Cidade">Cidade:</label>
+	        	</div>
+	        </div>
+	        <div class="col-7-12">
+	        	<div class="content">
+	        		<input class="form-control" placeholder="Cidade" name="cidade" id="cidade" type="text" value="<?php echo $objeto->cidade;; ?>" />
+	        	</div>
+	        </div>
+	        <div class="col-1-12">
+	        	<div class="content">
+	        		<label for="UF">UF:</label>
+	        	</div>
+	        </div>
+	        <div class="col-2-12">
+	        	<div class="content">
+	        		<select class="form-control" name="uf" id="uf">
+	        		    <option value="" <?php if ($objeto->uf == "") echo ' selected';  ?>>--Selecione--</option>
+	        		    <option value="AC"<?php if ($objeto->uf == "AC") echo ' selected'; ?>>AC</option>
+	        		    <option value="AL"<?php if ($objeto->uf == "AL") echo ' selected'; ?>>AL</option>
+	        		    <option value="AP"<?php if ($objeto->uf == "AP") echo ' selected'; ?>>AP</option>
+	        		    <option value="AM"<?php if ($objeto->uf == "AM") echo ' selected'; ?>>AM</option>
+	        		    <option value="BA"<?php if ($objeto->uf == "BA") echo ' selected'; ?>>BA</option>
+	        		    <option value="CE"<?php if ($objeto->uf == "CE") echo ' selected'; ?>>CE</option>
+	        		    <option value="DF"<?php if ($objeto->uf == "DF") echo ' selected'; ?>>DF</option>
+	        		    <option value="ES"<?php if ($objeto->uf == "ES") echo ' selected'; ?>>ES</option>
+	        		    <option value="GO"<?php if ($objeto->uf == "GO") echo ' selected'; ?>>GO</option>
+	        		    <option value="MA"<?php if ($objeto->uf == "MA") echo ' selected'; ?>>MA</option>
+	        		    <option value="MT"<?php if ($objeto->uf == "MT") echo ' selected'; ?>>MT</option>
+	        		    <option value="MS"<?php if ($objeto->uf == "MS") echo ' selected'; ?>>MS</option>
+	        		    <option value="MG"<?php if ($objeto->uf == "MG") echo ' selected'; ?>>MG</option>
+	        		    <option value="PA"<?php if ($objeto->uf == "PA") echo ' selected'; ?>>PA</option>
+	        		    <option value="PB"<?php if ($objeto->uf == "PB") echo ' selected'; ?>>PB</option>
+	        		    <option value="PR"<?php if ($objeto->uf == "PR") echo ' selected'; ?>>PR</option>
+	        		    <option value="PE"<?php if ($objeto->uf == "PE") echo ' selected'; ?>>PE</option>
+	        		    <option value="PI"<?php if ($objeto->uf == "PI") echo ' selected'; ?>>PI</option>
+	        		    <option value="RJ"<?php if ($objeto->uf == "RJ") echo ' selected'; ?>>RJ</option>
+	        		    <option value="RN"<?php if ($objeto->uf == "RN") echo ' selected'; ?>>RN</option>
+	        		    <option value="RS"<?php if ($objeto->uf == "RS") echo ' selected'; ?>>RS</option>
+	        		    <option value="RO"<?php if ($objeto->uf == "RO") echo ' selected'; ?>>RO</option>
+	        		    <option value="RR"<?php if ($objeto->uf == "RR") echo ' selected'; ?>>RR</option>
+	        		    <option value="SC"<?php if ($objeto->uf == "SC") echo ' selected'; ?>>SC</option>
+	        		    <option value="SP"<?php if ($objeto->uf == "SP") echo ' selected'; ?>>SP</option>
+	        		    <option value="SE"<?php if ($objeto->uf == "SE") echo ' selected'; ?>>SE</option>
+	        		    <option value="TO"<?php if ($objeto->uf == "TO") echo ' selected'; ?>>TO</option>
+	        		</select>
+	        	</div>
+	        </div>
+	    </div>
+	    
+	</fieldset>
+	
+	
+	<fieldset>
+	    <legend><strong>Demais informações</strong></legend>
+		<div class="grid">
+			<div class="col-3-12">
+			   <div class="content">
+			   		<label for="Curso(s) de Interesse">Curso(s) de Interesse:</label>
+			   </div>
+			</div>
+			<div class="col-9-12">
+				<div class="content">
+					<input class="form-control" placeholder="Curso(s) de Interesse" type="text" name="cursosInteresse" value="<?php echo $objeto->cursosInteresse;; ?>" />
+				</div>
+			</div>
+		</div>
+		
+		<div class="grid">
+			<div class="col-3-12">
+			   <div class="content">
+			   		<label for="Cidade onde pretende cursar">Cidade onde pretende cursar:</label>
+			   </div>
+			</div>
+			<div class="col-9-12">
+				<div class="content">
+					<input class="form-control" placeholder="Cidade onde pretende cursar" type="text" name="cidadeCurso" value="<?php echo $objeto->cidadeCurso;; ?>" />
+				</div>
+			</div>
+		</div>
+		
+		<div class="grid">
+			<div class="col-3-12">
+			   <div class="content">
+			   		<label for="Observações">Observações:</label>
+			   </div>
+			</div>
+			<div class="col-9-12">
+				<div class="content">
+					<textarea rows="10" class="form-control" placeholder="Observações" type="text" name="observacoes"><?php echo $objeto->observacoes;; ?></textarea>
+				</div>
+			</div>
+		</div>
+	</fieldset>
+	
+	<br />
+	
+	<input class="btn btn-default" type="submit" value="Cadastrar" />
+	
+</form>

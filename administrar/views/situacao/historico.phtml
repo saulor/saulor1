@@ -1,0 +1,28 @@
+<?php
+  $params = $this->getParams();
+  $modulo = $_GET["modulo"];
+  $exibir = isset($_GET["exibir"]) ? $_GET["exibir"] : NULL;
+  $order = isset($_GET["order"]) ? $_GET["order"] : NULL;
+  $quantidade = $params["quantidade"];
+  $quantidadePorPagina = $params["quantidadePorPagina"];
+  $pagina = $params["pagina"];
+
+  if ($quantidade == 0) {
+    $iniCount = $inicio = 0;
+  }
+  else {
+    $iniCount = $inicio = ($quantidadePorPagina * $pagina) - ($quantidadePorPagina - 1);
+  }
+
+  if ($inicio + ($quantidadePorPagina - 1) > $quantidade) {
+    $fim = $quantidade;
+  }
+  else {
+    $fim = $inicio + ($quantidadePorPagina - 1);
+  }
+
+  include('list-situacoes.phtml');
+
+  include('views/includes/listagem.phtml'); 
+
+?>

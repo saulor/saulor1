@@ -1,0 +1,31 @@
+.ui-datepicker table {
+	width: 100%;
+}
+
+.ui-datepicker-header {
+	/*background: url('../imagens/dark_leather.png') repeat 0 0 #fff;*/
+	background: #CDB38B;
+	color:  #fff;
+}
+
+.ui-datepicker thead {
+	background-color: #ffe6be !important;
+	font-size: 0.8em;
+}
+
+.ui-datepicker-calendar a {
+	border: 1px solid #e7cda5 !important;
+	background: #fffff1 !important;
+}
+
+.ui-datepicker-prev-hover,
+.ui-datepicker-next-hover {
+	background: none !important;
+	border: 0 !important;
+}
+
+a.ui-state-highlight {
+	border: 1px solid #81673f !important;
+	background: #CDB38B !important;
+	color: #fff !important; 
+}

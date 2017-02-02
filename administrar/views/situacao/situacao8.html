@@ -1,0 +1,33 @@
+<div class="form-group row">
+	<label class="col-md-3 control-label" for="Assunto">Motivo</label>
+	<div class="col-md-7">
+		<select name="motivo" id="motivo" class="form-control field" required="required">
+			<option value="">Selecione o motivo</option>
+			<option value="Aguardando pagamento da inscrição">Aguardando pagamento da inscrição</option>
+			<option value="Aguardando retorno do procedimento de matrícula">Aguardando retorno do procedimento de matrícula</option>
+			<option value="Aguardando a análise da disponibilidade de fazer o curso">Aguardando a análise da disponibilidade de fazer o curso</option>
+		</select>
+	</div>
+</div>
+<div class="form-group row">
+	<label class="col-md-3 control-label" for="Data/Melhor horário">Retornar? Quando?</label>
+	<div class="col-md-3">
+		<input type="text" class="form-control datepicker field" id="data" 
+			name="data" placeholder="Informe a data" required="required" />
+	</div>
+	<div class="col-md-4">
+		<select name="horario" class="form-control field" id="horario" required="required">
+			<option value="">Selecione o melhor horário</option>
+			<option value="08h às 11h">08h às 11h</option>
+			<option value="11h às 15h">11h às 15h</option>
+			<option value="15h às 19h">15h às 19h</option>
+		</select>
+	</div>
+</div>
+<div class="form-group row">
+	<label class="col-md-3 control-label" for="Observações">Observações</label>
+	<div class="col-md-7">
+		<textarea name="observacoes" class="form-control field" rows="5" id="observacoes" 
+			placeholder="Informações adicionais"></textarea>
+	</div>
+</div>

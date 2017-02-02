@@ -1,0 +1,97 @@
+<?php 
+	$gets = array();
+	$url = parse_url($_SERVER['HTTP_REFERER']);
+	$parts = explode('&', $url['query']);
+	foreach ($parts as $value) {
+		list($chave,) = explode('=', $value);
+		if (!in_array($chave, array('tab', 'order'))) {
+			$gets[] = $value;
+		}
+	}
+	$idTabela = isset($table['id']) ? $table['id'] : '';
+	$classTabela = isset($table['id']) ? $table['class'] : 'table';
+?>
+
+<div class="grid">
+	<div class="col-2-12">
+		<div class="content">
+			<small>
+				<strong id="quantidade">
+					<?php if (isset($quantidade)) echo $quantidade; ?>
+				</strong> registro(s)
+			</small>
+		</div>
+	</div>
+</div>
+
+<div id="<?php echo $idTabela; ?>" class="<?php echo $classTabela; ?>" style="width: 100%;">
+	<table class="listagem table">
+		<thead>
+	        <tr>
+				<th>&nbsp;</th>
+
+	            <th class="checkboxes">
+	                <input type="checkbox" name="objetos[]" value="-1" onClick="selecionarTodos(this)"/>
+	            </th>
+
+	            <?php
+	            	foreach ($table['fields'] as $nomeCampo => $f) {
+	            		
+	            		$label = isset($f["title"]) ? $f["title"] : ucfirst($nomeCampo);
+	            		$class = isset($f['align']) ? $f['align'] : '';
+	            		
+	            		$elemento = '<th class="%s">%s</th>';
+	            		
+	            		$getsP = $gets;
+	            		if (isset($f['order'])) {
+	            			$getsP[] = 'order=' . $nomeCampo;
+	            			//$getsP[] = 'tab='. $status;
+	            			$html = '<a data-order="%s" class="ordenar" href="%s">';
+	            			$html .= '<strong>%s</strong></a>';
+	            			$html = sprintf($html, $nomeCampo, '?' . implode('&', $getsP), $label);
+	            		}
+	            		else {
+	            			$html = '<strong>%s</strong>';
+	            			$html = sprintf($html, $label);
+	            		}
+	            		
+	            		echo sprintf($elemento, $class, $html);
+	            		
+	            	}
+
+	            	if (isset($table["acoes"])) {
+		            	$elemento = '<th class="acoes" colspan="%d"><strong>Ações</strong></th>';
+		            	echo sprintf($elemento, count($table['acoes']));
+		            }
+	            ?>
+	        </tr>
+	    </thead>
+	    <tbody>
+	    	<tr id="buscaAjax">
+		    	<td>
+		    		<img class="ajax-loader" src="imagens/ajax-loader-white-transparent.gif">
+		    	</td>
+		    	<td>&nbsp;</td>
+		    	<?php
+		    		foreach ($table["fields"] as $key => $f) {
+		    			echo '<td>';
+		    			if (isset($f["ajax"])) {
+		    				echo '<input class="form-control filtro ';
+		    				if (isset($f['class'])) {
+		    					echo ' ' . $f['class'];
+		    				}
+		    				echo '" type="text" name="' . $key . '" />';
+		    			}
+		    			echo '</td>';
+		    		}
+		    		if (isset($table["acoes"])) {
+		    			echo '<td>&nbsp;</td>';
+		    		}
+		    	?>
+		    </tr>
+		    <?php
+		    	//echo $rows;
+		    ?>
+		</tbody>
+	</table>
+</div>

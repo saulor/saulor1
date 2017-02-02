@@ -1,0 +1,101 @@
+<?php
+	$params = $this->getParams();
+	$objeto = $params["objeto"];
+?>
+
+<form method="post" enctype="multipart/form-data">
+
+	<input type="hidden" name="id" value="<?php echo $objeto->id; ?>" />
+	
+	<div class="grid">
+		<div class="col-2-12">
+		   <div class="content">
+		   		<label for="Ativo">Ativo:</label>
+		   </div>
+	  	</div>
+		<div class="col-2-12">
+			<div class="content">
+				<input type="hidden" name="status" value="0" />
+				<input type="checkbox" name="status" value="1" <?php if ($objeto->status) echo 'checked'; ?> />
+			</div>
+		</div>
+	</div>
+	
+	<div class="grid">
+		<div class="col-2-12">
+		   <div class="content">
+		   		<label for="Descrição">Descrição:</label>
+		   </div>
+	  	</div>
+		<div class="col-7-12">
+			<div class="content">
+				<input class="form-control" name="descricao" type="text" value="<?php echo $objeto->descricao; ?>" autofocus placeholder="Descrição"/>
+			</div>
+		</div>
+	</div>
+	
+	<div class="grid">
+		<div class="col-2-12">
+		   <div class="content">
+		   		<label for="Link">Link:</label>
+		   </div>
+	  	</div>
+		<div class="col-8-12">
+			<div class="content">
+				<input class="form-control" name="link" type="text" value="<?php echo $objeto->link; ?>" placeholder="Link"/>
+			</div>
+		</div>
+	</div>
+	
+	<?php $label = "Banner"; if (!empty($objeto->banner)) { $label = "Mudar banner";?>
+	<div class="grid">
+		<div class="col-2-12">
+		   <div class="content">
+		   		&nbsp;
+		   </div>
+	  	</div>
+		<div class="col-4-12">
+			<div class="content">
+				<?php
+					if (existeArquivo(PATH_UPLOADS . '/banners/' .$objeto->banner)) {
+						echo '<img src="' . PATH_UPLOADS . '/banners/' . $objeto->banner . '" title="Banner" width="530px" />';
+					}
+					else {
+						echo '<img width="100" src="../imagens/foto-tmp.jpg" title="O banner não foi encontrado" alt="Banner não encontrado" />';
+					}
+				?>
+				
+			</div>
+		</div>
+	</div>
+	<?php } ?>
+	
+	<div class="grid">
+		<div class="col-2-12">
+		   <div class="content">
+		   		<label for="<?php echo $label; ?>"><?php echo $label; ?>:</label>
+		   </div>
+	  	</div>
+		<div class="col-4-12">
+			<div class="content">
+				<input class="form-control" name="banner" type="file" />
+			</div>
+			<!--span class="destaque"><small>Atenção: A dimensão do banner deve ser 3414x990.</small></span-->
+		</div>
+	</div>
+	
+	
+	<div class="grid">
+		<div class="col-2-12">
+		   <div class="content">
+		   		&nbsp;		   
+		   	</div>
+	  	</div>
+		<div class="col-9-12">
+			<div class="content">
+				<input class="btn btn-default" type="submit" value="Salvar">
+			</div>
+		</div>
+	</div>
+
+</form>
