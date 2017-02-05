@@ -1,4 +1,4 @@
-	#Deny directory listing
+#Deny directory listing
 Options -Indexes
 Options +FollowSymLinks
 RewriteEngine On
