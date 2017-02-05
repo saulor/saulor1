@@ -11,30 +11,14 @@ CKEDITOR.editorConfig = function( config ) {
 	// Remove some buttons provided by the standard plugins, which are
 	// not needed in the Standard(s) toolbar.
 
-	config.toolbarGroups = [
-	    { name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
-	    { name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ] },
-	    { name: 'links' },
-	    { name: 'insert' },
-	    { name: 'forms' },
-	    { name: 'tools' },
-	    { name: 'document',    groups: [ 'mode', 'document', 'doctools' ] },
-	    { name: 'others' },
-	    '/',
-	    { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
-	    { name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ] },
-	    { name: 'styles' },
-	    { name: 'colors' },
-	    { name: 'about' }
-	];
-
 	config.toolbar_basic = [
 		['Source'],
-		{ name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike' ] },
-		{ name: 'clipboard', items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ] },
+		['Undo', 'Redo'],
+		['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-'],
+		['Bold', 'Italic', 'Underline', 'Strike'],
 		['NumberedList', 'BulletedList'],
+		['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
 		['Link', 'Unlink'],
-	    { name: 'document', items: [ 'NewPage', 'Preview', '-', 'Templates' ] },
 	    ['Youtube', 'Image'],
 	    ['RemoveFormat'],
 	    ['Maximize']
@@ -42,7 +26,7 @@ CKEDITOR.editorConfig = function( config ) {
 
 	config.toolbar_basic2 = [
 		['Source'],
-		{ name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike'] },
+		['Bold', 'Italic', 'Underline', 'Strike'],
 		['NumberedList', 'BulletedList'],
 	    ['RemoveFormat']
 	];
@@ -58,13 +42,11 @@ CKEDITOR.editorConfig = function( config ) {
 	config.format_tags = 'p;h1;h2;h3;pre';
 
 	// Simplify the dialog windows.
-	config.removeDialogTabs = 'image:advanced;link:advanced';
+	config.removeDialogTabs = 'image:advanced;link:advanced;link:upload;image:upload';
 
-	config.removePlugins = 'wsc,scayt';
-	config.extraPlugins = 'uploadimage';
+	config.extraPlugins = 'uploadimage,justify';
 	config.imageUploadUrl = 'webtools/ckeditor/upload.php?type=Images';
 
     config.filebrowserBrowseUrl = 'webtools/ckeditor/fileman/index.html?langCode=pt';
     config.filebrowserImageBrowseUrl = 'webtools/ckeditor/fileman/index.html?langCode=pt&type=image';
-    config.removeDialogTabs = 'link:upload;image:upload';
 };
