@@ -760,6 +760,7 @@ class SiteController {
 
                 $query = $data['outros'] = $this->dao->table('noticias')
                     ->where('id', '<>', (int) $noticia->id)
+                    ->where('status', '=', 1)
                     ->where('LOWER(tags)', 'or', $tagsAux);
 
                 $data['outros'] = $query->all(array(
@@ -843,6 +844,7 @@ class SiteController {
             $outros = $this->dao->table('vw_cursos')
                 ->where('categoria', '=', (int) $curso->categoria)
                 ->where('vinculado', '=', 0)
+                ->where('status', '=', 1)
                 ->where('id', '<>', (int) $curso->id)
                 ->all();
 

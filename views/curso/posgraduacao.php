@@ -271,6 +271,9 @@
   </div>
 </section>
 
+<?php 
+  if ($data['outros']) {
+?>
 <section id="conheca-tambem">
   <div class="wrap-section">
     <div class="container">
@@ -293,6 +296,9 @@
     </div>
   </div>
 </section>
+<?php
+  }
+?>
 
 <script>
 
