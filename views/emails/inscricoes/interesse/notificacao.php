@@ -16,6 +16,40 @@
 			<strong><?php echo $objeto->nomeUnidade; } ?></strong>
 			em <?php echo date('d/m/Y', $objeto->timestamp); ?>.</p>
 
+		<?php
+			$dados1 = $dados2 = array();
+			if (!empty($objeto->telefone)) {
+				$dados['Telefone'] = $objeto->telefone;
+			}
+			if (!empty($objeto->telefoneResidencial)) {
+				$dados['Tel. Res.'] = $objeto->telefoneResidencial;
+			}
+			if (!empty($objeto->operadoraCelular)) {
+				$dados['Op. Cel.'] = $objeto->operadoraCelular;
+			}
+			if (!empty($objeto->telefoneCelular)) {
+				$dados['Tel. Cel.'] = $objeto->telefoneCelular;
+			}
+			if (!empty($objeto->email)) {
+				$dados['E-mail'] = $objeto->email;
+			}
+			if (!empty($objeto->cidade)) {
+				$dados['Cidade'] = $objeto->cidade;
+			}
+			if (!empty($objeto->uf)) {
+				$dados['Estado'] = $objeto->uf;
+			}
+
+			if ($dados) {
+				echo '<p><strong>Dados informados:</strong><br />';
+				foreach ($dados as $key => $value) {
+					$dados2[] = sprintf('<strong>%s:</strong> %s', $key, $value);
+				}
+				echo implode('<br />', $dados2);
+				echo '</p>';
+			}
+		?>
+
 		<p>Para ver os detalhes acesse Painel de Administração > Inscrições > 
 			<?php echo $objeto->nomeCurso; ?>.</p>
 

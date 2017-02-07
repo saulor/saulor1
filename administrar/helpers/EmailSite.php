@@ -40,6 +40,8 @@ class EmailSite {
 
 	public static function interesse ($objeto, $send = true, $toDefault = 'contato@iefap.com.br') {
 
+		$htmls = array();
+
 		// headers
 		$headers  = 'MIME-Version: 1.0' . "\r\n";
 		$headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
@@ -61,32 +63,45 @@ class EmailSite {
         ob_end_clean();
 
         if (!$send) {
-        	return $html;
-        	exit;
+        	$htmls['email'] = $html;
         }
 
         // Envia o primeiro e-mail
         // E-mail que vai pra pessoa que fez o contato
-		$to = $objeto->email;
-        $assunto = 'IEFAP - Cadastro de interesse realizado';
-		$headers1 = sprintf($headers, $to, $from);
-		mail($to, $assunto, $html, $headers1);
+        if ($send) {
+        	$to = $objeto->email;
+	        $assunto = 'IEFAP - Cadastro de interesse realizado';
+			$headers1 = sprintf($headers, $to, $from);
+			mail($to, $assunto, $html, $headers1);
+        }
 
 		ob_start();
         include DIR_ROOT . '/views/emails/inscricoes/interesse/notificacao.php';
         $html = ob_get_contents();
         ob_end_clean();
 
+        if (!$send) {
+        	$htmls['notificacao'] = $html;
+        }
+
         // Envia o segundo e-mail
         // E-mail que vai pro IEFAP como notificação de nova mensagem
-		$to = $toDefault;
-        $assunto = $objeto->nomeCurso . ' - Cadastro de interesse realizado através do site';
-		$headers1 = sprintf($headers, $to, $from);
-		mail($to, $assunto, $html, $headers1);
+        if ($send) {
+        	$to = $toDefault;
+	        $assunto = $objeto->nomeCurso . ' - Cadastro de interesse realizado através do site';
+			$headers1 = sprintf($headers, $to, $from);
+			mail($to, $assunto, $html, $headers1);
+        }
+
+        if (!$send) {
+        	return $htmls;
+        }
 	}
 
 	public static function inscricao ($objeto, $send = true, $toDefault = 'contato@iefap.com.br') {
 		
+		$htmls = array();
+
 		// headers
 		$headers  = 'MIME-Version: 1.0' . "\r\n";
 		$headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
@@ -107,28 +122,39 @@ class EmailSite {
         ob_end_clean();
 
         if (!$send) {
-        	return $html;
-        	exit;
+        	$htmls['email'] = $html;
         }
 
         // Envia o primeiro e-mail
         // E-mail que vai pra pessoa que fez o contato
-		$to = $objeto->email;
-        $assunto = 'IEFAP - Inscricão realizada';
-		$headers1 = sprintf($headers, $to, $from);
-		mail($to, $assunto, $html, $headers1);
+        if ($send) {
+			$to = $objeto->email;
+	        $assunto = 'IEFAP - Inscricão realizada';
+			$headers1 = sprintf($headers, $to, $from);
+			mail($to, $assunto, $html, $headers1);
+		}
 
 		ob_start();
         include DIR_ROOT . '/views/emails/inscricoes/inscricao/notificacao.php';
         $html = ob_get_contents();
         ob_end_clean();
 
+        if (!$send) {
+        	$htmls['notificacao'] = $html;
+        }
+
         // Envia o segundo e-mail
         // E-mail que vai pro IEFAP como notificação de nova mensagem
-		$to = $toDefault;
-        $assunto = $objeto->nomeCurso . ' - Inscrição realizada através do site';
-		$headers1 = sprintf($headers, $to, $from);
-		mail($to, $assunto, $html, $headers1);
+        if ($send) {
+			$to = $toDefault;
+	        $assunto = $objeto->nomeCurso . ' - Inscrição realizada através do site';
+			$headers1 = sprintf($headers, $to, $from);
+			mail($to, $assunto, $html, $headers1);
+		}
+
+		if (!$send) {
+        	return $htmls;
+        }
 	}
 
 	public static function matricula ($objeto, $send = true, $toDefault = 'contato@iefap.com.br') {
@@ -153,28 +179,39 @@ class EmailSite {
         ob_end_clean();
 
         if (!$send) {
-        	return $html;
-        	exit;
+        	$htmls['email'] = $html;
         }
 
         // Envia o primeiro e-mail
         // E-mail que vai pra pessoa que fez o contato
-		$to = $objeto->email;
-        $assunto = 'IEFAP - Matrícula realizada';
-		$headers1 = sprintf($headers, $to, $from);
-		mail($to, $assunto, $html, $headers1);
+        if ($send) {
+			$to = $objeto->email;
+	        $assunto = 'IEFAP - Matrícula realizada';
+			$headers1 = sprintf($headers, $to, $from);
+			mail($to, $assunto, $html, $headers1);
+		}
 
 		ob_start();
         include DIR_ROOT . '/views/emails/inscricoes/matricula/notificacao.php';
         $html = ob_get_contents();
         ob_end_clean();
 
+        if (!$send) {
+        	$htmls['notificacao'] = $html;
+        }
+
         // Envia o segundo e-mail
         // E-mail que vai pro IEFAP como notificação de nova mensagem
-		$to = $toDefault;
-        $assunto = $objeto->nomeCurso . ' - Matrícula realizada através do site';
-		$headers1 = sprintf($headers, $to, $from);
-		mail($to, $assunto, $html, $headers1);
+        if ($send) {
+			$to = $toDefault;
+	        $assunto = $objeto->nomeCurso . ' - Matrícula realizada através do site';
+			$headers1 = sprintf($headers, $to, $from);
+			mail($to, $assunto, $html, $headers1);
+		}
+
+		if (!$send) {
+        	return $htmls;
+        }
 	}
 
 	/**
