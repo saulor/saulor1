@@ -200,7 +200,6 @@ class RequerimentosController extends Controller {
 					// email do IEFAP que deve receber a notificação 
 	                $configuracoesModel = new Configuracoes($conexao);
 	                $to = $configuracoesModel->getEmails(Configuracoes::EMAIL_REQUERIMENTOS);
-	                $to = 'sauloroliveira@gmail.com';
 					EmailPainel::requerimento($dadosIn, $to);
 				}
 
