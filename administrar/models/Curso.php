@@ -198,10 +198,11 @@ class Curso extends Model {
     const CURSO_UNIDADE_CERTIFICADORA_IEFAP = 3;
     const CURSO_UNIDADE_CERTIFICADORA_OUTROS = 4;
 	const CURSO_UNIDADE_CERTIFICADORA_UNINGA = 5;
+    const CURSO_UNIDADE_CERTIFICADORA_LAUREATE = 6;
 	
 	const CURSO_TIPO_POS = 1;
 	const CURSO_TIPO_APERFEICOAMENTO = 2;
-	const CURSO_TIPO_EAD = 2;
+	const CURSO_TIPO_EAD = 3;
 	
 	const CURSO_AREA_BIOLOGICAS = 3;
 	const CURSO_AREA_EXATAS = 2;
@@ -247,12 +248,6 @@ class Curso extends Model {
             $queryUnidades = $this->_conexao->query()->from('vw_cidades_cursos')
                 ->where('curso = ?', (int) $objeto['id']);
 
-            /*
-            if (count($_SESSION[PREFIX . "cidades"]) > 0) {
-                $queryUnidades->where('LOWER(cidade) IN (' . implode(',', $_SESSION[PREFIX . "cidades"]) . ')');
-            }
-            */
-
             $objeto['unidades'] = $queryUnidades->all();
             
             return $objeto;
@@ -270,9 +265,9 @@ class Curso extends Model {
 			case Curso::CURSO_TIPO_APERFEICOAMENTO :
 				return "Aperfeiçoamento Profissional";
 			break;
-			//case Curso::EAD :
-			//	return "EAD";
-			//break;
+			case Curso::CURSO_TIPO_EAD :
+				return "EAD";
+			break;
 			default :
 				return "Não definido";
 			break;
@@ -287,11 +282,8 @@ class Curso extends Model {
             case Curso::CURSO_TIPO_APERFEICOAMENTO :
                 return "aperfeicoamento";
             break;
-            //case Curso::EAD :
-            //  return "ead";
-            //break;
             default :
-                return "";
+                return "posgraduacao";
             break;
         }
     }
@@ -330,6 +322,9 @@ class Curso extends Model {
 			case Curso::CURSO_UNIDADE_CERTIFICADORA_OUTROS :
 				return "Outros";
 			break;
+            case Curso::CURSO_UNIDADE_CERTIFICADORA_LAUREATE :
+                return "Laureate";
+            break;
 			default :
 				return "Não definida";
 			break;
@@ -339,8 +334,8 @@ class Curso extends Model {
 	public static function getTipos () {
 		return array(
 			Curso::CURSO_TIPO_POS => "Pós-Graduação",
-			Curso::CURSO_TIPO_APERFEICOAMENTO => "Aperfeiçoamento Profissional"
-            //Curso::CURSO_TIPO_EAD => "EAD"
+			Curso::CURSO_TIPO_APERFEICOAMENTO => "Aperfeiçoamento Profissional",
+            Curso::CURSO_TIPO_EAD => "EAD"
 		);
 	}
 	
@@ -350,7 +345,8 @@ class Curso extends Model {
 			Curso::CURSO_UNIDADE_CERTIFICADORA_FIP => "FIP",
 			Curso::CURSO_UNIDADE_CERTIFICADORA_NASSAU => "Nassau",
 			Curso::CURSO_UNIDADE_CERTIFICADORA_UNINGA => "Uningá",
-			//Curso::CURSO_UNIDADE_CERTIFICADORA_OUTROS => "Outros"
+            Curso::CURSO_UNIDADE_CERTIFICADORA_LAUREATE => "Laureate",
+			Curso::CURSO_UNIDADE_CERTIFICADORA_OUTROS => "Outros"
 		);
 	}
 	

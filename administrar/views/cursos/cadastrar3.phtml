@@ -1,13 +1,14 @@
 <?php
 	$params = $this->getParams();
-	$curso = $params["objeto"];
+	$curso = $params['objeto'];
 ?>
 
 <form method="post" enctype="multipart/form-data">
 
 	<input type="hidden" name="id" value="<?php echo $curso->id; ?>" />
-	<input type="hidden" name="tipo" value="<?php echo Curso::CURSO_TIPO_APERFEICOAMENTO; ?>" />
-
+	<input type="hidden" name="tipo" value="<?php echo Curso::CURSO_TIPO_EAD; ?>" />
+	<input type="hidden" name="unidadeCertificadora" value="<?php echo Curso::CURSO_UNIDADE_CERTIFICADORA_LAUREATE; ?>" />
+	
 	<div class="grid">
 		<div class="col-2-12">
 		   <div class="content">
@@ -35,7 +36,7 @@
 					<?php
 						foreach (Curso::getTipos() as $key => $value) {
 							echo '<option';
-							if ($key == Curso::CURSO_TIPO_APERFEICOAMENTO) {
+							if ($key == Curso::CURSO_TIPO_EAD) {
 								echo ' selected';
 							}
 							echo ' value="' . $key . '">' . $value . '</option>';
@@ -45,7 +46,7 @@
 			</div>
 		</div>
 	</div>
-
+	
 	<div class="grid">
 		<div class="col-2-12">
 		   <div class="content">
@@ -54,23 +55,22 @@
 	  	</div>
 		<div class="col-2-12">
 			<div class="content">
-				<select class="form-control" name="unidadeCertificadora">
+				<select class="form-control" name="unidadeCertificadora" disabled>
 					<option value="">--Selecione--</option>
 					<?php
 						foreach (Curso::getCertificadoras() as $key => $value) {
 							echo '<option';
-							if ($curso->unidadeCertificadora == $key) {
+							if ($key == Curso::CURSO_UNIDADE_CERTIFICADORA_LAUREATE) {
 								echo ' selected';
 							}
 							echo ' value="' . $key . '">' . $value . '</option>';
-
 						}
 					?>
 				</select>
 			</div>
 		</div>
 	</div>
-
+	
 	<div class="grid">
 		<div class="col-2-12">
 		   <div class="content">
@@ -88,7 +88,7 @@
 								echo ' selected';
 							}
 							echo ' value="' . $key . '">' . $value . '</option>';
-
+							
 						}
 					?>
 				</select>
@@ -120,7 +120,7 @@
 			</div>
 		</div>
 	</div>
-
+	
 	<div class="grid">
 		<div class="col-2-12">
 		   <div class="content">
@@ -133,7 +133,20 @@
 			</div>
 		</div>
 	</div>
-
+	
+	<div class="grid">
+		<div class="col-2-12">
+		   <div class="content">
+		   		<label for="Nome Breve">Nome Breve:</label>
+		   </div>
+		</div>
+		<div class="col-2-12">
+			<div class="content">
+				<input class="form-control" name="nomeBreve" type="text" value="<?php echo $curso->nomeBreve; ?>" size="30" placeholder="Nome Breve" />
+			</div>
+		</div>
+	</div>
+	
 	<div class="grid">
 		<div class="col-2-12">
 		   <div class="content">
@@ -142,11 +155,11 @@
 	  	</div>
 		<div class="col-7-12">
 			<div class="content">
-				<input class="form-control" name="link" type="text" value="<?php echo $curso->link; ?>" readonly="readonly" placeholder="Link de Acesso" />
+				<input class="form-control" name="link" type="text" value="<?php echo $curso->link; ?>" readonly="readonly" placeholder="Link de acesso" />
 			</div>
 		</div>
 	</div>
-
+	
 	<div class="grid">
 		<div class="col-2-12">
 		   <div class="content">
@@ -155,12 +168,11 @@
 	  	</div>
 		<div class="col-10-12">
 			<div class="content">
-				<textarea class="editor" data-toolbar="basic2" name="descricao" 
-					id="descricao"><?php echo $curso->descricao; ?></textarea>
+				<textarea class="editor" data-toolbar="basic2" name="descricao" id="descricao"><?php echo $curso->descricao; ?></textarea>
 			</div>
 		</div>
 	</div>
-
+	
 	<div class="grid">
 		<div class="col-2-12">
 		   <div class="content">
@@ -188,7 +200,7 @@
 			</div>
 		</div>
 	</div>
-
+	
 	<div class="grid">
 		<div class="col-2-12">
 		   <div class="content">
@@ -216,7 +228,7 @@
 			</div>
 		</div>
 	</div>
-
+	
 	<div class="grid">
 		<div class="col-2-12">
 		   <div class="content">
@@ -230,7 +242,7 @@
 			</div>
 		</div>
 	</div>
-
+	
 	<div class="grid">
 		<div class="col-2-12">
 		   <div class="content">
@@ -239,26 +251,12 @@
 	  	</div>
 		<div class="col-10-12">
 			<div class="content">
-				<textarea class="editor" data-toolbar="basic2" name="disciplinas" 
-					id="disciplinas"><?php echo $curso->disciplinas; ?></textarea>
+				<textarea class="editor" data-toolbar="basic2" id="disciplinas" 
+					name="disciplinas"><?php echo $curso->disciplinas; ?></textarea>
 			</div>
 		</div>
 	</div>
-
-	<div class="grid">
-		<div class="col-2-12">
-		   <div class="content">
-		   		<label for="Local">Local e horários:</label>
-		   </div>
-	  	</div>
-		<div class="col-10-12">
-			<div class="content">
-				<textarea class="editor" data-toolbar="basic2" name="localHorarios" 
-					id="localHorarios"><?php echo $curso->localHorarios; ?></textarea>
-			</div>
-		</div>
-	</div>
-
+	
 	<div class="grid">
 		<div class="col-2-12">
 		   <div class="content">

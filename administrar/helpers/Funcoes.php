@@ -662,7 +662,8 @@ class Funcoes {
 			$string = str_replace($double_chars['in'], $double_chars['out'], $string);
         }
 
-	    return strtolower($string);
+	    //return strtolower($string);
+      return $string;
 	}
 
 	 /** 
@@ -726,7 +727,7 @@ class Funcoes {
 
   public static function criaSlug ($string) {
     // remove os acentos
-  	$string = self::removeAcentos (trim($string));
+  	$string = self::lowerCase(self::removeAcentos(trim($string)));
     //echo $string;die;
     // remove qualquer coisa que não seja letra, número ou espaço em branco
     $string = preg_replace('/[^\sa-z0-9$\/]/i', '', $string);
@@ -929,6 +930,14 @@ class Funcoes {
             </div>';
       }
       return NULL;
+    }
+
+    public static function isHTML ($text) {
+        return (bool) preg_match("/<\/?\w+((\s+\w+(\s*=\s*(?:\".*?\"|'.*?'|[^'\">\s]+))?)+\s*|\s*)\/?>/", $text);
+    }
+
+    public static function hasEntities ($text) {
+        return preg_match('/&[^\s]*;/', $text);
     }
 
 }

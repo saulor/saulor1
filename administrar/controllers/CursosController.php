@@ -126,12 +126,13 @@ class CursosController extends Controller {
 					"Novo" => "" 
 				);
 			}
-			
+
 			if (count($_POST) > 0) {
 				
 				$redirecionar = NULL;
 				$dados = $_POST;
 				$dados['link'] = Funcoes::criaSlug($dados['nome']);
+				$dados['raw'] = Funcoes::removeAcentos($dados['nome']);
 				$model->setDados($dados);
 				
 				$obrigatorios = array(
@@ -234,6 +235,7 @@ class CursosController extends Controller {
 				$redirecionar = NULL;
 				$dados = $_POST;
 				$dados['link'] = Funcoes::criaSlug($dados['nome']);
+				$dados['raw'] = Funcoes::removeAcentos($dados['nome']);
 				$model->setDados($dados);
 				
 				$obrigatorios = array(
@@ -291,6 +293,109 @@ class CursosController extends Controller {
 	
 		$conexao->disconnect();					
 		$view = new View2($this->modulo, "extendido", "cadastrar2.phtml");
+		$view->setParams(array(
+				"title" => getTitulo($breadcrumbs),
+				"breadcrumbs" => $breadcrumbs,
+				"objeto" => $model,
+				'categorias' => $categorias
+			)
+		);
+        $view->showContents();
+	}
+
+	public function cadastrar3Action() {
+		try {
+			$this->checaPermissao('cursos', 'cadastrar');
+			$conexao = $this->conexao->getConexao();
+			
+			$cursoModel = new Curso($conexao);
+			$categoriasModel = new CursoCategoria($conexao);
+			
+			$categorias = $categoriasModel->listaPais();
+
+			$breadcrumbs = array();
+			$breadcrumbs[] = array(
+				'Cursos' => '?modulo=' . $this->modulo
+			);
+			
+			if (isset($_GET["id"])) {
+				$model = $cursoModel->getObjetoOrFail(getVariavel('id'));
+				$acao = "editar";
+				$breadcrumbs[] = array(
+					"Editar" => "" 
+				);
+			}
+			else {
+				$model = $cursoModel;
+				$acao = "cadastrar";
+				$breadcrumbs[] = array(
+					"Novo" => "" 
+				);
+			}
+			
+			if (count($_POST) > 0) {
+				
+				$redirecionar = NULL;
+				$dados = $_POST;
+				$dados['link'] = Funcoes::criaSlug($dados['nome']);
+				$dados['raw'] = Funcoes::removeAcentos($dados['nome']);
+				$model->setDados($dados);
+				
+				$obrigatorios = array(
+					"nome" => array(
+						"nome" => "Nome"
+					),
+					"categoria" => array(
+						"nome" => "Categoria"
+					)
+				);
+				
+				Funcoes::validaPost($obrigatorios, $dados);
+				$model->salvar();
+				CursoCategoria::atualizaQuantidades($conexao);
+
+				if ($acao == 'cadastrar') {	
+					$acao = 'cadastrado';
+					$this->_afterCadastro($conexao, $model);
+					$this->log->adicionar ('cadastrou', 'curso', $model->nome, 
+						'Usuário cadastrou curso.');					
+					$redirecionar = sprintf('?modulo=%s&acao=%s&id=%d', $this->modulo, 
+						'cadastrar2', $model->id);
+				}
+				else {
+					$acao = 'atualizado';
+					$this->log->adicionar ('atualizou', 'curso', $model->nome, 
+						'Usuário atualizou curso.');
+					$redirecionar = sprintf('?modulo=%s', $this->modulo);
+				}
+
+				setMensagem('info', sprintf('Curso %s [%s]', $acao, $model->nome));
+				
+				$conexao->commit();
+				$conexao->disconnect();	
+				Application::redirect($redirecionar);
+				exit;
+			}
+		}
+		catch (PermissaoException $e) {
+			$this->conexao->getConexao()->disconnect();
+			setMensagem("error", $e->getMessage());
+			Application::redirect("index.php");
+			exit;
+		}
+		catch (ModelNotFoundException $e) {
+			$conexao->disconnect();
+			setMensagem("error", 'Curso não encontrado');
+			Application::redirect($_SERVER['HTTP_REFERER']);
+			exit;
+		}
+		catch (Exception $e) {
+			$conexao->rollback();
+			setMensagem("error", $e->getMessage());
+		}
+	
+		$conexao->disconnect();					
+		$view = new View2($this->modulo, "extendido", "cadastrar3.phtml");
 		$view->setParams(array(
 				"title" => getTitulo($breadcrumbs),
 				"breadcrumbs" => $breadcrumbs,

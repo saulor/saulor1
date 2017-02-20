@@ -21,6 +21,30 @@
 			</div>
 		</div>
 	</div>
+
+	<div class="grid">
+		<div class="col-2-12">
+		   <div class="content">
+		   		<label for="Tipo">Tipo:</label>
+		   </div>
+	  	</div>
+		<div class="col-3-12">
+			<div class="content">
+				<select class="form-control" name="tipo" disabled>
+					<option value="">--Selecione--</option>
+					<?php
+						foreach (Curso::getTipos() as $key => $value) {
+							echo '<option';
+							if ($key == Curso::CURSO_TIPO_POS) {
+								echo ' selected';
+							}
+							echo ' value="' . $key . '">' . $value . '</option>';
+						}
+					?>
+				</select>
+			</div>
+		</div>
+	</div>
 	
 	<div class="grid">
 		<div class="col-2-12">
@@ -36,7 +60,7 @@
 						foreach (Curso::getCertificadoras() as $key => $value) {
 							echo '<option';
 							if ($curso->unidadeCertificadora == $key) {
-								echo ' selected="selected"';
+								echo ' selected';
 							}
 							echo ' value="' . $key . '">' . $value . '</option>';
 							
@@ -61,7 +85,7 @@
 						foreach (Curso::getAreas() as $key => $value) {
 							echo '<option';
 							if ($curso->area == $key) {
-								echo ' selected="selected"';
+								echo ' selected';
 							}
 							echo ' value="' . $key . '">' . $value . '</option>';
 							
@@ -157,7 +181,8 @@
 	  	</div>
 		<div class="col-10-12">
 			<div class="content">
-				<textarea class="editor" data-toolbar="basic2" id="publicoAlvoResumido" name="publicoAlvo"><?php echo $curso->publicoAlvo; ?></textarea>
+				<textarea class="editor" data-toolbar="basic2" name="publicoAlvo" 
+					id="publicoAlvo"><?php echo $curso->publicoAlvo; ?></textarea>
 			</div>
 		</div>
 	</div>
@@ -170,7 +195,8 @@
 	  	</div>
 		<div class="col-10-12">
 			<div class="content">
-				<textarea class="editor" data-toolbar="basic2" id="publicoAlvo" name="publicoAlvoResumo"><?php echo $curso->publicoAlvoResumo; ?></textarea>
+				<textarea class="editor" data-toolbar="basic2" name="publicoAlvoResumo" 
+					id="publicoAlvoResumo"><?php echo $curso->publicoAlvoResumo; ?></textarea>
 			</div>
 		</div>
 	</div>
@@ -183,7 +209,8 @@
 	  	</div>
 		<div class="col-10-12">
 			<div class="content">
-				<textarea class="editor" data-toolbar="basic2" id="objetivosGerais" name="objetivosGerais"><?php echo $curso->objetivosGerais; ?></textarea>
+				<textarea class="editor" data-toolbar="basic2" name="objetivosGerais" 
+					id="objetivosGerais"><?php echo $curso->objetivosGerais; ?></textarea>
 			</div>
 		</div>
 	</div>
@@ -196,7 +223,8 @@
 	  	</div>
 		<div class="col-10-12">
 			<div class="content">
-				<textarea class="editor" data-toolbar="basic2" id="objetivosEspecificos" name="objetivosEspecificos"><?php echo $curso->objetivosEspecificos; ?></textarea>
+				<textarea class="editor" data-toolbar="basic2" name="objetivosEspecificos" 
+					id="objetivosEspecificos"><?php echo $curso->objetivosEspecificos; ?></textarea>
 			</div>
 		</div>
 	</div>
@@ -209,7 +237,8 @@
 	  	</div>
 		<div class="col-10-12">
 			<div class="content">
-				<textarea class="editor" data-toolbar="basic2" id="facilitadoresProfessores" name="facilitadoresProfessores"><?php echo $curso->facilitadoresProfessores; ?></textarea>
+				<textarea class="editor" data-toolbar="basic2" name="facilitadoresProfessores" 
+					id="facilitadoresProfessores"><?php echo $curso->facilitadoresProfessores; ?></textarea>
 			</div>
 		</div>
 	</div>
@@ -222,7 +251,8 @@
 	  	</div>
 		<div class="col-10-12">
 			<div class="content">
-				<textarea class="editor" data-toolbar="basic2" id="disciplinas" name="disciplinas"><?php echo $curso->disciplinas; ?></textarea>
+				<textarea class="editor" data-toolbar="basic2" id="disciplinas" 
+					name="disciplinas"><?php echo $curso->disciplinas; ?></textarea>
 			</div>
 		</div>
 	</div>
