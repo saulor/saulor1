@@ -54,6 +54,9 @@
                             if (!empty($dados['situacao']['motivo'])) {
                                 $situacaoAtual .= ' - ' . $dados['situacao']['motivo'];
                             }
+                            if (!empty($dados['situacao']['iniciadoPor'])) {
+                                $situacaoAtual .= ' - ' . $dados['situacao']['iniciadoPor'];
+                            }
                         ?>
                         <span><?php echo $situacaoAtual; ?></span><br />
                         <a href="?modulo=situacao&acao=historico&inscricao=<?php echo $dados['id']; ?>&curso=<?php echo $curso['id']; ?>"<?php if (empty($dados['situacao']['tipo'])) { echo ' class="hidden";'; } ?>>

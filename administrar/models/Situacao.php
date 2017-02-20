@@ -38,6 +38,14 @@ class Situacao extends Model {
     * @type text
     * @length 255
     */
+    protected $_iniciadoPor;
+
+    /**
+    * @column
+    * @readwrite
+    * @type text
+    * @length 255
+    */
     protected $_descricao;
 
     /**
@@ -100,6 +108,7 @@ class Situacao extends Model {
     const SITUACAO_INSCRICAO_TIPO_PERDIDO = 7;
     const SITUACAO_INSCRICAO_TIPO_EM_NEGOCIACAO = 8;
     const SITUACAO_INSCRICAO_TIPO_TECNICO = 9;
+    const SITUACAO_INSCRICAO_TIPO_ATENDIMENTO_INICIADO = 10;
 
     protected $_conexao;
 
@@ -146,6 +155,10 @@ class Situacao extends Model {
                 return "Perdido";
             break;
 
+            case self::SITUACAO_INSCRICAO_TIPO_ATENDIMENTO_INICIADO :
+                return "Atendimento iniciado";
+            break;
+
             default :
                 return "Nenhum";
             break;
@@ -155,6 +168,7 @@ class Situacao extends Model {
 
     public static function getTipos() {
         return array(
+            self::SITUACAO_INSCRICAO_TIPO_ATENDIMENTO_INICIADO => "Atendimento iniciado",
             self::SITUACAO_INSCRICAO_TIPO_CONTATO => "Não consegui contato",
             self::SITUACAO_INSCRICAO_TIPO_EM_NEGOCIACAO => "Em negociação",
             self::SITUACAO_INSCRICAO_TIPO_GRADUANDO => "Graduando",
@@ -221,6 +235,10 @@ class Situacao extends Model {
                 $itens[] = '<strong>Motivo:</strong> ' . $dados['motivo'];
             }
 
+            if (!empty($dados['iniciadoPor'])) {
+                $itens[] = '<strong>Iniciado por:</strong> ' . $dados['iniciadoPor'];
+            }
+
             if ($dados['tipo'] == Situacao::SITUACAO_INSCRICAO_TIPO_CIDADE_CANDIDATA) {
                 $cidade = '';
                 if (!empty($dados['cidade'])) {
@@ -239,7 +257,7 @@ class Situacao extends Model {
             $dataHorario = '';
 
             if (!empty($dados['data'])) {
-                $dataHorario .= '<strong>Retornar:</strong> ' . Funcoes::decodeDate($dados['data']);
+                $dataHorario .= '<strong>Retornar:</strong> ' . $dados['data'];
             }
 
             if (!empty($dados['horario'])) {
@@ -305,7 +323,7 @@ class Situacao extends Model {
                 $query1->where('tipoSituacao = ?', (int) $key);
                 $quantidade = $query1->count();
                 $tabsHtml = '<li data-situacao="%d" id="tab-situacao%d" role="presentation"><a title="%s" href="">%s<span class="badge">%d</span></a></li>';
-                $tabs .= sprintf($tabsHtml, $key, $key, $value, compactaTexto($value,15), $quantidade);
+                $tabs .= sprintf($tabsHtml, $key, $key, $value, compactaTexto($value,9), $quantidade);
             }
 
             $this->_conexao->disconnect();
