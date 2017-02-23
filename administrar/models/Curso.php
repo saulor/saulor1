@@ -202,7 +202,9 @@ class Curso extends Model {
 	
 	const CURSO_TIPO_POS = 1;
 	const CURSO_TIPO_APERFEICOAMENTO = 2;
-	const CURSO_TIPO_EAD = 3;
+    const CURSO_TIPO_EAD = 3;
+	const CURSO_TIPO_EAD_GRADUACAO = 4;
+    const CURSO_TIPO_EAD_POSGRADUACAO = 5;
 	
 	const CURSO_AREA_BIOLOGICAS = 3;
 	const CURSO_AREA_EXATAS = 2;
@@ -265,14 +267,26 @@ class Curso extends Model {
 			case Curso::CURSO_TIPO_APERFEICOAMENTO :
 				return "Aperfeiçoamento Profissional";
 			break;
-			case Curso::CURSO_TIPO_EAD :
-				return "EAD";
+			case Curso::CURSO_TIPO_EAD_GRADUACAO :
+				return "EAD - Graduação";
 			break;
+            case Curso::CURSO_TIPO_EAD_POSGRADUACAO :
+                return "EAD - Pós-Graduação";
+            break;
 			default :
 				return "Não definido";
 			break;
 		}
 	}
+
+    public static function getTipos () {
+        return array(
+            Curso::CURSO_TIPO_POS => "Pós-Graduação",
+            Curso::CURSO_TIPO_APERFEICOAMENTO => "Aperfeiçoamento Profissional",
+            Curso::CURSO_TIPO_EAD_GRADUACAO => "EAD - Graduação",
+            Curso::CURSO_TIPO_EAD_POSGRADUACAO => "EAD - Pós-Graduação"
+        );
+    }
 
     public static function getSlug ($tipo) {
         switch ($tipo) {
@@ -329,14 +343,6 @@ class Curso extends Model {
 				return "Não definida";
 			break;
 		}
-	}
-	
-	public static function getTipos () {
-		return array(
-			Curso::CURSO_TIPO_POS => "Pós-Graduação",
-			Curso::CURSO_TIPO_APERFEICOAMENTO => "Aperfeiçoamento Profissional",
-            Curso::CURSO_TIPO_EAD => "EAD"
-		);
 	}
 	
 	public static function getCertificadoras () {

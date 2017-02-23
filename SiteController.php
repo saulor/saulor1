@@ -87,22 +87,26 @@ class SiteController {
             )
         );
 
-        // recupera as categorias item menu pós-graduação
+        // recupera as categorias 
+        // item menu pós-graduação
         $this->dados['categoriasPos'] = $this->dao->table('cursos_categorias', array(
                     'slug', 
                     'nome'
                 )
             )
+            ->where('visivel', '=', 1)
             ->where('quantidadeCursosPosVisiveis', '>', 0)
             ->where('pai', '=', 0)
             ->all();
 
-        // recupera as categorias item menu aperfeiçoamento
+        // recupera as categorias 
+        // item menu aperfeiçoamento
         $this->dados['categoriasApe'] = $this->dao->table('cursos_categorias', array(
                     'slug', 
                     'nome'
                 )
             )
+            ->where('visivel', '=', 1)
             ->where('quantidadeCursosApeVisiveis', '>', 0)
             ->where('pai', '=', 0)
             ->all();
@@ -159,6 +163,7 @@ class SiteController {
 
         // recupera as categorias
         $data['categorias'] = $this->dao->table('cursos_categorias')
+            ->where('visivel', '=', 1)
             ->where('quantidadeCursosVisiveis', '>', 0)
             ->order('pai', 'asc')
             ->all();
@@ -170,6 +175,7 @@ class SiteController {
                 $nomes = array();
                 foreach ($caminhos as $id) {
                     $c = $this->dao->table('cursos_categorias')
+                        ->where('visivel', '=', 1)
                         ->where('id', '=', $id)
                         ->first();
                     $nomes[] = $c->nome;
@@ -184,6 +190,11 @@ class SiteController {
                 )
             )
             ->where('status', '=', 1)
+            ->where('tipo', 'or', array(
+                    Curso::CURSO_TIPO_POS, 
+                    Curso::CURSO_TIPO_APERFEICOAMENTO
+                )
+            )
             ->order('nome', 'asc')
             ->all();
 
@@ -809,6 +820,7 @@ class SiteController {
             $categorias = array();
             // recupera e armazena a categoria do curso
             $data['categoria'] = $categoria = $categoriaC = $this->dao->table('cursos_categorias')
+                ->where('visivel', '=', 1)
                 ->where('id', '=', (int) $curso->categoria)
                 ->first();
             // se tem categoria pai
@@ -816,6 +828,7 @@ class SiteController {
                 do {
                     // recupera categoria pai
                     $categoria = $this->dao->table('cursos_categorias')
+                        ->where('visivel', '=', 1)
                         ->where('id', '=', (int) $categoria->pai)
                         ->first();
                     // armazena primeiro as categorias ancestrais
@@ -924,6 +937,7 @@ class SiteController {
                 
             // recupera as categorias
             $data['categorias'] = $this->dao->table('cursos_categorias')
+                ->where('visivel', '=', 1)
                 ->where('quantidadeCursosVisiveis', '>', 0)
                 ->order('pai', 'asc')
                 ->all();
@@ -935,6 +949,7 @@ class SiteController {
                     $nomes = array();
                     foreach ($caminhos as $id) {
                         $c = $this->dao->table('cursos_categorias')
+                            ->where('visivel', '=', 1)
                             ->where('id', '=', $id)
                             ->first();
                         $nomes[] = $c->nome;
@@ -1019,6 +1034,7 @@ class SiteController {
                 // recupera a categoria
                 $data['categoria'] = $categoria = $categoriaAux = $this->dao
                     ->table('cursos_categorias')
+                    ->where('visivel', '=', 1)
                     ->where('slug', '=', $slug)
                     ->firstOrFail();
 
@@ -1032,6 +1048,7 @@ class SiteController {
                     do {
                         // recupera categoria pai
                         $categoriaAux = $this->dao->table('cursos_categorias')
+                            ->where('visivel', '=', 1)
                             ->where('id', '=', (int) $categoriaAux->pai)
                             ->first();
                         // armazena primeiro as categorias ancestrais
@@ -1049,6 +1066,7 @@ class SiteController {
                     $view = 'saude-subcategorias';
                     $data['subcategorias'] = $this->dao
                         ->table('cursos_categorias')
+                        ->where('visivel', '=', 1)
                         ->where('caminho', 'like', '%/' . $categoria->id . '/%')
                         ->where('quantidadeCursosPosVisiveis', '>', 0) // só vai mostrar as subcategorias que tiverem cursos de pós-graduação visíveis
                         ->all();
@@ -1155,6 +1173,7 @@ class SiteController {
             // recupera a categoria saúde
             $categoriaS = $this->dao
                 ->table('cursos_categorias')
+                ->where('visivel', '=', 1)
                 ->where('slug', '=', 'saude')
                 ->first();
 
@@ -1162,6 +1181,7 @@ class SiteController {
 
                 $data['categoria'] = $categoria = $categoriaAux = $this->dao
                     ->table('cursos_categorias')
+                    ->where('visivel', '=', 1)
                     ->where('slug', '=', $slug)
                     ->firstOrFail();
 
@@ -1172,6 +1192,7 @@ class SiteController {
                     do {
                         // recupera categoria pai
                         $categoriaAux = $this->dao->table('cursos_categorias')
+                            ->where('visivel', '=', 1)
                             ->where('id', '=', (int) $categoriaAux->pai)
                             ->first();
                         // armazena primeiro as categorias ancestrais
@@ -1256,6 +1277,7 @@ class SiteController {
             // mais a direita na url
             $data['categoria'] = $categoria = $categoriaAux = $this->dao
                 ->table('cursos_categorias')
+                ->where('visivel', '=', 1)
                 ->where('slug', '=', $slug)
                 ->first();
 
@@ -1268,6 +1290,7 @@ class SiteController {
                 do {
                     // recupera categoria pai
                     $categoriaAux = $this->dao->table('cursos_categorias')
+                        ->where('visivel', '=', 1)
                         ->where('id', '=', (int) $categoriaAux->pai)
                         ->first();
                     // armazena primeiro as categorias ancestrais
@@ -1283,6 +1306,7 @@ class SiteController {
             // recupero as subacategorias
             $subcategorias = $this->dao
                 ->table('cursos_categorias')
+                ->where('visivel', '=', 1)
                 ->where('caminho', 'like', '%/' . $categoria->id . '/%')
                 ->all();
 
@@ -1371,11 +1395,13 @@ class SiteController {
             // Neste caso a categoria é a subcategoria mais a direita na url
             $data['categoria'] = $subcategoria = $categoriaAux = $this->dao
                 ->table('cursos_categorias')
+                ->where('visivel', '=', 1)
                 ->where('slug', '=', $subcategoria)
                 ->first();
 
             $categoriaPai = $this->dao
                 ->table('cursos_categorias')
+                ->where('visivel', '=', 1)
                 ->where('slug', '=', $categoria)
                 ->first();
 
@@ -1392,6 +1418,7 @@ class SiteController {
                 do {
                     // recupera categoria pai
                     $categoriaAux = $this->dao->table('cursos_categorias')
+                        ->where('visivel', '=', 1)
                         ->where('id', '=', (int) $categoriaAux->pai)
                         ->first();
                     // armazena primeiro as categorias ancestrais
@@ -1478,6 +1505,7 @@ class SiteController {
             $categorias = array();
             // recupera e armazena a categoria do curso
             $data['categoria'] = $categoria = $categoriaC = $this->dao->table('cursos_categorias')
+                ->where('visivel', '=', 1)
                 ->where('id', '=', (int) $curso->categoria)
                 ->first();
             // se tem categoria pai
@@ -1485,6 +1513,7 @@ class SiteController {
                 do {
                     // recupera categoria pai
                     $categoria = $this->dao->table('cursos_categorias')
+                        ->where('visivel', '=', 1)
                         ->where('id', '=', (int) $categoria->pai)
                         ->first();
                     // armazena primeiro as categorias ancestrais
@@ -1613,7 +1642,7 @@ class SiteController {
 
                 $this->conexao->commit();
                 FuncoesSite::setMensagem('success', 'Sua matrícula foi processada com sucesso. Em breve um de nossos consultores entrará em contato com você. Obrigado por escolher o IEFAP!');
-                Url::redirect(SITEURL . 'inscricao/' . $curso->link);
+                Url::redirect(SITEURL . 'matricula/' . $curso->link);
 
             }
         }
@@ -1653,6 +1682,7 @@ class SiteController {
             $categorias = array();
             // recupera e armazena a categoria do curso
             $categoria = $categoriaC = $this->dao->table('cursos_categorias')
+                ->where('visivel', '=', 1)
                 ->where('id', '=', (int) $curso->categoria)
                 ->first();
             // se tem categoria pai
@@ -1660,6 +1690,7 @@ class SiteController {
                 do {
                     // recupera categoria pai
                     $categoria = $this->dao->table('cursos_categorias')
+                        ->where('visivel', '=', 1)
                         ->where('id', '=', (int) $categoria->pai)
                         ->first();
                     // armazena primeiro as categorias ancestrais
@@ -2445,6 +2476,7 @@ class SiteController {
                         
                         $categoria = $this->dao
                             ->table('cursos_categorias')
+                            ->where('visivel', '=', 1)
                             ->where('id', '=', (int) $_POST['categoria'])
                             ->first();
 
@@ -2454,6 +2486,7 @@ class SiteController {
                         // recupero as subacategorias
                         $subcategorias = $this->dao
                             ->table('cursos_categorias')
+                            ->where('visivel', '=', 1)
                             ->where('caminho', 'like', '%/' . $categoria->id . '/%')
                             ->all();
 
@@ -2509,6 +2542,7 @@ class SiteController {
 
                 $categoria = $this->dao
                     ->table('cursos_categorias')
+                    ->where('visivel', '=', 1)
                     ->where('slug', '=', $dados['categoria'])
                     ->first();
 
@@ -2517,6 +2551,7 @@ class SiteController {
 
                 $subcategorias = $this->dao
                     ->table('cursos_categorias')
+                    ->where('visivel', '=', 1)
                     ->where('caminho', 'like', '%/' . $categoria->id . '/%')
                     ->where('quantidadeCursosVisiveis', '>', 0)
                     ->all();
@@ -2675,6 +2710,7 @@ class SiteController {
             $categorias = array();
             // recupera e armazena a categoria do curso
             $data['categoria'] = $categoria = $categoriaC = $this->dao->table('cursos_categorias')
+                ->where('visivel', '=', 1)
                 ->where('id', '=', (int) $curso->categoria)
                 ->first();
             // se tem categoria pai
@@ -2682,6 +2718,7 @@ class SiteController {
                 do {
                     // recupera categoria pai
                     $categoria = $this->dao->table('cursos_categorias')
+                        ->where('visivel', '=', 1)
                         ->where('id', '=', (int) $categoria->pai)
                         ->first();
                     // armazena primeiro as categorias ancestrais

@@ -1,6 +1,8 @@
 
 <form method="POST">
-    <!--div class="grid">
+
+	<?php if ($_SESSION[PREFIX . 'loginId'] == 1) { ?>
+    <div class="grid">
     	<div class="col-1-1">
     		<div class="content">
 				<a href="?modulo=categorias&acao=cadastrar">
@@ -11,7 +13,9 @@
 				</a>
     		</div>
     	</div>
-    </div-->
+    </div>
+    <?php } ?>
+
     <div class="grid">
 		<div class="col-1-1">
 			<div class="content">
@@ -23,8 +27,10 @@
 				            <th class="center"><strong>Quantidade de Cursos</strong></th>
 				            <th class="center"><strong>em Pós-Graduação</strong></th>
 				            <th class="center"><strong>em Aperfeiçoamento</strong></th>
+				            <th class="center"><strong>em EAD Graduação</strong></th>
+				            <th class="center"><strong>em EAD Pós-Graduação</strong></th>
 				            <th class="center"><strong>Data</strong></th>
-				            <th></th>
+				            <!--th></th-->
 				        </tr>
 				    </thead>
 				    <tbody>

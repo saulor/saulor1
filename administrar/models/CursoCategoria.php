@@ -161,11 +161,19 @@ class CursoCategoria extends Model {
                 $result .= '</td>';
 
                 $result .= '<td align="center">';
+                $result .= $categoria["quantidadeCursosEadG"];
+                $result .= '</td>';
+
+                $result .= '<td align="center">';
+                $result .= $categoria["quantidadeCursosEadP"];
+                $result .= '</td>';
+
+                $result .= '<td align="center">';
                 $result .= Funcoes::decodeDate(Funcoes::dateFromTimestamp($categoria["dataCadastro"]));
                 $result .= '</td>';
 
-                $result .= '<td class="icons">';
-                /*$result .= '<div class="icon">';
+                /*$result .= '<td class="icons">';
+                $result .= '<div class="icon">';
                 $result .= '<a href="?modulo=categorias&acao=cadastrar&id=' . $categoria["id"] . '">';
                 $result .= '<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>';
                 $result .= '</div>';
@@ -193,8 +201,8 @@ class CursoCategoria extends Model {
                 $result .= '<span class="glyphicon glyphicon-eye-';
                 $result .= $categoria["visivel"] == 1 ? 'open' : 'close';
                 $result .= '" aria-hidden="true"></span></a>';
-                $result .= '</div>';*/
-                $result .= '</td>';
+                $result .= '</div>';
+                $result .= '</td>';*/
                 
                 if (array_key_exists("subcategorias", $categoria)) {
                     $result .= buildResult($categoria["subcategorias"], true);
@@ -324,6 +332,32 @@ class CursoCategoria extends Model {
                     ->where("status = 1")
                     ->count();
 
+                $c[$categoria["id"]]["quantidadeCursosEadG"] = (int) $conexao->query()
+                    ->from("cursos")
+                    ->where("categoria = ?", (int) $categoria["id"])
+                    ->where("tipo = ?", Curso::CURSO_TIPO_EAD_GRADUACAO)
+                    ->count();
+
+                $c[$categoria["id"]]["quantidadeCursosEadGVisiveis"] = (int) $conexao->query()
+                    ->from("cursos")
+                    ->where("categoria = ?", (int) $categoria["id"])
+                    ->where("tipo = ?", Curso::CURSO_TIPO_EAD_GRADUACAO)
+                    ->where("status = 1")
+                    ->count();
+
+                $c[$categoria["id"]]["quantidadeCursosEadP"] = (int) $conexao->query()
+                    ->from("cursos")
+                    ->where("categoria = ?", (int) $categoria["id"])
+                    ->where("tipo = ?", Curso::CURSO_TIPO_EAD_POSGRADUACAO)
+                    ->count();
+
+                $c[$categoria["id"]]["quantidadeCursosEadPVisiveis"] = (int) $conexao->query()
+                    ->from("cursos")
+                    ->where("categoria = ?", (int) $categoria["id"])
+                    ->where("tipo = ?", Curso::CURSO_TIPO_EAD_POSGRADUACAO)
+                    ->where("status = 1")
+                    ->count();
+
                 if (isset($categoria["subcategorias"])) {
                     foreach ($categoria["subcategorias"] as $subcategoria) {
                         
@@ -400,6 +434,32 @@ class CursoCategoria extends Model {
                             ->where("tipo = ?", (int) Curso::CURSO_TIPO_APERFEICOAMENTO)
                             ->where("status = 1")
                             ->count();
+
+                        $c[$categoria["id"]]["quantidadeCursosEadG"] += (int) $conexao->query()
+                            ->from("cursos")
+                            ->where("categoria = ?", (int) $subcategoria["id"])
+                            ->where("tipo = ?", (int) Curso::CURSO_TIPO_EAD_GRADUACAO)
+                            ->count();
+
+                        $c[$subcategoria["id"]]["quantidadeCursosEadGVisiveis"] = (int) $conexao->query()
+                            ->from("cursos")
+                            ->where("categoria = ?", (int) $subcategoria["id"])
+                            ->where("tipo = ?", (int) Curso::CURSO_TIPO_EAD_GRADUACAO)
+                            ->where("status = 1")
+                            ->count();
+
+                        $c[$categoria["id"]]["quantidadeCursosEadP"] += (int) $conexao->query()
+                            ->from("cursos")
+                            ->where("categoria = ?", (int) $subcategoria["id"])
+                            ->where("tipo = ?", (int) Curso::CURSO_TIPO_EAD_POSGRADUACAO)
+                            ->count();
+
+                        $c[$subcategoria["id"]]["quantidadeCursosEadPVisiveis"] = (int) $conexao->query()
+                            ->from("cursos")
+                            ->where("categoria = ?", (int) $subcategoria["id"])
+                            ->where("tipo = ?", (int) Curso::CURSO_TIPO_EAD_POSGRADUACAO)
+                            ->where("status = 1")
+                            ->count();
                     } 
                 }
             }
@@ -416,7 +476,6 @@ class CursoCategoria extends Model {
             throw $e;
         }
     }
-
 
 }
 

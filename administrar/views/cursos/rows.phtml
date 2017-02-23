@@ -7,7 +7,7 @@
     <input type="checkbox" name="objetos[]" value="<?php echo $objeto->id; ?>">
   </td>
   <td>
-    <a<?php if ($objeto->status == 0) echo ' class="desativada"'; ?> href="?modulo=<?php echo $modulo; ?>&acao=cadastrar<?php echo $objeto->tipo; ?>&id=<?php echo $objeto->id; ?>"><?php echo $objeto->nome; ?></a>
+    <a<?php if ($objeto->status == 0) echo ' class="desativada"'; ?> href="?modulo=<?php echo $modulo; ?>&acao=cadastrar&tipo=<?php echo $objeto->tipo; ?>&id=<?php echo $objeto->id; ?>"><?php echo $objeto->nome; ?></a>
   </td>
   <td class="center"><?php echo Curso::getCertificadora($objeto->unidadeCertificadora); ?></td>
   <td class="center"><?php echo Curso::getTipo($objeto->tipo); ?></td>

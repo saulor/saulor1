@@ -6,7 +6,6 @@
 <form method="post" enctype="multipart/form-data">
 
 	<input type="hidden" name="id" value="<?php echo $curso->id; ?>" />
-	<input type="hidden" name="tipo" value="<?php echo Curso::CURSO_TIPO_EAD; ?>" />
 	<input type="hidden" name="unidadeCertificadora" value="<?php echo Curso::CURSO_UNIDADE_CERTIFICADORA_LAUREATE; ?>" />
 	
 	<div class="grid">
@@ -31,15 +30,17 @@
 	  	</div>
 		<div class="col-3-12">
 			<div class="content">
-				<select class="form-control" name="tipo" disabled>
+				<select class="form-control" name="tipo">
 					<option value="">--Selecione--</option>
 					<?php
 						foreach (Curso::getTipos() as $key => $value) {
-							echo '<option';
-							if ($key == Curso::CURSO_TIPO_EAD) {
-								echo ' selected';
+							if (in_array($key, array(Curso::CURSO_TIPO_EAD_GRADUACAO, Curso::CURSO_TIPO_EAD_POSGRADUACAO))) {
+								echo '<option';
+								if ($curso->tipo == $key) {
+									echo ' selected';
+								}
+								echo ' value="' . $key . '">' . $value . '</option>';
 							}
-							echo ' value="' . $key . '">' . $value . '</option>';
 						}
 					?>
 				</select>
