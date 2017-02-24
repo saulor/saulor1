@@ -204,19 +204,9 @@ class ContatosController extends Controller {
 				"Contatos" => "?modulo=contatos",
 				$contato->nome => "",
 				"Enviar" => ""
-				);
-
-			$htmlEmail = getEmailHtmlRespostaContato(array(
-				"nome" => $contato->nome,
-				"data" => date('d/m/Y', $contato->timestamp),
-				"hora" => date('H:i', $contato->timestamp),
-				"resposta" => $contato->resposta,
-				"email" => $contato->email,
-				"cidade" => $contato->cidade,
-				"estado" => $contato->estado,
-				"mensagem" => $contato->mensagem
-				)
 			);
+
+			$htmlEmail = EmailPainel::contato($contato, false);
 
 			if (count($_POST) > 0) {
 
@@ -226,12 +216,13 @@ class ContatosController extends Controller {
 					exit;
 				}
 
-				if(enviarRespostaContato(array(
-					"html" => $htmlEmail,
-					"cc" => !empty($contato->cc) ? explode(",", $contato->cc) : array(),
-					"email" => $contato->email
-					), true)) {
-					$contato->respondido = Contato::CONTATO_STATUS_RESPONDIDO;
+				if (!empty($contato->cc)) {
+					$ccs = array_map('trim', explode(",", $contato->cc));
+					$contato->cc = implode(', ', $ccs);
+				}
+
+				EmailPainel::contato($contato, false);
+				$contato->respondido = Contato::CONTATO_STATUS_RESPONDIDO;
 				$contato->respondidoPor = $_SESSION[PREFIX . "loginNome"];
 				$contato->timestampResposta = time();
 				$contato->dataResposta = date('d/m/Y H:i:s', $contato->timestampResposta);
@@ -240,16 +231,11 @@ class ContatosController extends Controller {
 				setMensagem("info", "Resposta enviada para [" . $contato->email . "]");
 				$mensagemLog = "Usuário enviou resposta ao contato realizado através do site";
 				if (!empty($contato->cc)) {
-					$ccs = explode(",", $contato->cc);
-					setMensagem("info", "Enviada com cópia(s) para: [" . implode("], [", $ccs) . "]");
-					$mensagemLog .= " com cópia(s) para [" . implode("], [", $ccs) . "]";
+					setMensagem("info", "Enviada com cópia(s) para: " . implode(", ", $ccs));
+					$mensagemLog .= " com cópia(s) para " . implode(", ", $ccs);
 				}
 				$mensagemLog .= ".";
 				$this->log->adicionar ("enviou", "resposta", $contato->nome, $mensagemLog);
-			}
-			else {
-				throw new Exception("Erro ao tentar enviar resposta para " . $contato->email . ". Por favor, tente novamente!");
-			}
 			$conexao->commit();
 			$conexao->disconnect();
 			Application::redirect('?modulo=contatos');

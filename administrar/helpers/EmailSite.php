@@ -348,5 +348,4 @@ class EmailSite {
 	
 }
 
-
 ?>

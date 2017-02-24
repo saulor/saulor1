@@ -64,18 +64,17 @@
   <td>&nbsp;</td>
   <td>&nbsp;</td>
   <td colspan="12">
-    <?php if (!$objeto->convertido) { ?>
     <div id="links">
       <a target="_self" href="?modulo=<?php echo $modulo; ?>&acao=responder&id=<?php echo $objeto->id; ?>">Responder</a>
       | 
       <a target="_self" href="?modulo=<?php echo $modulo; ?>&acao=observacoes&id=<?php echo $objeto->id; ?>">Observações</a> 
       | 
       <a target="_self" href="?modulo=<?php echo $modulo; ?>&acao=status&id=<?php echo $objeto->id; ?>">Status</a> 
+      <?php if (!$objeto->convertido) { ?>
       | 
       <a target="_self" href="?modulo=<?php echo $modulo; ?>&acao=nova&id=<?php echo $objeto->id; ?>">Converter para inscrição</a>
-
+      <?php } ?>
     </div>
-    <?php } ?>
   </td>
 </tr>
 <?php } ?>
