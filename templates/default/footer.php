@@ -197,7 +197,7 @@ View::js(array(
       function downloadJSAtOnload() {
         var element = document.createElement('script');
         element.src = '<?php echo Url::templatePath() ?>js/defer.js';
-        //document.body.appendChild(element);
+        document.body.appendChild(element);
       }
       if (window.addEventListener) {
         window.addEventListener('load', downloadJSAtOnload, false);

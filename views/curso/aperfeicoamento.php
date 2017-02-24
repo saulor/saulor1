@@ -235,7 +235,7 @@
             <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
               <div class="form-group">
                 <input type="button" class="btn btn-orange" 
-                  id="quero-fazer-button" value="Quero fazer minha pré-inscrição"/>
+                  id="quero-fazer-button" value="Quero fazer minha pré-inscrição" disabled/>
               </div>
             </div>
             <input type="hidden" name="curso" id="curso" value="<?php echo $data['curso']->id; ?>"
@@ -380,6 +380,7 @@
           $('select', '#preinscricoes-form').val('');
         }
         $(button).removeAttr('disabled');
+        goog_report_conversion('<?php echo SITEURL; ?>curso/<?php echo $curso->link; ?>');
       },
       error: function (xhr, type) {
         $('#preinscricoes-form #ajax-message').children().remove();
@@ -413,4 +414,24 @@
       window.onload = addCampanhaOnLoad;
     }
   <?php } ?>
+
+  // Load adwords function reports
+  function addAdwords() {
+    var element = document.createElement('script');
+    element.src = '<?php echo Url::templatePath() ?>js/adwords.js';
+    document.body.appendChild(element);
+    $('#quero-fazer-button').removeAttr('disabled');
+  }
+  if (window.addEventListener) {
+    window.addEventListener('load', addAdwords, false);
+  }
+  else if (window.attachEvent) {
+    window.attachEvent('onload', addAdwords);
+  }
+  else {
+    window.onload = addAdwords;
+  }
+
+</script>
+
 </script>

@@ -6,8 +6,8 @@
 </section>
 <!-- Banner -->
 
-<!-- Requerimentos  -->
-<section id="inscrição">
+<!-- Inscrições  -->
+<section id="inscricoes">
   <div class="wrap-section">
     <div class="container">
 
@@ -523,7 +523,7 @@
     </div>
   </div>
 </section>
-<!-- Requerimentos -->
+<!-- Inscrições -->
 
 <script>
   $('#comoConheceu').on('change', function() {

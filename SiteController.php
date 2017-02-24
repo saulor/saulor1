@@ -14,7 +14,7 @@ class SiteController {
 		$this->load();
 	}
 
-	public function __call($name, $parameters) {
+	public function __call ($name, $parameters) {
 
         $this->dados['unidadesBar'] = array(
             'Maringá / PR' => array(
@@ -1641,8 +1641,9 @@ class SiteController {
                     $inscricao->nomeCurso, 'Realizou matrícula');
 
                 $this->conexao->commit();
-                FuncoesSite::setMensagem('success', 'Sua matrícula foi processada com sucesso. Em breve um de nossos consultores entrará em contato com você. Obrigado por escolher o IEFAP!');
-                Url::redirect(SITEURL . 'matricula/' . $curso->link);
+                // report google adwords
+                setcookie("_report_g", 1, time() + 450, '/');
+                Url::redirect(SITEURL . 'matriculas/sucesso/' . $curso->link);
 
             }
         }
@@ -1822,8 +1823,9 @@ class SiteController {
                     $inscricao->nomeCurso, 'Realizou inscrição');
 
                 $this->conexao->commit();
-                FuncoesSite::setMensagem('success', 'Sua inscrição foi processada com sucesso. Em breve um de nossos consultores entrará em contato com você. Obrigado por escolher o IEFAP!');
-                Url::redirect(SITEURL . 'inscricao/' . $curso->link);
+                // report google adwords
+                setcookie("_report_g", 1, time() + 450, '/');
+                Url::redirect(SITEURL . 'inscricoes/sucesso/' . $curso->link);
 
             }
         }
@@ -1845,6 +1847,73 @@ class SiteController {
 
         View::renderTemplate('header', $data);
         View::render('inscricoes/index', $data);
+        View::renderTemplate('footer', $data);
+    }
+
+    public function sucessoAction ($view, $q2) {
+
+        $data = array();
+        $data = $this->dados;
+        $data['meta'] = FuncoesSite::getMeta('sucesso');
+        $data['title'] = $data['meta']['meta.title'];
+        $data['share'] = $data['report'] = false;
+
+        try {
+
+            // check if needs reporting to google adwords
+            if (isset($_COOKIE['_report_g']) && $_COOKIE['_report_g'] == 1) {
+                $data['report'] = true;
+                setcookie("_report_g", 0, time() + 450, '/');
+            }
+
+            // recupera o curso
+
+            $data['curso'] = $curso = $this->dao->table('vw_cursos')
+                ->where('link', '=', $q2)
+                ->firstOrFail();
+
+            // recupera a categoria e suas categorias ancestrais
+            $categorias = array();
+            // recupera e armazena a categoria do curso
+            $categoria = $categoriaC = $this->dao->table('cursos_categorias')
+                ->where('visivel', '=', 1)
+                ->where('id', '=', (int) $curso->categoria)
+                ->first();
+            // se tem categoria pai
+            if (!empty($categoria->pai)) {
+                do {
+                    // recupera categoria pai
+                    $categoria = $this->dao->table('cursos_categorias')
+                        ->where('visivel', '=', 1)
+                        ->where('id', '=', (int) $categoria->pai)
+                        ->first();
+                    // armazena primeiro as categorias ancestrais
+                    $data['categorias'][] = $categoria; // objeto
+                    $categorias[] = $categoria->nome; // só o nome
+                }
+                while($categoria->pai != 0);  
+            }
+            // por último adiciona a categoria do curso
+            $data['categorias'][] = $categoriaC; // objeto
+            $categorias[] = $curso->nomeCategoria; // só o nome
+
+        }
+        catch (Exception $e) {
+            $this->conexao->disconnect();
+            $this->errorAction();
+            exit;
+        }
+
+        // meta tags
+        $a = new stdClass();
+        $a->nome = $curso->nome;
+        $a->tipo = Curso::getTipo($curso->tipo);
+        $data['meta'] = FuncoesSite::replaceMeta($data['meta'], $a);
+
+        $this->conexao->disconnect();
+
+        View::renderTemplate('header', $data);
+        View::render($view . '/sucesso', $data);
         View::renderTemplate('footer', $data);
     }
 
@@ -2787,7 +2856,5 @@ class SiteController {
 
     }
 }
-
-
 
 ?>

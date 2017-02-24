@@ -42,8 +42,9 @@ ga('send', 'pageview');
 window._fbq = window._fbq || [];
 window._fbq.push(['track', '6015970702564', {'value':'0.00','currency':'BRL'}]);
 
+// Google Remarketing e Conversão
 /* <![CDATA[ */
-var google_conversion_id = 922639644;
+var google_conversion_id = 861297165;
 var google_custom_params = window.google_tag_params;
 var google_remarketing_only = true;
 /* ]]> */
@@ -62,6 +63,7 @@ document,'script','https://connect.facebook.net/en_US/fbevents.js');
 fbq('init', '566767730164099');
 fbq('track', "PageView");
 
+// Tawk
 var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
 (function(){
 var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];

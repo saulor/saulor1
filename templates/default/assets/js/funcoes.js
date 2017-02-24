@@ -12,55 +12,6 @@ function smoothScroll(el, to, duration) {
     }.bind(this), 10);
 }
 
-function consultaCep (obj) {
-
-    if ($(obj).val() == '') {
-        return;
-    }
-
-    var cep = obj.value.replace(/-/g, '');
-    $(obj).parent('div').find('span').remove();
-    $('.ajax-loader').css('display', 'block');
-    $('.endereco').attr('disabled', 'disabled');
-    $('#endereco').val('');
-    $('#bairro').val('');
-    $('#cidade').val('');
-    $('#uf').val('');
-
-    $.ajax({
-      type: 'GET',
-      url: 'http://localhost/~saulor/iefap3/cep/' + cep,
-      dataType: 'json',
-      timeout: 5000,
-      success: function(json){
-        if (parseInt(json.sucesso) == 1) {
-            $('#endereco').val(json.endereco);
-            $('#bairro').val(json.bairro);
-            $('#cidade').val(json.cidade);
-            $('#uf').val(json.uf);
-        }
-        else {
-            $('<span/>', {
-                text: 'CEP não encontrado!',
-                class: 'small text-danger',
-            }).appendTo('#localizaCep');
-        }
-        $('.ajax-loader').css('display', 'none');
-        $('.endereco').removeAttr('disabled');
-        $('#endereco').focus();
-      },
-      error: function(xhr, type){
-        $('<small/>', {
-            text: 'CEP não encontrado!',
-            class: 'text-danger',
-        }).appendTo('#localizaCep');
-        $('.ajax-loader').css('display', 'none');
-        $('#endereco').removeAttr('disabled');
-        $(obj).focus();
-      }
-    });
-}
-
 function criaElemento (tipo, atributos) {
     var elemento = document.createElement(tipo);
     for (var att in atributos) {

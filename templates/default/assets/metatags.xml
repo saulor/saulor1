@@ -10,19 +10,11 @@
 		</meta>
 	</pagina>
 
-	<pagina nome="nao-encontrado">
-		<meta>
-			<title>IEFAP &#8250; Instituto de Ensino, Formação e Aperfeiçoamento LTDA.</title>
-			<robots>index, follow</robots>
-			<description>O IEFAP - Instituto de Ensino, Formação e Aperfeiçoamento LTDA., é uma instituição que oferece cursos de Pós-Graduação (Lato-Sensu), nas diferentes áreas do conhecimento.</description>
-			<keywords>iefap, cursos, pós graduacão, pós-graduação, especialização, aperfeiçoamento profissional, educação</keywords>
-		</meta>
-	</pagina>
-
 	<pagina nome="404">
 		<meta>
 			<title>IEFAP &#8250; Página não encontrada</title>
 			<robots>noindex, nofollow</robots>
+			<description>Página não encontrada</description>
 		</meta>
 	</pagina>
 
@@ -164,6 +156,14 @@
 			<robots>index, follow</robots>
 			<description>Faça sua inscrição no curso de {$a->tipo} em {$a->nome}</description>
 			<keywords>iefap, inscrição, curso, {$a->lowerTipo}, {$a->lowerNome}</keywords>
+		</meta>
+	</pagina>
+
+	<pagina nome="sucesso">
+		<meta>
+			<title>IEFAP &#8250; {$a->nome} &#8250; Inscrição realizada com sucesso</title>
+			<robots>noindex, nofollow</robots>
+			<description>Inscricão realizada com sucesso</description>
 		</meta>
 	</pagina>
 
