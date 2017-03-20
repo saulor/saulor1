@@ -139,33 +139,24 @@
 
   // inicializa mecanismo de visualização das avaliações dos alunos
   $(".control-button button").click(function(){
-    var id = $(this).attr('id');
-    // avaliação atual
-    var divAtual = $(".avaliacoes-wrap .activeCol");
-    if (id == "next") {
-      var div = $(divAtual).next("div");
-    }
-    else {
-      var div = $(divAtual).prev("div");
-    }
-    if (div.length > 0) {
-      var info = "#avaliacao-" + $(div).attr("id");
-      $(divAtual).find(".avaliacao-wrap").removeClass("active");
-      $(divAtual).removeClass("col-lg-4 col-md-4 col-sm-4 col-xs-4 activeCol");
-      $(divAtual).addClass("col-lg-2 col-md-2 col-sm-2 col-xs-2");
-      $(div).removeClass("col-lg-2 col-md-2 col-sm-2 col-xs-2");
-      $(div).addClass("col-lg-4 col-md-4 col-sm-4 col-xs-4 activeCol");
-      $(div).find(".avaliacao-wrap").addClass("active"); 
-      $(".avaliacoes-info-wrap .avaliacao-info").each(function(e){
-        if ($(this).attr("id") != $(info).attr("id")) {
-          $(this).addClass("hidden");
-        }
-        else {
-          $(info).removeClass("hidden");
-          $(info).fadeIn();
-        }
+    var divAtual = $('div#avaliacoes-fotos-wrap div.active');
+    var divAtualId = parseInt($(divAtual).attr('id').split('-')[1]);
+    var newDivId = $(this).attr('id') == 'prev' ? divAtualId - 1 : divAtualId + 1; 
+    var newDiv = $('#avaliacao-' + newDivId);
+    if (newDiv.length) {
+      $(divAtual).toggleClass(function(){
+        $('.avaliacao-info').addClass('hidden');
+        var classe1 = $(this).attr('class');
+        classe2 = classe1.replace(/3/g, 2);
+        $(this).attr('class', classe2);
+        $(newDiv).attr('class', classe1);
+        $(divAtual).removeClass('active');
+        $('#avaliacao-info-' + newDivId).removeClass('hidden');
+        var prev = $('#avaliacao-' + (newDivId - 1));
+        !prev.length ? $('div#avaliacoes-wrap button#prev').attr('disabled', 'disabled') : $('div#avaliacoes-wrap button#prev').removeAttr('disabled');
+        var next = $('#avaliacao-' + (newDivId + 1));
+        !next.length ? $('div#avaliacoes-wrap button#next').attr('disabled', 'disabled') : $('div#avaliacoes-wrap button#next').removeAttr('disabled');
       });
     }
   });
-
 })(); 

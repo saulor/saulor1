@@ -274,7 +274,7 @@
 <!-- Notícias -->
 
 <!-- Avaliações do Alunos -->
-<!--section id="avaliacoes" class="hidden-xs">
+<section id="avaliacoes" class="hidden-xs">
   <div id="avaliacoes-wrap" class="grafismo">
     <div class="container">
       <div class="row">
@@ -292,62 +292,76 @@
           </button>
         </div>
         <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 center-block">
-
           <div class="row row-centered">
             <div id="avaliacoes-fotos-wrap">
-              <div class="col-lg-2 col-md-2 col-sm-2 col-centered">
+              <div id="avaliacao-1" class="col-lg-2 col-md-2 col-sm-2 col-centered">
                 <div class="avaliacao-foto">
-                    <img class="img-circle img-responsive" src="<?php echo Url::templatePath(); ?>images/avaliacao.jpg">
-                  </div>
+                  <img class="img-circle img-responsive" 
+                    src="<?php echo Url::templatePath(); ?>images/avaliacoes/avaliacao1.png">
+                </div>
               </div>
-              <div class="col-lg-2 col-md-2 col-sm-2 col-centered">
+              <div id="avaliacao-2" class="col-lg-2 col-md-2 col-sm-2 col-centered">
                 <div class="avaliacao-foto">
-                    <img class="img-circle img-responsive" src="<?php echo Url::templatePath(); ?>images/avaliacao.jpg">
-                  </div>
+                  <img class="img-circle img-responsive" 
+                    src="<?php echo Url::templatePath(); ?>images/avaliacoes/avaliacao2.jpg">
+                </div>
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-3 col-centered">
-                <div class="avaliacao-foto active">
-                    <img class="img-circle img-responsive" src="<?php echo Url::templatePath(); ?>images/avaliacao.jpg">
-                  </div>
-              </div>
-              <div class="col-lg-2 col-md-2 col-sm-2 col-centered">
+              <div id="avaliacao-3" class="col-lg-3 col-md-3 col-sm-3 col-centered active">
                 <div class="avaliacao-foto">
-                    <img class="img-circle img-responsive" src="<?php echo Url::templatePath(); ?>images/avaliacao.jpg">
-                  </div>
+                  <img class="img-circle img-responsive" 
+                    src="<?php echo Url::templatePath(); ?>images/avaliacoes/avaliacao3.jpg">
+                </div>
               </div>
-              <div class="col-lg-2 col-md-2 col-sm-2 col-centered">
+              <div id="avaliacao-4" class="col-lg-2 col-md-2 col-sm-2 col-centered">
                 <div class="avaliacao-foto">
-                    <img class="img-circle img-responsive" src="<?php echo Url::templatePath(); ?>images/avaliacao.jpg">
-                  </div>
+                  <img class="img-circle img-responsive" 
+                    src="<?php echo Url::templatePath(); ?>images/avaliacoes/avaliacao2.png">
+                </div>
+              </div>
+              <div id="avaliacao-5" class="col-lg-2 col-md-2 col-sm-2 col-centered">
+                <div class="avaliacao-foto">
+                  <img class="img-circle img-responsive" 
+                    src="<?php echo Url::templatePath(); ?>images/avaliacoes/avaliacao5.jpeg">
+                </div>
               </div>
             </div>
           </div>
-
           <div class="row row-centered">
             <div id="avaliacoes-infos-wrap">
-              <div class="avaliacao-info text-center" id="avaliacao-info-1">
-                <p>Valéria Arruda</p>
-                <p>m vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te</p>
+              <div class="avaliacao-info text-center hidden" id="avaliacao-info-1">
+                <p>Prof. Fernando Pratti</p>
+                <p>Sendo um colaborador do IEFAP sinto orgulho dessa 
+                  instituição que tanto colabora com o aprimoramento profissional de tantas pessoas, 
+                  que mais qualificadas, encontram um maior resultado de seus investimentos no 
+                  mercado de trabalho.</p>
               </div>
               <div class="avaliacao-info text-center hidden" id="avaliacao-info-2">
-                <p>José Medeiros</p>
-                <p>m vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te</p>
+                <p>Adriana Covatti Luza Reichert</p>
+                <p>Equipe sempre solícita, excelentes professores e aulas marcadas e confirmadas 
+                 com antecedência. Gostei tanto da Instituição que estou inscrita para nova 
+                 pós-graduação.</p>
               </div>
-              <div class="avaliacao-info text-center hidden" id="avaliacao-info-2">
-                <p>Carlos Borges</p>
-                <p>m vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te</p>
+              <div class="avaliacao-info text-center" id="avaliacao-info-3">
+                <p>Adriana Ferreira Barbato Larios</p>
+                <p>Aqui você aprende com profissionais altamente capacitados, com experiência e credibilidade.
+                  Ser um profissional de enfermagem em oncologia requer um conhecimento direcionado que 
+                  o IEFAP conseguiu nos proporcionar.</p>
               </div>
-              <div class="avaliacao-info text-center hidden" id="avaliacao-info-2">
-                <p>Tobias de Menezes</p>
-                <p>m vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te</p>
+              <div class="avaliacao-info text-center hidden" id="avaliacao-info-4">
+                <p>Tatiana Botelho</p>
+                <p>Trocar experiências e viver novos desafios são escolhas acertadas para o sucesso 
+                  profissional! E escolher o IEFAP como parceiro nessa caminhada, com a oportunidade 
+                  de aulas práticas e teóricas, com profissionais para nos orientar, tem sido muito 
+                  estimulante!</p>
               </div>
-              <div class="avaliacao-info text-center hidden" id="avaliacao-info-2">
-                <p>Joaquim Braga</p>
-                <p>m vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te</p>
+              <div class="avaliacao-info text-center hidden" id="avaliacao-info-5">
+                <p>Dra. Carla Paschoal</p>
+                <p>Gostaria de parabenizar o curso de Reumatologia oferecido pelo IEFAP, em especial 
+                  ao excelente professor Dr. Leandro Lara Prado. Muito didático e competente. Mais 
+                  uma vez parabéns ao IEFAP! Sinto muito orgulho de ter estudado nesta instituição.</p>
               </div>
             </div>
           </div>
-            
         </div>
         <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 control-button">
           <button type="button" id="next" class="btn btn-default pull-left">
@@ -357,7 +371,7 @@
       </div>
     </div>
   </div>
-</section--!>
+</section>
 <!-- Avaliações Alunos -->
 
 <!-- Principal -->
