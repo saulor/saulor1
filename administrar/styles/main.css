@@ -60,14 +60,14 @@ header[role=logo] h2 {
     -webkit-font-smoothing: subpixel-antialiased
 }
 
-header hgroup {
+header[role=logo] hgroup {
     margin: 0;
     padding-top: 15px;
     padding-left: 15px;
     width: 100%
 }
 
-header hgroup h1 {
+header[role=logo] hgroup h1 {
     background: url(../../templates/default/assets/images/logo.png) no-repeat;
     background-size: 100px auto;
     display: block;
@@ -76,7 +76,7 @@ header hgroup h1 {
     margin: 0
 }
 
-header hgroup h2 {
+header[role=logo] hgroup h2 {
     margin: 0 0 0 2px;
     line-height: 1;
     position: relative;
@@ -84,7 +84,7 @@ header hgroup h2 {
     left: 0;
 }
 
-header a:hover {
+header[role=logo] a:hover {
     text-decoration: none
 }
 

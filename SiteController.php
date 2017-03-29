@@ -21,7 +21,7 @@ class SiteController {
               'default' => true,
               'active' => true,
               'class' => 'maringa',
-              'telefone' => '0800.501.6000 / 44 98813-1364',
+              'telefone' => '0800.501.6000 / 44 98813-1364 / 44 3123-6000',
               'email' => 'contato@iefap.com.br',
               'endereco' => 'Av. Adv. Horácio Raccanelo Filho, 5415 - Sala 01'
             ),
@@ -33,19 +33,19 @@ class SiteController {
             ),
             'Teresina / PI' => array(
               'class' => 'teresina',
-              'telefone' => '86 9424-2002',
+              'telefone' => '0800.501.6000 / 44 98813-1364',
               'email' => 'contato@iefap.com.br',
               'endereco' => 'Rua David Caldas, 90 - 1º Andar'
             ),
             'Belém / PA' => array(
               'class' => 'belem',
-              'telefone' => '91 3266-3100',
+              'telefone' => '0800.501.6000 / 44 98813-1364 / 91 3266-3100',
               'email' => 'contato@iefap.com.br',
               'endereco' => 'Trav. Mauriti, 1771A - Pedreira'
             ),
             'Cascavel / PR' => array(
               'class' => 'cascavel',
-              'telefone' => '44 3123-6000',
+              'telefone' => '0800.501.6000 / 44 98813-1364',
               'email' => 'contato@iefap.com.br',
               'endereco' => ''
             ),
@@ -141,6 +141,7 @@ class SiteController {
             )
             ->where('status', '=', 1)
             ->where('tipo', '=', Curso::CURSO_TIPO_POS)
+            ->order('ordem', 'asc')
             ->order('nome', 'asc')
             ->all(array(
                     'limit' => QUANTIDADE_PAGINACAO
@@ -200,6 +201,7 @@ class SiteController {
 
         $data['noticias'] = $this->dao->table('noticias')
             ->order('data', 'desc')
+            ->where('status', '=', 1)
             ->all(array(
                     'limit' => 3
                 )
@@ -1079,6 +1081,7 @@ class SiteController {
                         ->where('status', '=', 1)
                         ->where('categoria', '=', (int) $categoria->id)
                         ->where('vinculado', '=', 0)
+                        ->order('ordem', 'asc')
                         ->order('nome', 'asc')
                         ->all(array(
                                 'limit' => QUANTIDADE_PAGINACAO
@@ -1107,6 +1110,7 @@ class SiteController {
                     ->where('tipo', '=', (int) Curso::CURSO_TIPO_POS)
                     ->where('status', '=', 1)
                     ->where('vinculado', '=', 0)
+                    ->order('ordem', 'asc')
                     ->order('nome', 'asc')
                     ->all(array(
                                 'limit' => QUANTIDADE_PAGINACAO
@@ -1211,6 +1215,7 @@ class SiteController {
                     ->where('tipo', '=', (int) Curso::CURSO_TIPO_POS)
                     ->where('status', '=', 1)
                     ->where('vinculado', '=', 0)
+                    ->order('ordem', 'asc')
                     ->order('nome', 'asc')
                     ->all(array(
                             'limit' => QUANTIDADE_PAGINACAO
@@ -1322,6 +1327,7 @@ class SiteController {
                 ->where('status', '=', 1)
                 ->where('vinculado', '=', 0)
                 ->where('categoria', 'in', $idsCategorias)
+                ->order('ordem', 'asc')
                 ->order('nome', 'asc')
                 ->all(array(
                         'limit' => QUANTIDADE_PAGINACAO
@@ -1346,7 +1352,8 @@ class SiteController {
                 ->table('vw_cursos')
                 ->where('tipo', '=', (int) Curso::CURSO_TIPO_APERFEICOAMENTO)
                 ->where('status', '=', 1)
-                ->order('nomeCategoria', 'asc')
+                ->order('ordem', 'asc')
+                ->order('nome', 'asc')
                 ->all(array(
                         'limit' => QUANTIDADE_PAGINACAO
                     )
@@ -1436,6 +1443,7 @@ class SiteController {
                 ->where('tipo', '=', (int) Curso::CURSO_TIPO_APERFEICOAMENTO)
                 ->where('status', '=', 1)
                 ->where('vinculado', '=', 0)
+                ->order('ordem', 'asc')
                 ->order('nome', 'asc')
                 ->all(array(
                         'limit' => QUANTIDADE_PAGINACAO
@@ -2570,6 +2578,7 @@ class SiteController {
                         ->table('vw_cursos')
                         ->where('status', '=', 1)
                         ->where('tipo', '=', (int) $_POST['tipo'])
+                        ->order('ordem', 'asc')
                         ->order('nome', 'asc');
 
                     if (isset($idsCategorias)) {
@@ -2696,6 +2705,7 @@ class SiteController {
             )
             ->where('status', '=', 1)
             ->where('nome', 'like', '%' . $q . '%')
+            ->order('ordem', 'asc')
             ->order('nome', 'asc');
 
         $quantidadeResultados += $query->count();

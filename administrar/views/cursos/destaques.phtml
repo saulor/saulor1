@@ -1,0 +1,204 @@
+<style>
+
+	article.preview {
+	    margin-top: 30px
+	}
+
+	article.curso header {
+	    display: block;
+	}
+
+	article.curso header h1,
+	article.interna header h1 {
+	    font-family: Bold;
+	    font-size: 1.3em;
+	    text-transform: uppercase;
+	    margin: 0;
+	    padding-top: 8px;
+	    line-height: 19px;
+	}
+
+	article.curso.destaque header h1 {
+	    font-size: .95em;
+	    font-weight: bold;
+	    color: #000 !important;
+	}
+
+	article.curso header h2 {
+	    margin-top: 13px;
+	    margin-bottom: 0;
+	}
+
+	article.interna header h2 {
+	    margin: 0
+	}
+
+	article.curso header h2,
+	article.interna header h2 {
+	    font-family: Regular;
+	    font-size: .85em;
+	    text-transform: uppercase;
+	    color: #ea521d
+	}
+
+	article.curso.destaque header h2 {
+	    border-bottom: 1px solid #ccc
+	}
+
+	article.curso .curso-informacao span {
+	    font-family: Regular;
+	    font-size: .9em;
+	    color: #b2b2b1
+	}
+
+	article.curso .curso-informacao .label {
+	    margin: 0;
+	    padding: 0;
+	    text-transform: uppercase
+	}
+
+	article.curso .btn {
+	    font-size: .85em
+	}
+
+	article.curso .curso-thumbnail a,
+	article.curso a.saiba-mais {
+	    font-family: Bold
+	}
+
+	article.curso a.saiba-mais {
+	    color: #ea521d;
+	    margin-top: 5px;
+	    display: block;
+	    font-size: .85em
+	}
+
+	.over-layer {
+	    position: relative;
+	    margin: 0 auto;
+	    z-index: 0;
+	    width: 100%;
+	    height: 100%
+	}
+
+	.over-layer:hover:after {
+	    content: '';
+	    display: block;
+	    position: absolute;
+	    left: 0;
+	    top: 0;
+	    width: 100%;
+	    height: 100%;
+	    z-index: 0
+	}
+
+	.button-layer {
+	    display: none;
+	    z-index: 1;
+	    position: absolute;
+	    left: 50%;
+	    top: 50%;
+	    -ms-transform: translate(-50%, -50%);
+	    -webkit-transform: translate(-50%, -50%);
+	    transform: translate(-50%, -50%)
+	}
+
+	.over-layer:hover .button-layer {
+	    display: block
+	}
+
+    .ui-tabs {
+    	padding: 0;
+    	margin: 0;
+    }
+
+    .ui-tabs .ui-tabs-nav {
+	    margin: 0;
+	    padding: 0;
+	}
+
+    .ui-widget-header {
+    	background: none !important;
+    	border-radius: 0 !important;
+    	border-top: none !important;
+    	border-left: none !important;
+    	border-right: none !important;
+    	border-color: #ddd !important;
+    }
+
+    .ui-tabs-active {
+    	border-color: #ddd !important;
+    }
+
+    .ui-widget-content {
+    	border: none !important;  
+    }
+
+    .ui-tab:not(.ui-tabs-active){
+	     border: none !important; 
+	     background: none !important; 
+	}
+
+    div#tabs > div {
+        padding: 20px;
+        border-left: 1px solid #ddd !important;
+        border-right: 1px solid #ddd !important;
+        border-bottom: 1px solid #ddd !important;
+    }
+
+</style>
+
+<?php 
+  $params = $this->getParams(); 
+?>
+
+<div id="tabs">
+  <ul>
+    <li><a href="#tabs-1">Pós-Graduação</a></li>
+    <li><a href="#tabs-2">Aperfeiçoamento Profissional</a></li>
+  </ul>
+  <div id="tabs-1">
+    <?php echo $params['contents1']; ?>
+  </div>
+  <div id="tabs-2">
+    <?php echo $params['contents2']; ?>
+  </div>
+</div>
+
+<script src="<?php echo WWW_ROOT; ?>/administrar/scripts/zepto.min.js"></script>
+<script src="<?php echo WWW_ROOT; ?>/administrar/scripts/zepto.dragswap.js"></script>
+
+<script>
+	
+	$(function() {
+		$( "#tabs" ).tabs();
+	});
+
+	Zepto(function($) {   
+
+		$('.sortable').dragswap({
+		  element : 'li',
+		  dropAnimation: true,
+		  dropComplete: function() {
+		    var items = $('.sortable').dragswap('toArray');
+		    var cursosJson = [];
+		    for (i in items) {
+		      var id = items[i].split('-')[1];
+		      var curso = '{"curso":' + id + ',"ordem":' + (parseInt(i) + 1) + '}'; 
+		      cursosJson.push(curso);
+		    }
+		    var text = '{"destaques":[' + cursosJson.join(',') + ']}';
+		    $.ajax({
+		      type: 'POST',
+		      url: '?modulo=cursos&acao=ordem',
+		      //contentType: 'application/json',
+		      //dataType: "json",
+		      data: { text },
+		      success: function(json){
+		        
+		      }
+		    });
+		  }  
+		});
+	}); 
+</script>

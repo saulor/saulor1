@@ -1392,6 +1392,97 @@ class CursosController extends Controller {
 		$view->showContents();
 	}
 
+	public function destaquesAction() {
+		try {
+			//$this->checaPermissao('cursos', 'index');
+
+			$breadcrumbs = array();
+			$breadcrumbs[] = array(
+				'Cursos' => '?modulo=cursos',
+				'Destaques' => ''
+			);
+			$objetos = array();
+
+			$conexao = $this->conexao->getConexao();
+			$model = new VwCurso($conexao);
+
+			$quantidade = $model->count();
+			$cursos = $model->getObjetos(array(
+					'where' => array(
+						'status' => 1,
+						'tipo' => Curso::CURSO_TIPO_POS
+					),
+					'order' => array(
+						'ordem' => 'asc',
+						'nome' => 'asc',
+					)
+				)
+			);
+
+			ob_start();
+			include DIR_ROOT . '/administrar/views/cursos/list-destaques.php';
+			$contents1 = ob_get_contents();
+	        ob_end_clean();
+
+			$cursos = $model->getObjetos(array(
+					'where' => array(
+						'status' => 1,
+						'tipo' => Curso::CURSO_TIPO_APERFEICOAMENTO
+					),
+					'order' => array(
+						'ordem' => 'asc',
+						'nome' => 'asc',
+					)
+				)
+			);
+
+			ob_start();
+			include DIR_ROOT . '/administrar/views/cursos/list-destaques.php';
+			$contents2 = ob_get_contents();
+	        ob_end_clean();
+			
+		}
+		catch (PermissaoException $e) {
+			$this->conexao->getConexao()->disconnect();
+			setMensagem('error', $e->getMessage());
+			Application::redirect('index.php');
+			exit;
+		}
+		catch (Exception $e) {
+			setMensagem('error', $e->getMessage());
+		}
+
+		$conexao->disconnect();
+		$view = new View2($this->modulo, 'extendido', 'destaques.phtml');
+		$view->setParams(array(
+				'title' => getTitulo($breadcrumbs),
+				'breadcrumbs' => $breadcrumbs,
+				'contents1' =>  $contents1,
+				'contents2' => $contents2
+			)
+		);
+        $view->showContents();
+	}
+
+	public function ordemAction() {
+		try {
+			$conexao = $this->conexao->getConexao();
+			$obj = json_decode($_POST['text'], true);
+			foreach ($obj['destaques'] as $key => $curso) {
+				$conexao->query()->from('cursos')
+					->where('id = ?', (int) $curso['curso'])
+					->save(array(
+							'ordem' => (int) $curso['ordem']
+						)
+					);
+			}
+			$conexao->commit();
+		}
+		catch (Exception $e) {
+			$conexao->rollback();
+		}
+	}
+
 	private function _afterCadastro ($conexao, $curso) {
 		try {
 
@@ -1442,7 +1533,6 @@ class CursosController extends Controller {
 		else {
 			return $texto;
 		}
-
 	}
 	
 }

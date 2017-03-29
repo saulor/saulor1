@@ -62,6 +62,13 @@ class Curso extends Model {
     * @type integer
     */
     protected $_tipo;
+
+    /**
+    * @column
+    * @readwrite
+    * @type integer
+    */
+    protected $_ordem;
     
     /**
     * @column
@@ -245,7 +252,7 @@ class Curso extends Model {
                 throw new Exception('Curso não localizado');
             }
 
-            //$objeto = array_map('decode', $objeto);
+            $objeto = array_map('Funcoes::decodificaDado', $objeto);
 
             $queryUnidades = $this->_conexao->query()->from('vw_cidades_cursos')
                 ->where('curso = ?', (int) $objeto['id']);
