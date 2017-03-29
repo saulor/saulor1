@@ -53,7 +53,7 @@
 	        $(trFiltros).attr('data-situacao', situacao);
 	        $(trFiltros).attr('data-div', 'tab-content-status-' + status);
 
-			loadInscricoes(dados).success(function(response){
+			loadInscricoes(dados).done(function(response){
 				$(ul).find('li.active').removeClass('active');
         		$(li).addClass('active');
 				var html = $.parseHTML(response);

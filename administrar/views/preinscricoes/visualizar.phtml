@@ -195,7 +195,7 @@
           // se não for status interessado faz requisição das inscrições
           if (status != <?php echo Preinscricao::PREINSCRICAO_STATUS_INTERESSADO; ?>) {
             var dados = {status, curso, order};
-            loadInscricoes(dados).success(function(response){
+            loadInscricoes(dados).done(function(response){
               // delete ajax loader
               $(img).remove();
               // adiciona html do cabeçalho da tabela na div container

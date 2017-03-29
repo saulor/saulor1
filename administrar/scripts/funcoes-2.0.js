@@ -5,7 +5,7 @@ function buscaAjax (url, dados) {
 		url: url,
 		timeout: 10000,
 		data: { dados : dados }
-	}).done(function() {
+	}).always(function() {
 		$(".ajax-loader").css("display", "none");
 	}).fail(function(jqXHR, textStatus, errorThrown){
 		$(".ajax-loader").css("display", "none");
@@ -51,7 +51,7 @@ function pesquisaAjax(pagina, url) {
 		busca[key].push($(this).val());
 	});
 
-	buscaAjax(url, busca).success(function (data) {
+	buscaAjax(url, busca).done(function (data) {
 		i = 0;
 		var quantidade = data.quantidade;
 		var inicio = data.inicio;

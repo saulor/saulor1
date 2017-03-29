@@ -84,7 +84,7 @@
 		busca['status'] = status.join(',');
 		busca['situacoes'] = situacoes.join(',');
 
-		buscaAjax(url, busca).success(function (data) {
+		buscaAjax(url, busca).done(function (data) {
 
 			i = 0;
 			var quantidade = data.quantidade;

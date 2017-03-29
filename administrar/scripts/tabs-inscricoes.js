@@ -151,7 +151,7 @@ $(document).ready(function(){
     if (situacao !== 'undefined') {
      dados.situacao = situacao;
     }
-    loadInscricoes(dados).success(function(response){
+    loadInscricoes(dados).done(function(response){
       var html = $.parseHTML(response);
       var quantidade = $(html).filter('tr:not(.none):not(.links)').length;
       $('div#' + div + ' strong#quantidade').html(quantidade);
