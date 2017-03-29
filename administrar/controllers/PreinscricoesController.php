@@ -2198,6 +2198,8 @@ class PreinscricoesController extends Controller {
 				$enderecoCompleto .= ", cep " . $dados["cep"];
 			}
 
+			$dados['dataNascimento'] = date('d/m/Y', strtotime($dados['dataNascimento']));
+
 			$texto = str_replace('#*AREA*#', utf8_decode(Curso::getArea($curso["area"])), $texto);
 			$texto = str_replace('#*NOME*#', utf8_decode($dados["nome"]), $texto);
 			$texto = str_replace('#*CPF*#', $dados["cpf"], $texto);
@@ -2230,8 +2232,7 @@ class PreinscricoesController extends Controller {
 			$texto = str_replace('#*FORMA_PAGAMENTO*#', utf8_decode('será dividido em ' . $dados["formaPagamento"]), $texto);
 			$texto = str_replace('#*FORMA_PAGAMENTO2*#', utf8_decode($dados["formaPagamento"]), $texto);
 			$texto = str_replace('#*CIDADE_CURSO*#', utf8_decode($dados['nomeUnidade']), $texto);
-			//$texto = str_replace('#*DURACAO*#', utf8_decode($dados['unidade']['duracao']), $texto);
-			$texto = str_replace('#*CARGA_HORARIA*#', $dados['unidade']['cargaHoraria'], $texto);
+			$texto = str_replace('#*CARGA_HORARIA*#', $dados['cargaHoraria'], $texto);
 
 			$novoContrato = fopen($nomeArquivo, 'w');
 			fputs($novoContrato, $texto);
@@ -2846,6 +2847,7 @@ class PreinscricoesController extends Controller {
 				"motivo",
 				"nomeUnidade",
 				"siglaEstado",
+				"telefone",
 				"telefoneResidencial",
 				"telefoneCelular",
 				"observacoes",
@@ -2936,6 +2938,7 @@ class PreinscricoesController extends Controller {
 				"Motivo" => "motivo",
 				"Unidade" => "nomeUnidade",
 				"Sigla" => "siglaEstado",
+				"Telefone" => "telefone",
 				"Tel. Residencial" => "telefoneResidencial",
 				"Tel. Celular" => "telefoneCelular",
 				"Observações" => "observacoes",

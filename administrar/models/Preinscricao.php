@@ -604,6 +604,17 @@ class Preinscricao extends Model {
                 return $path;
             break;
 
+            case Curso::CURSO_UNIDADE_CERTIFICADORA_IEFAP :
+                $path = $pathContratos . DS . "iefap";
+                $unidade = strtolower(removeAcentos($unidade));
+                $unidade = preg_replace('/ /', '-', $unidade);
+                if (existeArquivo($path . "-" . $unidade . ".rtf")) {
+                    return $path . "-" . $unidade . ".rtf";
+                }
+                $path .= ".rtf";
+                return $path;
+            break;
+
             default : 
             break;
         }
