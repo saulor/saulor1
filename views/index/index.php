@@ -8,18 +8,17 @@
   </div>
 
   <?php
-  $founds = array();
-  foreach ($data['banners'] as $banner) {
-    $file = APPDIR . 'assets' . DS . 'banners' . DS . $banner->banner;
-    if (is_file($banner)) {
-      $founds[] = array(
-        'link' => $banner->link,
-        'descricao' => $banner->descricao,
-        'src' => Url::resourcePath() . 'uploads' . DS . 'banners' . DS . $banner->banner
-      );
+    $founds = array();
+    foreach ($data['banners'] as $banner) {
+      $file = APPDIR . 'assets' . DS . 'uploads' . DS . 'banners' . DS . $banner->banner;
+      if (is_file($file)) {
+        $founds[] = array(
+          'link' => $banner->link,
+          'descricao' => $banner->descricao,
+          'src' => Url::resourcePath() . 'uploads' . DS . 'banners' . DS . $banner->banner
+        );
+      }
     }
-  }
-
   ?>
 
   <div id="banner-wrap" class="hidden">
@@ -147,16 +146,15 @@
       </div>
       <!-- mais notícias -->
 
+      <?php
+        $temImagem = false;
+        if (!empty($data['noticias'][0]->imagem)) {
+          $temImagem = true;
+        }
+      ?>
+
       <div class="row">
         <div class="col-lg-8 col-md-8 col-sm-12">
-
-          <?php
-            $temImagem = false;
-            if (!empty($data['noticias'][0]->imagem)) {
-              $temImagem = true;
-            }
-          ?>
-
           <?php if ($temImagem) { ?>
           <article class="noticia-preview with-image">
             <div class="col-lg-5 col-md-5 col-sm-4 hidden-xs">
@@ -191,7 +189,7 @@
           </article>
           <?php } else { ?>
           <article class="noticia-preview<?php if ($temImagem) echo ' with-image';?>">
-            <div class="col-xs-12">
+            <div class="col-xs-12" style="margin:0;padding:0;">
               <header class="clearfix">
                   <time pubdate="" datetime="2010-12-08">
                     <span class="dia"><?php echo date('d', $data['noticias'][0]->timestamp); ?></span>
@@ -204,12 +202,14 @@
               </header>
               <div class="hidden-xs news-entry">
                 <?php 
-                    echo Funcoes::compactaTexto($data['noticias'][0]->noticia, 1600);
+                    $texto = strip_tags($data['noticias'][0]->noticia);
+                    $tamanho1Noticia = strlen($texto);
+                    echo Funcoes::compactaTexto($texto, 1600);
                 ?>
               </div>
               <div class="visible-xs news-entry">
                 <?php 
-                    echo Funcoes::compactaTexto($data['noticias'][0]->noticia, 230);
+                  echo Funcoes::compactaTexto($texto, 230);
                 ?>
               </div>
               <p class="leia-mais">
@@ -221,7 +221,8 @@
         </div>
         <div class="col-lg-4 col-md-4 col-sm-12">
           <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-6">
+            <?php if ($tamanho1Noticia < 1600) { $col = 12; } else { $col = 6; } ?>
+            <div class="col-lg-12 col-md-12 col-sm-<?php echo $col; ?>">
               <article class="noticia-preview">
                 <header class="clearfix">
                     <time pubdate="" datetime="2010-12-08">
@@ -235,7 +236,8 @@
                 </header>
                 <div class="news-entry">
                   <?php 
-                    echo Funcoes::compactaTexto($data['noticias'][1]->noticia, 230);
+                    $texto = strip_tags($data['noticias'][1]->noticia);
+                    echo Funcoes::compactaTexto($texto, 230);
                   ?>
                 </div>
                 <p class="leia-mais">
@@ -243,6 +245,7 @@
                 </p>
               </article>
             </div>
+            <?php if ($tamanho1Noticia >= 1600) { ?>
             <div class="col-lg-12 col-md-12 col-sm-6">
               <article class="noticia-preview">
                 <header class="clearfix">
@@ -257,7 +260,8 @@
                 </header>
                 <div class="news-entry">
                   <?php 
-                    echo Funcoes::compactaTexto($data['noticias'][2]->noticia, 230);
+                    $texto = strip_tags($data['noticias'][2]->noticia);
+                    echo Funcoes::compactaTexto($texto, 230);
                   ?>
                 </div>
                 <p class="leia-mais">
@@ -265,6 +269,7 @@
                 </p>
               </article>
             </div>
+            <?php } ?>
           </div>
         </div>
       </div>
@@ -297,7 +302,7 @@
               <div id="avaliacao-1" class="col-lg-2 col-md-2 col-sm-2 col-centered">
                 <div class="avaliacao-foto">
                   <img class="img-circle img-responsive" 
-                    src="<?php echo Url::templatePath(); ?>images/avaliacoes/avaliacao1.png">
+                    src="<?php echo Url::templatePath(); ?>images/avaliacoes/avaliacao1.jpg">
                 </div>
               </div>
               <div id="avaliacao-2" class="col-lg-2 col-md-2 col-sm-2 col-centered">
@@ -315,13 +320,13 @@
               <div id="avaliacao-4" class="col-lg-2 col-md-2 col-sm-2 col-centered">
                 <div class="avaliacao-foto">
                   <img class="img-circle img-responsive" 
-                    src="<?php echo Url::templatePath(); ?>images/avaliacoes/avaliacao2.png">
+                    src="<?php echo Url::templatePath(); ?>images/avaliacoes/avaliacao4.jpg">
                 </div>
               </div>
               <div id="avaliacao-5" class="col-lg-2 col-md-2 col-sm-2 col-centered">
                 <div class="avaliacao-foto">
                   <img class="img-circle img-responsive" 
-                    src="<?php echo Url::templatePath(); ?>images/avaliacoes/avaliacao5.jpeg">
+                    src="<?php echo Url::templatePath(); ?>images/avaliacoes/avaliacao5.jpg">
                 </div>
               </div>
             </div>
@@ -598,19 +603,19 @@
         </div>
         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
           <img class="img-responsive" src="<?php echo Url::templatePath(); ?>images/parceiros/unimed-cascavel.jpg" 
-            title="Unimed Cascavel" alt="Logomarca Unimed Cascavel"/>
+            title="Unimed Unimed Cascavel" alt="Logomarca Unimed Cascavel"/>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
+          <img class="img-responsive" src="http://cascavel.portaldacidade.com/img/noticias/g/portalcascavel-noticia-g-27042012-095536.jpg" 
+            title="ACIC" alt="Logomarca ACIC"/>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
+          <img class="img-responsive" src="http://acim.com.br/arquivos/acim_-ALTA_1.jpg" 
+            title="ACIM" alt="Logomarca ACIM"/>
         </div>
         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
           <img class="img-responsive" src="<?php echo Url::templatePath(); ?>images/parceiros/solucaoead.jpg" 
             title="Solução EAD" alt="Logomarca Solução EAD"/>
-        </div>
-        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
-          <img class="img-responsive" src="<?php echo Url::templatePath(); ?>images/parceiros/drlima.jpg" 
-            title="Hospital e Maternidade Dr. Lima" alt="Logomarca Hospital e Maternidade Dr. Lima"/>
-        </div>
-        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
-          <img class="img-responsive" src="<?php echo Url::templatePath(); ?>images/parceiros/lider.jpg" 
-            title="Grupo Líder" alt="Logomarca Grupo Líder"/>
         </div>
         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
           <img class="img-responsive" src="<?php echo Url::templatePath(); ?>images/parceiros/hevoise-papini.jpg"
