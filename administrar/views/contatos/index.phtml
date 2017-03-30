@@ -120,8 +120,10 @@
                   <th class="center"><strong>Respondido?</strong></th>
                   <th class="center"><strong>Respondido por</strong></th>
                   <th class="center"><strong>Status</strong></th>
+                  <th class="center"><strong>Assunto</strong></th>
                   <th class="center"><strong>Telefone</strong></th>
                   <th><strong>Mensagem</strong></th>
+                  <th><strong>Curso(s)</strong></th>
                   <th><strong>Obs.</strong></th>
                   <th><strong>E-mail</strong></th>
                   <th class="center"><strong>Cidade</strong></th>
@@ -167,9 +169,19 @@
                         <?php } ?>
                       </select>
                     </td>
+                    <td>
+                      <select name="assunto" id="assunto" class="form-control">
+                        <option value="">--Selecione--</option>
+                        <option data-require="cursos" value="Informações sobre cursos">Informações sobre cursos</option>
+                        <option value="Outros">Outros</option>
+                      </select>
+                    </td>
                     <td></td>
                     <td>
                       <input class="form-control" type="text" name="mensagem">
+                    </td>
+                    <td>
+                      <input class="form-control" type="text" name="cursos">
                     </td>
                     <td>
                       <input class="form-control" type="text" name="observacoes">
@@ -181,7 +193,36 @@
                       <input class="form-control" type="text" name="cidade">
                     </td>
                     <td>
-                      <input class="form-control" type="text" name="estado">
+                      <select class="form-control" name="estado">
+                        <option value="">--Selecione--</option>
+                        <option value="AC">AC</option>
+                        <option value="AL">AL</option>
+                        <option value="AP">AP</option>
+                        <option value="AM">AM</option>
+                        <option value="BA">BA</option>
+                        <option value="CE">CE</option>
+                        <option value="DF">DF</option>
+                        <option value="ES">ES</option>
+                        <option value="GO">GO</option>
+                        <option value="MA">MA</option>
+                        <option value="MT">MT</option>
+                        <option value="MS">MS</option>
+                        <option value="MG">MG</option>
+                        <option value="PA">PA</option>
+                        <option value="PB">PB</option>
+                        <option value="PR">PR</option>
+                        <option value="PE">PE</option>
+                        <option value="PI">PI</option>
+                        <option value="RJ">RJ</option>
+                        <option value="RN">RN</option>
+                        <option value="RS">RS</option>
+                        <option value="RO">RO</option>
+                        <option value="RR">RR</option>
+                        <option value="SC">SC</option>
+                        <option value="SP">SP</option>
+                        <option value="SE">SE</option>
+                        <option value="TO">TO</option>
+                      </select>
                     </td>
                     <td>
                       <input class="form-control data" type="text" name="data">

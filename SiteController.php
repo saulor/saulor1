@@ -633,7 +633,6 @@ class SiteController {
 
         $data['contato'] = $model = new Contato($this->conexao);
 
-
         if (count($_POST) > 0) {
 
             try {
@@ -643,16 +642,25 @@ class SiteController {
 
                 $rules = array(
                     'nome' => 'required',
+                    'assunto' => 'required',
                     'email' => 'valid_email',
                     'mensagem' => 'required'
                 );
+
+                if ($dados['assunto'] == 'Informações sobre cursos') {
+                    $rules['cursos'] = 'required';
+                }
 
                 $filters = array(
                     'nome' => 'trim|sanitize_string',
                     'cidade' => 'trim|sanitize_string',
                     'cursos' => 'trim|sanitize_string',
-                    'mensagem' => 'trim|sanitize_string'
+                    'email' => 'trim|sanitize_email',
+                    'mensagem' => 'trim|sanitize_string',
+                    'cursos' => 'trim|sanitize_string'
                 );
+
+                MyGump::set_field_name('cursos', 'Curso(s)');
 
                 $validated = $validator->is_valid($dados, $rules);
 
@@ -663,7 +671,7 @@ class SiteController {
                     $validated[] = 'Informe pelo menos uma opção de contato (telefone ou e-mail)';
                 }
 
-                if($validated) {
+                if ($validated) {
                     throw new Exception(FuncoesSite::getValidationErrors($validated));
                 }
 

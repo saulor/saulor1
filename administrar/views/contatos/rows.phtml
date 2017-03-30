@@ -38,11 +38,18 @@
         echo '<div class="tip right"> Respondido em ' . $objeto->dataResposta . '</div>';
       } ?></td>
   <td class="center"><?php echo Contato::getStatus($objeto->status); ?></td>
-  <td class="center"><?php echo $objeto->telefone ?></td>
+  <td class="center"><?php echo $objeto->assunto; ?></td>
+  <td><?php echo $objeto->telefone; ?></td>
   <td class="tooltp left">
     <span><?php echo Funcoes::compactaTexto($objeto->mensagem, 10); ?></span>
     <?php if(!empty($objeto->mensagem)) { ?>
     <div class="tip left"><?php echo $objeto->mensagem; ?></div>
+    <?php } ?>
+  </td>
+  <td class="tooltp left">
+    <span><?php echo Funcoes::compactaTexto($objeto->cursos, 10); ?></span>
+    <?php if(!empty($objeto->cursos)) { ?>
+    <div class="tip left"><?php echo $objeto->cursos; ?></div>
     <?php } ?>
   </td>
   <td class="tooltp left">

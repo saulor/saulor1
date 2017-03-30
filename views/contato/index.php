@@ -32,46 +32,69 @@
           </div>
       </div>
 
+      <style>
+        .form-group.required .control-label:after{
+           content: "\00a0*";
+        }
+      </style>
+
       <div class="row">
         <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-          <br />
           <p>Para maiores informações sobre os cursos ofertados, envie-nos sua mensagem através do formulário de contato. Nós teremos o maior prazer em respondê-lo.</p>
-          <br />
+        </div>
+      </div>
+
+      <br />
+
+      <div class="row">
+        <div class="col-xs-8">
           <?php
             echo Funcoes::getMensagem();
           ?>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-3 col-md-offset-2 col-sm-3 col-sm-offset-3">
+          <p class="text-info">* Campos obrigatórios</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
           <form class="form-horizontal" method="post">
             <input type="hidden" name="id" value="0" />
-            <div class="form-group">
-              <label for="CPF" class="col-sm-2 control-label">Nome:</label>
+            
+            <div class="form-group required">
+              <label for="CPF" class="col-sm-3 control-label">Seu nome</label>
               <div class="col-sm-8">
                 <input class="form-control" id="nome" name="nome" placeholder="Seu nome" 
                   value="<?php echo $data['contato']->nome; ?>">
               </div>
             </div>
-            <div class="form-group">
-              <label for="CPF" class="col-sm-2 control-label">Telefone:</label>
+            <div class="form-group required">
+              <label for="CPF" class="col-sm-3 control-label">Seu telefone</label>
               <div class="col-sm-4">
                 <input class="form-control telefone" id="telefone" name="telefone" 
                   placeholder="Seu telefone" value="<?php echo $data['contato']->telefone; ?>">
               </div>
             </div>
-            <div class="form-group">
-              <label for="CPF" class="col-sm-2 control-label">E-mail:</label>
+            <div class="form-group required">
+              <label for="CPF" class="col-sm-3 control-label">Seu melhor e-mail</label>
               <div class="col-sm-8">
                 <input class="form-control" id="email" name="email" placeholder="Seu e-mail" 
                   value="<?php echo $data['contato']->email; ?>">
               </div>
             </div>
             <div class="form-group">
-              <label for="CPF" class="col-sm-2 control-label">Cidade:</label>
+              <label for="CPF" class="col-sm-3 control-label">Sua cidade</label>
               <div class="col-sm-8">
                 <input class="form-control" id="cidade" name="cidade" placeholder="Sua cidade" 
                   value="<?php echo $data['contato']->cidade; ?>">
               </div>
             </div>
             <div class="form-group">
-              <label for="CPF" class="col-sm-2 control-label">Estado:</label>
+              <label for="CPF" class="col-sm-3 control-label">Seu estado</label>
               <div class="col-sm-4">
                 <select class="form-control" id="estado" name="estado">
                   <option value="" <?php if ($data['contato']->estado == "") echo 'selected="selected"';  ?>>--Selecione seu estado--</option>
@@ -105,16 +128,26 @@
                 </select>
               </div>
             </div>
-            <div class="form-group">
-              <label for="CPF" class="col-sm-2 control-label">Curso(s):</label>
+            <div class="form-group required">
+              <label for="Assunto" class="col-sm-3 control-label">Assunto</label>
               <div class="col-sm-8">
-                <input class="form-control" name="cursos" id="cursos" placeholder="Informe os cursos de interesse" 
+                <select name="assunto" id="assunto" class="form-control">
+                  <option value="">--Selecione--</option>
+                  <option data-require="cursos" value="Informações sobre cursos"<?php if ($data['contato']->assunto == 'Informações sobre cursos') echo ' selected';?>>Informações sobre cursos</option>
+                  <option value="Outros"<?php if ($data['contato']->assunto == 'Outros') echo ' selected';?>>Outros</option>
+                </select>
+              </div>
+            </div>
+            <div id="cursos" class="form-group sh required hidden">
+              <label for="CPF" class="col-sm-3 control-label">Curso(s)</label>
+              <div class="col-sm-8">
+                <input class="form-control" name="cursos" placeholder="Informe os cursos de interesse" 
                    value="<?php echo $data['contato']->cursos; ?>"/>
                 <small class="text-info">Se tiver interesse em mais de um curso informe-os separados por vírgula</small>
               </div>
             </div>
-            <div class="form-group">
-              <label for="Senha" class="col-sm-2 control-label">Mensagem:</label>
+            <div class="form-group required">
+              <label for="Senha" class="col-sm-3 control-label">Mensagem</label>
               <div class="col-sm-8">
                 <textarea name="mensagem" rows="10" class="form-control"><?php echo $data['contato']->mensagem; ?></textarea>
               </div>
@@ -146,12 +179,19 @@
 <!-- Contato -->
 
 <script>
-  $('#cursos').tinyAutocomplete({
-    url: '<?php echo SITEURL; ?>json/cursos',
-    onSelect: function(el, val) {
-      if(val != null) {
-        $(this).val(val.title);
-      }
+  $('#assunto').on('change', function(ev) {
+    ev.preventDefault();
+    $('.sh').each(function(){
+      $(this).addClass('hidden');
+      $(this).find('input').val('');
+    });
+    var e = document.getElementById($(this).attr('id'));
+    var option = e.options[e.selectedIndex];
+    var require = $(option).attr('data-require');
+    var required = typeof(require) !== 'undefined';
+    if (required) {
+      $('#' + require).removeClass('hidden');
     }
   });
+  $('#assunto').trigger('change');
 </script>

@@ -161,6 +161,14 @@ class Contato extends Model {
   */
   protected $_curso;
 
+  /**
+  * @column
+  * @readwrite
+  * @type text
+  * @length 255
+  */
+  protected $_assunto;
+
 	const CONTATO_STATUS_NAO_RESPONDIDO = 0;
 	const CONTATO_STATUS_RESPONDIDO = 1;
   const CONTATO_STATUS_DESISTENTE = 2;
