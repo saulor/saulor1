@@ -197,10 +197,7 @@ class RequerimentosController extends Controller {
 				// se mudou a situação do requerimento
 				// envia um e-mail informando ao aluno
 				if ($situacao != $dadosIn["situacao"]) {
-					// email do IEFAP que deve receber a notificação 
-	                $configuracoesModel = new Configuracoes($conexao);
-	                $to = $configuracoesModel->getEmails(Configuracoes::EMAIL_REQUERIMENTOS);
-					EmailPainel::requerimento($dadosIn, $to);
+					EmailPainel::requerimento($dadosIn, $dados['email']);
 				}
 
 				if (isset($_FILES["arquivo"]) && enviouArquivo($_FILES["arquivo"])) {
