@@ -20,7 +20,7 @@
 </section>
 <!-- Banner -->
 
-<!-- Requerimentos  -->
+<!-- Matrículas  -->
 <section id="requerimentos">
   <div class="wrap-section">
     <div class="container">
@@ -524,7 +524,7 @@
     </div>
   </div>
 </section>
-<!-- Requerimentos -->
+<!-- Matrículas -->
 
 <script>
   $('#comoConheceu').on('change', function() {
