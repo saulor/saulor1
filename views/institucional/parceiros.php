@@ -161,50 +161,6 @@
 
       <div class="row">
         <div class="col-lg-3 col-md-3 col-sm-3 hidden-xs">
-          <img class="center-block img-rounded img-responsive" 
-            src="<?php echo Url::templatePath(); ?>images/parceiros/drlima.jpg" 
-            alt="Hospital e Maternidade Dr. Lima"/>
-        </div>
-        <div class="col-lg-9 col-md-9 col-sm-9">
-          <h6 class="h4 subtitle">Hospital e Maternidade Dr. Lima</h6>
-          <p>
-            Parceria: Hospital e Maternidade Dr. Lima<br />
-            Endereço: Avenida Paraná, 2311 - Coqueiral<br />
-            Cascavel - PR<br />
-            Telefone: (45) 3229.1525<br />
-            Site: <a target="_blank" href="http://www.hospitaldrlima.com.br">www.hospitaldrlima.com.br</a><br />
-            <!-- <a title="Clique para ver mais informações sobre Hospital e Maternidade Dr. Lima"
-              href="<?php echo SITEURL; ?>/parceiro/drlima">Mais informações</a> -->
-          </p>
-        </div>
-      </div>
-
-      <br />
-
-      <div class="row">
-        <div class="col-lg-3 col-md-3 col-sm-3 hidden-xs">
-          <img class="center-block img-rounded img-responsive" 
-            src="<?php echo Url::templatePath(); ?>images/parceiros/vidars.jpg" 
-            alt="Centro de Estudos e Qualidade de Vida"/>
-        </div>
-        <div class="col-lg-9 col-md-9 col-sm-9">
-          <h6 class="h4 subtitle">Centro de Estudos e Qualidade de Vida</h6>
-          <p>
-            Parceria: Centro de Estudos e Qualidade de Vida<br />
-            Endereço: R. Silva Só, 131 - Santa Cecília<br />
-            Porto Alegre - RS<br />
-            Telefone: (51) 3019.3373<br />
-            Site: <a target="_blank" href="http://www.vida-rs.com.br">www.vida-rs.com.br</a><br />
-            <!-- <a title="Clique para ver mais informações sobre Centro de Estudos e Qualidade de Vida"
-              href="<?php echo SITEURL; ?>/parceiro/vidars">Mais informações</a> -->
-          </p>
-        </div>
-      </div>
-
-      <br />
-
-      <div class="row">
-        <div class="col-lg-3 col-md-3 col-sm-3 hidden-xs">
           <br />
           <img class="center-block img-rounded img-responsive" 
             src="<?php echo Url::templatePath(); ?>images/parceiros/iamada.jpg" 
@@ -219,52 +175,6 @@
             Site: <a target="_blank" href="http://www.hospitaliamada.com.br">www.hospitaliamada.com.br</a><br />
             <!-- <a title="Clique para ver mais informações sobre Hospital Iamada"
               href="<?php echo SITEURL; ?>/parceiro/iamada">Mais informações</a> -->
-          </p>
-        </div>
-      </div>
-
-      <br />
-
-      <div class="row">
-        <div class="col-lg-3 col-md-3 col-sm-3 hidden-xs">
-          <br />
-          <img class="center-block img-rounded img-responsive" 
-            src="http://www.ipemce.com.br/images/logo.png"
-            alt="Instituto Paulista de Ensino em Medicina Capacitação e Especialização"/>
-        </div>
-        <div class="col-lg-9 col-md-9 col-sm-9">
-          <h6 class="h4 subtitle">Instituto Paulista de Ensino em Medicina Capacitação e Especialização</h6>
-          <p>
-            Parceria: IPEMCE - Instituto Paulista de Ensino em Medicina Capacitação e Especialização<br />
-            Rua Tobias de Macedo Junior, 246 - Bloco B - Santo Inácio<br />
-            Curitiba - PR<br />
-            Telefone(s): (41) 3364-8831 / 3364-2754<br />
-            Central de Pós Graduação - 0800 643 8831<br />
-            Site: <a target="_blank" href="http://www.ipemce.com.br">www.ipemce.com.br</a><br />
-            <!-- <a title="Clique para ver mais informações sobre o Instituto Paulista de Ensino em Medicina Capacitação e Especialização"
-              href="<?php echo SITEURL; ?>/parceiro/ipemce">Mais informações</a> -->
-          </p>
-        </div>
-      </div>
-
-      <br />
-
-      <div class="row">
-        <div class="col-lg-3 col-md-3 col-sm-3 hidden-xs">
-          <img class="center-block img-rounded img-responsive" 
-            src="<?php echo Url::templatePath(); ?>images/parceiros/isi.jpg" 
-            alt="Instituto Pró-Saúde Integral"/>
-        </div>
-        <div class="col-lg-9 col-md-9 col-sm-9">
-          <h6 class="h4 subtitle">Instituto Pró-Saúde Integral</h6>
-          <p>
-            Parceria: ISI - Instituto Pró-Saúde Integral - Pós-Graduação em Odontologia<br />
-            Av. Tarumãs, 930 - St. Res. Sul<br />
-            SINOP - MT<br />
-            Telefone(s): (66) 3532-3987<br />
-            Site: <a target="_blank" href="http://www.isi-saude.com.br/">www.isi-saude.com.br</a><br />
-            <!--a title="Clique para ver mais informações sobre o Instituto Pró-Saúde Integral"
-              href="<?php echo SITEURL; ?>/parceiro/isi">Mais informações</a-->
           </p>
         </div>
       </div>
