@@ -261,7 +261,7 @@ View::js(array(
                   </li>
                   <!--li><a href="<?php echo SITEURL; ?>ead">EAD</a></li-->
                   <li><a href="<?php echo SITEURL; ?>contato">Contato</a></li>
-                  <li class="hidden-xs"><a href="<?php echo SITEURL; ?>area-aluno">Área do Aluno</a></li>
+                  <li><a href="<?php echo SITEURL; ?>area-aluno">Área do Aluno</a></li>
                 </ul>
                 <!-- mobile -->
               </nav>

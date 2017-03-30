@@ -60,7 +60,7 @@
 
       <div class="row">
         <div class="col-lg-12">
-            <table class="table table-striped">
+            <table class="table table-striped hidden-sm hidden-xs">
               <thead>
                 <tr>
                   <th>Curso</th>
@@ -91,11 +91,59 @@
                 <?php }} ?>
               </tbody>
             </table>
+
+            <?php if (count($data['dados']) == 0) { ?>
+            <table class="table table-striped visible-sm visible-xs">
+            <tr><td colspan="9" align="center">Nenhum registro encontrado</td></tr>
+            </table>
+            <?php } else { 
+                $cursos = array();
+                $cursos[] = $dado->nomeCurso;
+
+                //echo '<p>' . $dado->nomeCurso . '</p>';
+                echo '<table class="table table-striped visible-sm visible-xs">';
+                echo '<thead><tr><th>' . $dado->nomeCurso . '</th></tr></thead>';
+
+                foreach ($data['dados'] as $dado) {
+                  echo '<tr><td>';
+                  echo $dado->nomeDisciplina;
+                  if (!empty($dado->professor)) {
+                    echo '<br /><small>' . $dado->professor . '</small>';
+                  }
+
+                  if (!empty($dado->dataInicioF) || !empty($dado->dataFimF)) {
+                    $datas = array($dado->dataInicioF, $dado->dataFimF);
+                    echo '<br /><small>' . implode(' - ', $datas) . '</small>';
+                  }
+                  
+                  
+                  echo '<br /><br /><strong>Nota:</strong> ' . (float) ($dado->notaAluno/10);
+                  if (!empty($dado->dataReposicao)) {
+                    echo '<br /><strong>Data Reposição:</strong> ' . $dado->dataReposicao;
+                    echo '<br /><strong>Nota Substitutiva:</strong> ' . (float) ($dado->notaSubstituida/10);
+                  }
+                  echo '<br /><strong>Faltas:</strong> ' . $dado->numeroFaltas;
+                  echo '<br /><strong>Situação:</strong> ' . $dado->situacaoNota;
+                  echo '</td></tr>';
+
+                  if (!in_array($dado->nomeCurso, $cursos)) {
+                    $cursos[] = $dado->nomeCurso;
+                    echo '</table>';
+                    echo '<table class="table table-striped visible-sm visible-xs">';
+                    echo '<thead><tr><th>' . $dado->nomeCurso . '</th></tr></thead>';
+                  } 
+                }
+
+                echo '</table>';
+              } 
+            ?>
+
             <?php if (count($data['dados']) > 20) { ?>
               <a href="#topo">
                 <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span> topo
               </a>
             <?php } ?>
+
         </div>
       </div>
     </div>

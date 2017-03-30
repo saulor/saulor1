@@ -140,7 +140,7 @@
               <div class="form-group">
                 <div class="group-data">
                   <label for="Cep" class="col-lg-1 col-md-2 col-sm-2 col-xs-12 control-label">Cep</label>
-                  <div id="localizaCep" class="col-lg-3 col-md-4 col-xs-4">
+                  <div id="localizaCep" class="col-lg-3 col-md-4 col-xs-12">
                     <input name="Requerimento[cep]" placeholder="Cep" class="form-control cep" 
                       type="text" value="<?php echo $data['requerimento']->cep; ?>"
                       maxlength="9" />
@@ -293,7 +293,7 @@
                 </div>
               </div>
 
-              <div class="form-group">
+              <div class="form-group hidden-sm hidden-xs">
                 <label for="Comprovante" class="col-sm-1">Comprovante</label>
                 <div class="col-sm-12">
                   <input name="comprovante" type="file" />
@@ -301,7 +301,7 @@
                 </div>
               </div>
 
-              <div class="form-group">
+              <div class="form-group hidden-sm hidden-xs">
                 <label for="Anexo" class="col-sm-1">Anexo</label>
                 <div class="col-sm-12">
                   <input name="anexo" type="file" />

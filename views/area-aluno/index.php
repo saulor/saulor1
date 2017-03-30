@@ -39,17 +39,17 @@
       <div class="row">
         <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
 
-          <br /><br />
+          <br class="hidden-sm hidden-xs" />
 
           <div class="row servico">
-            <div class="col-lg-7 col-md-7 col-sm-6 col-xs-6">
+            <div class="col-lg-7 col-md-7 hidden-sm hidden-xs">
               <a href="<?php echo SITEURL; ?>area-aluno/requerimentos">
                 <img class="img-rounded img-responsive" 
                   src="<?php echo Url::templatePath(); ?>images/requerimentos.jpg" 
                   alt="Solicitação de Requerimento" />
               </a>
             </div>
-            <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6">
+            <div class="col-lg-5 col-md-5 col-xs-12">
               <a href="<?php echo SITEURL; ?>area-aluno/requerimentos">
                 <h4>Solicitação de Requerimento</h4>
               </a>
@@ -60,14 +60,14 @@
           <br />
 
           <div class="row servico">
-            <div class="col-lg-7 col-md-7 col-sm-6 col-xs-6">
+            <div class="col-lg-7 col-md-7 hidden-sm hidden-xs">
               <a href="<?php echo SITEURL; ?>area-aluno/requerimentos/acompanhamento">
                 <img class="img-rounded img-responsive" 
                   src="<?php echo Url::templatePath(); ?>images/acompanhamento.jpg" 
                   alt="Acompanhamento de requerimentos" />
               </a>
             </div>
-            <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6">
+            <div class="col-lg-5 col-md-5 col-xs-12">
               <a href="<?php echo SITEURL; ?>area-aluno/requerimentos/acompanhamento">
                 <h4>Acompanhamento de Requerimento</h4>
               </a>
@@ -78,14 +78,14 @@
           <br />
 
           <div class="row servico">
-            <div class="col-lg-7 col-md-7 col-sm-6 col-xs-6">
+            <div class="col-lg-7 col-md-7 hidden-sm hidden-xs">
               <a href="<?php echo SITEURL; ?>area-aluno/frequencia-notas">
                 <img class="img-rounded img-responsive" 
                   src="<?php echo Url::templatePath(); ?>images/frequencia-notas.jpg" 
                   alt="Notas e Frequências" />
               </a>
             </div>
-            <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6">
+            <div class="col-lg-5 col-md-5 col-xs-12">
               <a href="<?php echo SITEURL; ?>area-aluno/frequencia-notas">
                 <h4>Frequência e Notas</h4>
               </a>
