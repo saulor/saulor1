@@ -1,21 +1,7 @@
-<?php 
-  $file = DIR_UPLOADS . DS . 'categorias';
-  $path = Url::templatePath() . 'images/banners/banner-default.jpg';
-  foreach (array_reverse($data['categorias']) as $categoria) {
-    $bannerCategoria = $file . DS . $categoria->id . DS . $categoria->banner;
-    if (is_file($bannerCategoria)) {
-      $file = $bannerCategoria;
-      $path = Url::resourcePath() . DS . 'uploads' . DS . 'categorias' . DS . 
-        $categoria->id . DS . $categoria->banner;
-      break;
-    }
-  }
-?>
-
 <!-- Banner -->
 <section id="banner" class="hidden-xs">
   <div id="banner-wrap">
-    <img alt="" title="" data-description="" src="<?php echo $path; ?>" />
+    <img alt="" title="" data-description="" src="<?php echo Url::templatePath(); ?>images/banners/inscricao-sucesso.png" />
   </div>
 </section>
 <!-- Banner -->
@@ -83,7 +69,7 @@
 </section>
 <!-- Matrículas -->
 
-<?php if ($data['report']) { ?>
+<?php if ($data['report']) { echo 1;?>
 
 <script>
   function report() {

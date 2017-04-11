@@ -508,17 +508,27 @@
             </div>
           </fieldset>
 
-          <p class="text-info">
-            <strong>
-              1) Responsabilizo-me pela veracidade das informações incluídas neste documento. Caso elas não correspondam a verdade, tenho conhecimento da consequente anulação da inscrição.<br />
-              2) O IEFAP reserva-se o direito de não realizar o curso ou prorrogar o período de inscrição, caso o número mínimo de vagas para fechamento da turma não seja preenchido.<br />
-              3) A matrícula só será efetivada após a assinatura do contrato de prestação de serviços educacionais e da confirmação do recebimento da taxa de matrícula pelo IEFAP.
-              </strong>
-          </p>
-
-          <div class="form-group">
-              <input type="submit" class="btn btn-orange pull-left" value="Realizar matrícula"/>
+          <div class="row">
+            <div class="col-xs-12">
+              <p class="text-info">
+                <strong>
+                  1) Responsabilizo-me pela veracidade das informações incluídas neste documento. Caso elas não correspondam a verdade, tenho conhecimento da consequente anulação da inscrição.<br />
+                  2) Ao IEFAP reserva-se o direito de não realizar o curso ou prorrogar o período de inscrição, caso o número mínimo de vagas para fechamento da turma não seja preenchido.<br />
+                  3) A matrícula só será efetivada após a assinatura do contrato de prestação de serviços educacionais e da confirmação do recebimento da taxa de matrícula pelo IEFAP.
+                  </strong>
+              </p>
+            </div>
           </div>
+
+          <div class="row">
+            <div class="col-xs-12">
+              <p class="text-info small">Sua privacidade será respeitada e suas informações pessoais devidamente protegidas.</p>
+            </div>
+            <div class="col-xs-12">
+              <input type="submit" class="btn btn-orange pull-left" value="Realizar matrícula"/>
+            </div>
+          </div>
+          
         </form>
       </div>
     </div>

@@ -1,7 +1,7 @@
 <!-- Banner -->
 <section id="banner" class="hidden-xs">
   <div id="banner-wrap">
-    <img alt="" title="" data-description="" src="<?php echo Url::templatePath(); ?>images/banners/aperfeicoamento-profissional.png" />
+    <img alt="" title="" data-description="" src="<?php echo Url::templatePath(); ?>images/banners/inscricao-sucesso.png" />
   </div>
 </section>
 <!-- Banner -->

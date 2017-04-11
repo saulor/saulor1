@@ -221,11 +221,14 @@
               </div>
             </div>
             <div class="clearfix"></div>
-            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+            <div class="col-xs-12">
               <div class="form-group">
                 <input type="button" class="btn btn-orange" 
                   id="quero-fazer-button" value="Quero fazer minha pré-inscrição" disabled/>
               </div>
+            </div>
+            <div class="col-xs-12">
+              <p class="text-info small">Sua privacidade será respeitada e suas informações pessoais devidamente protegidas.</p>
             </div>
             <input type="hidden" name="curso" id="curso" value="<?php echo $data['curso']->id; ?>"
               class="property" />

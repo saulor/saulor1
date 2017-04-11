@@ -153,8 +153,9 @@
               </div>
             </div>
             <div class="form-group">
-              <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-orange">Acessar</button>
+              <div class="col-sm-offset-3 col-sm-10">
+                <p class="text-info small">Sua privacidade será respeitada e suas informações pessoais devidamente protegidas.</p>
+                <button type="submit" class="btn btn-orange">Enviar</button>
               </div>
             </div>
           </form>
