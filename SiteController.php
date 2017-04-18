@@ -760,6 +760,7 @@ class SiteController {
         try {
             $noticia = $this->dao->table('noticias')
                 ->where('link', '=', $slug)
+                ->where('status', '=', 1)
                 ->firstOrFail();
             $noticia->data = FuncoesSite::getDataExtenso($noticia->timestamp);
             $data['noticia'] = $noticia;
@@ -2701,63 +2702,57 @@ class SiteController {
         $quantidadeResultados = 0;
         $resultados = array();
 
-        $q = isset($_GET['search']) ? trim(urldecode(FuncoesSite::codificaDado($_GET['search']))) : '';
+        $sql = 'SELECT %s FROM %s WHERE %s ORDER BY %s';
 
-        $query = $this->dao->table('vw_cursos', array(
-                    'nome',
-                    'link',
-                    'objetivosGerais',
-                    'publicoAlvo',
-                    'nomeCategoria'
-                )
-            )
-            ->where('status', '=', 1)
-            ->where('nome', 'like', '%' . $q . '%')
-            ->order('ordem', 'asc')
-            ->order('nome', 'asc');
+        $q = isset($_GET['search']) ? addslashes(trim(urldecode($_GET['search']))) : '';
+        $q = FuncoesSite::codificaDado(FuncoesSite::lowerCase($q));
 
-        $quantidadeResultados += $query->count();
-        $objetos = $query->all();
+        // busca cursos
+        $whereClause = 'status = 1 AND LOWER(nome) LIKE \'%%%s%%\'';
+        $where = sprintf($whereClause, $q);
+        $sqlN = sprintf($sql, 
+            'nome, link, objetivosGerais, publicoAlvo, nomeCategoria', 
+            'vw_cursos', 
+            $where, 
+            'ordem ASC, nome ASC');
 
-        foreach ($objetos as $r) {
+        $result = $this->dao->execute($sqlN);
+        $quantidadeResultados += $result->num_rows;
+
+        foreach ($result as $r) {
             $item = array();
-            $item['titulo'] = 'Cursos › ' . $r->nomeCategoria . ' › ' .  $r->nome;
-            if (!empty($r->objetivosGerais)) {
-                $item['descricao'] = $r->objetivosGerais;
+            $item['titulo'] = 'Cursos › ' . $r['nomeCategoria'] . ' › ' .  $r['nome'];
+            if (!empty($r['objetivosGerais'])) {
+                $item['descricao'] = $r['objetivosGerais'];
             }
-            else if (!empty($r->publicoAlvo)) {
-                $item['descricao'] = $r->publicoAlvo;
+            else if (!empty($r['publicoAlvo'])) {
+                $item['descricao'] = $r['publicoAlvo'];
             }
             else {
                 $item['descricao'] = '';
             }
-            $item['url'] = SITEURL . 'curso/' . $r->link;
+            $item['url'] = SITEURL . 'curso/' . $r['link'];
             $resultados[] = $item;
         }
 
-        $query = $this->dao->table('noticias', array(
-                    'titulo',
-                    'link',
-                    'noticia'
-                )
-            )
-            ->where('status', '=', 1)
-            ->where('titulo', 'like', '%' . $q . '%')
-            ->order('titulo', 'asc');
+        // busca notícias
+        $whereClause = 'status = 1 AND (LOWER(titulo) LIKE \'%%%s%%\' OR LOWER(noticia) LIKE \'%%%s%%\')';
+        $where = sprintf($whereClause, $q, $q);
+        $sqlN = sprintf($sql, 'titulo, link, noticia', 'noticias', $where, 'data DESC');
 
-        $quantidadeResultados += $query->count();
-        $objetos = $query->all();
+        $result = $this->dao->execute($sqlN);
+        $quantidadeResultados += $result->num_rows;
 
-        foreach ($objetos as $r) {
+        foreach ($result as $r) {
             $item = array();
-            $item['titulo'] = 'Notícias › ' .  $r->titulo;
-            if (!empty($r->noticia)) {
-                $item['descricao'] = FuncoesSite::compactaTexto(strip_tags($r->noticia), 200);
+            $item['titulo'] = 'Notícias › ' .  $r['titulo'];
+            if (!empty($r['noticia'])) {
+                $item['descricao'] = FuncoesSite::compactaTexto($r['noticia'], 200);
             }
             else {
                 $item['descricao'] = '';
             }
-            $item['url'] = SITEURL . 'noticia/' . $r->link;
+            $item['url'] = SITEURL . 'noticia/' . $r['link'];
             $resultados[] = $item;
         }
 
@@ -2872,6 +2867,77 @@ class SiteController {
             Url::previous();
         }
 
+    }
+
+    public function blogAction ($slugUnidade = NULL) {
+
+        try {
+            $data = array();
+            $data = $this->dados;
+            $data['meta'] = FuncoesSite::getMeta('blog');
+            $data['title'] = $data['meta']['meta.title'];
+            $data['slugUnidade'] = $slugUnidade;
+
+            $quantidadePorPagina = 10;
+            $pagina = isset($_GET['p']) ? $_GET['p'] : 1;
+            $pagina = $pagina <= 0 ? 1 : $pagina;
+            $limit = $pagina == 1 ? $quantidadePorPagina : $quantidadePorPagina * ($pagina - 1);
+            $offset = $pagina == 1 ? 0 : $quantidadePorPagina;
+
+            $query = $this->dao->table('blog')
+                ->order('data', 'desc')
+                ->where('status', '=', 1);
+
+            if (!empty($slugUnidade)) {
+                $query->where('slugUnidade', '=', $slugUnidade);
+            }
+
+            $data['posts'] = $query->all(array(
+                        'limit' => $limit,
+                        'offset' => $offset
+                    )
+                );
+
+            $data['quantidade'] = count($data['posts']);
+
+            $quantidade = $query->count();
+            $pages = new Paginator($quantidadePorPagina, 'p');
+            $pages->setTotal($quantidade);
+            $data['pageLinks'] = $pages->pageLinks();
+
+            View::renderTemplate('header', $data);
+            View::render('blog/index', $data);
+            View::renderTemplate('footer', $data);
+        }
+        catch (Exception $e) {
+
+        }
+    }
+
+    public function previewAction ($table, $slug) {
+
+        $data = array();
+        $data = $this->dados;
+        $data['meta']['meta.title'] = 'Preview';
+        $data['share'] = false;
+
+        try {
+            $objeto = $this->dao->table($table)
+                ->where('link', '=', $slug)
+                ->firstOrFail();
+            $objeto->data = FuncoesSite::getDataExtenso($objeto->timestamp);
+            $data['objeto'] = $objeto;
+            $this->conexao->disconnect();
+        }
+        catch (Exception $e) {
+            // não encontrou
+            $this->errorAction();
+            exit;
+        }
+
+        View::renderTemplate('header', $data);
+        View::render('preview/' . $table, $data);
+        View::renderTemplate('footer', $data);
     }
 }
 

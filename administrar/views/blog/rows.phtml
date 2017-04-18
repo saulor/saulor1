@@ -1,0 +1,29 @@
+<?php foreach($params['objetos'] as $key => $objeto) { ?>
+<tr id="tr<?php echo $objeto->id; ?>">
+  <th scope="row">
+    <small><?php echo $inicio++; ?></small>
+  </th>
+  <td>
+    <input type="checkbox" name="objetos[]" value="<?php echo $objeto->id; ?>">
+  </td>
+  <td>
+    <a<?php if ($objeto->status == 0) echo ' class="desativada"'; ?> href="?modulo=<?php echo $modulo; ?>&acao=cadastrar&id=<?php echo $objeto->id; ?>"><?php echo $objeto->titulo; ?></a>
+  </td>
+  <td class="center"><?php echo $objeto->unidade; ?></td>
+  <td><?php echo $objeto->tags; ?></td>
+  <td class="center"><?php echo Funcoes::soData($objeto->data); ?></td>
+  <td align="center">
+    <a class="excluir-click" target="_self" 
+      href="?modulo=<?php echo $modulo; ?>&acao=excluir&id=<?php echo $objeto->id; ?>">Excluir</a>
+  </td>
+</tr>
+<tr class="links">
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td colspan="12">
+    <div id="links">
+      <a target="_blank" href="<?php echo WWW_ROOT . '/preview/blog/' . $objeto->link; ?>">Visualizar</a>
+    </div>
+  </td>
+</tr>
+<?php } ?>

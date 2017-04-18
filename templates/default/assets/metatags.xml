@@ -292,4 +292,13 @@
 		</meta>
 	</pagina>
 
+	<pagina nome="blog">
+		<meta>
+			<title>IEFAP &#8250; Blog</title>
+			<robots>index, follow</robots>
+			<description>Blog do IEFAP</description>
+			<keywords>iefap, cursos, pós graduacão, pós-graduação, especialização, aperfeiçoamento profissional, educação, blog</keywords>
+		</meta>
+	</pagina>
+
 </paginas>

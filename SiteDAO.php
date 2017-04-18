@@ -169,6 +169,15 @@ class SiteDAO {
 		}
 	}
 
+	public function execute ($sql) {
+		try {
+			return $this->conexao->execute($sql);
+		}
+		catch (Exception $e) {
+			throw $e;
+		}
+	}
+
 }
 
 

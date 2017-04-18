@@ -1,0 +1,143 @@
+<?php
+	$params = $this->getParams();
+	$objeto = $params["objeto"];
+?>
+
+<script>
+	var engine = new Bloodhound({
+		queryTokenizer : Bloodhound.tokenizers.whitespace,
+		datumTokenizer : Bloodhound.tokenizers.whitespace
+	});
+	engine.initialize();
+
+	$(function() {
+		$('.typeahead').tokenfield({
+			delimiter: ',',
+		  	typeahead: [null, { source: engine.ttAdapter() }]
+		});
+	});
+</script>
+
+<form method="post" enctype="multipart/form-data">
+
+	<input type="hidden" name="id" value="0" />
+
+	<div class="grid">
+		<div class="col-1-12">
+		   <div class="content">
+		   		<label for="Ativo">Ativo:</label>
+		   </div>
+	  	</div>
+		<div class="col-2-12">
+			<div class="content">
+				<input type="hidden" name="status" value="0" />
+				<input type="checkbox" name="status" value="1" <?php if ($objeto->status) echo 'checked'; ?> />
+			</div>
+		</div>
+	</div>
+
+	<div class="grid">
+		<div class="col-1-12">
+		   <div class="content">
+		   		<label for="Título">Unidade:</label>
+		   </div>
+	  	</div>
+		<div class="col-3-12">
+			<div class="content">
+				<select class="form-control" name="unidade">
+                  <option value="">Selecione</option>
+                  <?php
+                    foreach (Blog::getUnidades() as $key => $value) {
+                      echo '<option';
+                      if ($objeto->unidade == $value) {
+                      	echo ' selected';
+                      }
+                      echo ' value="' . $value . '">' . $value . '</option>';
+                    }
+                  ?>
+                </select>
+			</div>
+		</div>
+	</div>
+
+	<div class="grid">
+		<div class="col-1-12">
+		   <div class="content">
+		   		<label for="Título">Título:</label>
+		   </div>
+	  	</div>
+		<div class="col-11-12">
+			<div class="content">
+				<input class="form-control" name="titulo" type="text" value="<?php echo htmlentities($objeto->titulo); ?>" autofocus="autofocus" placeholder="Título da Postagem"/>
+			</div>
+		</div>
+	</div>
+
+	<div class="grid">
+		<div class="col-1-12">
+		   <div class="content">
+		   		<label for="Link">Link:</label>
+		   </div>
+	  	</div>
+		<div class="col-11-12">
+			<div class="content">
+				<input class="form-control" name="link" type="text" value="<?php echo $objeto->link; ?>" readonly="readonly" placeholder="Link de acesso" />
+			</div>
+		</div>
+	</div>
+
+	<div class="grid">
+		<div class="col-1-12">
+		   <div class="content">
+		   		<label for="Notícia">Postagem:</label>
+		   </div>
+	  	</div>
+		<div class="col-11-12">
+			<div class="content">
+				<textarea class="editor" data-toolbar="basic" name="conteudo" id="conteudo"><?php echo $objeto->conteudo; ?></textarea>
+			</div>
+		</div>
+	</div>
+
+	<div class="grid">
+		<div class="col-1-12">
+		   <div class="content">
+		   		<label for="Tags">Tags:</label>
+		   </div>
+	  	</div>
+		<div class="col-11-12">
+			<div class="content">
+				<input class="form-control typeahead" name="tags" type="text" value="<?php echo $objeto->tags; ?>" placeholder="Informe a Tag e digite Enter"/>
+			</div>
+		</div>
+	</div>
+
+	<?php if ($objeto->id > 0) { ?>
+
+	<div class="grid">
+		<div class="col-1-12">
+		   <div class="content">&nbsp;</div>
+	  	</div>
+		<div class="col-11-12">
+			<div class="content">
+				<p class="small">Cadastrada em <?php echo $objeto->data; ?></p>
+			</div>
+		</div>
+	</div>
+
+	<?php } ?>
+
+	<div class="grid">
+		<div class="col-1-12">
+		   <div class="content">
+		   		&nbsp;
+		   	</div>
+	  	</div>
+		<div class="col-9-12">
+			<div class="content">
+				<input class="btn btn-default" type="submit" value="Salvar">
+			</div>
+		</div>
+	</div>
+
+</form>
