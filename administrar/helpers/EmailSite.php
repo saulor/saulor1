@@ -116,17 +116,19 @@ class EmailSite {
 			$tipo = 'matrícula';
 		}
 
+		// Primeiro e-mail
+		// E-mail que vai pra pessoa que fez a inscrição
 		ob_start();
         include DIR_ROOT . '/views/emails/inscricoes/inscricao/email.php';
         $html = ob_get_contents();
         ob_end_clean();
 
+        // se a flag $send for false o html do e-mail é adicionado em um array
         if (!$send) {
         	$htmls['email'] = $html;
         }
 
-        // Envia o primeiro e-mail
-        // E-mail que vai pra pessoa que fez o contato
+        // Envia o primeiro e-mail se a flag $send for true
         if ($send) {
 			$to = $objeto->email;
 	        $assunto = 'IEFAP - Inscricão realizada';
@@ -134,17 +136,19 @@ class EmailSite {
 			mail($to, $assunto, $html, $headers1);
 		}
 
+		// Segundo e-mail
+		// E-mail que vai como notificação pro IEFAP
 		ob_start();
         include DIR_ROOT . '/views/emails/inscricoes/inscricao/notificacao.php';
         $html = ob_get_contents();
         ob_end_clean();
 
+        // se a flag $send for false o html do e-mail é adicionado em um array
         if (!$send) {
         	$htmls['notificacao'] = $html;
         }
 
-        // Envia o segundo e-mail
-        // E-mail que vai pro IEFAP como notificação de nova mensagem
+        // Envia o segundo e-mail se a flag $send for true
         if ($send) {
 			$to = $toDefault;
 	        $assunto = $objeto->nomeCurso . ' - Inscrição realizada através do site';
