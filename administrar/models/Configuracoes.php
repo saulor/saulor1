@@ -34,6 +34,7 @@ class Configuracoes extends Model {
 	const EMAIL_ADMINISTRATIVOS = 5;
 	const EMAIL_PARCEIROS = 6;
 	const EMAIL_REQUERIMENTOS = 7;
+    const MANUTENCAO = 8;
 	
 	public static function getChaves() {
 		return array(
@@ -43,7 +44,8 @@ class Configuracoes extends Model {
 			Configuracoes::EMAIL_REPRESENTANTES,
 			Configuracoes::EMAIL_ADMINISTRATIVOS,
 			Configuracoes::EMAIL_PARCEIROS,
-			Configuracoes::EMAIL_REQUERIMENTOS
+			Configuracoes::EMAIL_REQUERIMENTOS,
+            Configuracoes::MANUTENCAO
 		);
 	}
     

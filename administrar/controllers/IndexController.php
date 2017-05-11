@@ -17,8 +17,6 @@ class IndexController extends Controller {
 		$view = new View2('index', "extendido", "index.phtml");
 		$view->setParams(array(
 				"title" => getTitulo($breadcrumbs),
-                //"notas" => $notasTipos,
-                //"inscricoes" => $inscricoes
 			)
 		);
 		$view->showContents();
@@ -65,6 +63,9 @@ class IndexController extends Controller {
         		foreach ($dados as $key => $configuracao) {
         			$emails = explode(",", $configuracao["valor"]);
         			foreach ($emails as $email) {
+                        if (preg_match('/[01]/', $email)) {
+                            continue;
+                        }
         				if (!validaEmail(trim($email))) {
         					$invalidos[] = $email;
         				}

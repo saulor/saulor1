@@ -11,6 +11,13 @@ class SiteController {
         $c = new Conexao();
         $this->conexao = $c->getConexao();
         $this->dao = new SiteDAO($this->conexao);
+        $manutencao = $this->dao->table('configuracoes')
+            ->where('chave', '=', Configuracoes::MANUTENCAO)
+            ->first();
+        if ((int) $manutencao->valor == 1) {
+            include ('views/index/manutencao.html');
+            exit;
+        }
 		$this->load();
 	}
 
